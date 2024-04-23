@@ -2,9 +2,9 @@ package Model;
 
 import java.awt.Graphics;
 
-public abstract class GameState {
-  protected GameStateStack gameStateManager;
-  protected  GameState(GameStateStack manager) {
+public abstract class GameScreen {
+  protected GameScreenStack gameStateManager;
+  protected GameScreen(GameScreenStack manager) {
     this.gameStateManager = manager;
   }
 

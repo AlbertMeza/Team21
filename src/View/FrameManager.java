@@ -5,13 +5,13 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class WindowManager {
+public class FrameManager {
   public static final int WIDTH = 800;
   public static final int HEIGHT = 600;
   private JFrame frame;
   private JPanel panel;
 
-  public WindowManager() {
+  public FrameManager() {
     frame = new JFrame("FILL TITLE HERE");
     frame.setBounds(70, 70, 0, 0);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

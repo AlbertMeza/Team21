@@ -4,13 +4,13 @@ import java.awt.Graphics;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
-public class GameStateStack {
-  private Stack<GameState> states;
+public class GameScreenStack {
+  private Stack<GameScreen> states;
 
-  public GameStateStack() {
+  public GameScreenStack() {
     this.states = new Stack<>();
   }
-  public void addState(GameState state) {
+  public void addState(GameScreen state) {
     this.states.add(state);
   }
 

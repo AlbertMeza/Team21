@@ -1,19 +1,20 @@
 package View;
 
-import Model.GameState;
-import Model.GameStateStack;
+import Controller.MazeGenerator;
+import Model.GameScreen;
+import Model.GameScreenStack;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
-public class MainMenu extends GameState {
+public class MainMenuScreen extends GameScreen {
   private static final String START_GAME = "Start Game";
   private static final String QUIT_GAME = "Quit Game";
   private String[] optionMenu;
   private int selected;
 
-    public MainMenu(GameStateStack manager) {
+    public MainMenuScreen(GameScreenStack manager) {
       super(manager);
       this.optionMenu = new String[] {START_GAME, QUIT_GAME};
       this.selected = 0;
@@ -27,7 +28,7 @@ public class MainMenu extends GameState {
   @Override
   protected void render(Graphics graphics) {
       graphics.setColor(new Color(30,30,70));
-      graphics.fillRect(0, 0, WindowManager.WIDTH, WindowManager.HEIGHT);
+      graphics.fillRect(0, 0, FrameManager.WIDTH, FrameManager.HEIGHT);
 
     graphics.setFont(new Font("Araial", Font.PLAIN, 25));
     for(int i = 0; i < optionMenu.length; i++) {
@@ -51,7 +52,10 @@ public class MainMenu extends GameState {
       case KeyEvent.VK_ENTER:
         switch(this.optionMenu[selected]) {
           case START_GAME:
-            //start game
+            MazeGenerator generator = new MazeGenerator();
+            while(!generator.finished()) {
+              generator.generate();
+            }
             break;
           case QUIT_GAME:
             System.exit(0);
