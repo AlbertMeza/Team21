@@ -10,7 +10,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.File;
 
@@ -18,9 +17,22 @@ public class CharacterScreen extends GameScreen {
 
   private String chooseText = "Choose your Hero";
   private String elf = "Elf";
+
+  private String elfDescription = "The elf hero has the unique ability to heal themself.";
+
   private String rogue = "Rogue";
+
+  private String rogueDescription = "The rogue hero has improved dodging ability and damage.";
+
   private String wizard = "Wizard";
+
+  private String wizardDescription = "The wizard hero has a random buff \nand the unique ability to escape.";
+
   private String barbarian = "Barbarian";
+
+  private String barbarianDescription = "The barabarian hero has buffed health and damage.";
+
+
   private Image barbarianImage;
   private Image characterSelectionBackgroundImage;
   private Image elfImage;
@@ -28,7 +40,7 @@ public class CharacterScreen extends GameScreen {
   private Image wizardImage;
   private static final String SELECT_EFFECT = "steelsword.wav";
   private static final String SWITCH_EFFECT = "215029__taira-komori__extracting_knife.wav";
-  int selected;
+  private int selected;
 
   protected CharacterScreen(GameScreenStack stack, MusicManager theMM, SoundEffectsManager theSEM) {
     super(stack);
@@ -65,21 +77,33 @@ public class CharacterScreen extends GameScreen {
     graphics.drawImage(barbarianImage, 550, 350, 250, 250, null);
     graphics.drawString(chooseText,220, 120);
     if (selected == 0) {
+      graphics.setFont(new Font("Arial", Font.PLAIN, 25));
+      graphics.drawString(elfDescription, 20, 200);
+      graphics.setFont(new Font("Arial", Font.BOLD, 40));
       graphics.setColor(Color.magenta);
     }
     graphics.drawString(elf, 100, 300);
     graphics.setColor(Color.white);
     if (selected == 1) {
+      graphics.setFont(new Font("Arial", Font.PLAIN, 25));
+      graphics.drawString(wizardDescription, 20, 200);
+      graphics.setFont(new Font("Arial", Font.BOLD, 40));
       graphics.setColor(Color.magenta);
     }
     graphics.drawString(wizard, 250, 300);
     graphics.setColor(Color.white);
     if (selected == 2) {
+      graphics.setFont(new Font("Arial", Font.PLAIN, 25));
+      graphics.drawString(rogueDescription, 20, 200);
+      graphics.setFont(new Font("Arial", Font.BOLD, 40));
       graphics.setColor(Color.magenta);
     }
     graphics.drawString(rogue, 420, 300);
     graphics.setColor(Color.white);
     if (selected == 3) {
+      graphics.setFont(new Font("Arial", Font.PLAIN, 25));
+      graphics.drawString(barbarianDescription, 20, 200);
+      graphics.setFont(new Font("Arial", Font.BOLD, 40));
       graphics.setColor(Color.magenta);
     }
     graphics.drawString(barbarian, 600, 300);
