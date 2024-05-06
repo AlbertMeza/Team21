@@ -5,45 +5,93 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * FrameManager class contains all screens for the game
+ *
+ * @author Albert Meza, Austin Maggert, and James Simpson
+ * @version Spring 2024
+ */
 public class FrameManager {
-  private static final int WIDTH = 800; //Should these be private and have getters?
+
+  /**
+   * WIDTH constant is the width of the frame
+   */
+  private static final int WIDTH = 800;
+
+  /**
+   * HEIGHT constant is the height of the frame
+   */
   private static final int HEIGHT = 600;
-  private final JFrame frame;
-  private JPanel panel;
 
+  /**
+   * myFrame is the frame for the game
+   */
+  private final JFrame myFrame;
+
+  /**
+   * myPanel is the panel that covers the frame
+   */
+  private JPanel myPanel;
+
+  /**
+   * FrameManager constructor creates a main frame.
+   */
   public FrameManager() {
-    frame = new JFrame("Dungeon Adventure");
-    frame.setBounds(70, 70, 0, 0);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setResizable(false);
+    myFrame = new JFrame("Dungeon Adventure");
+    myFrame.setBounds(70, 70, 0, 0);
+    myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    myFrame.setResizable(false);
   }
 
-  public void addPanel(JPanel panel){
-    this.panel = panel;
-    this.panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-    this.panel.setFocusable(true);
-    this.panel.requestFocusInWindow();
+  /**
+   * addPanel method adds a panel to the frame to be seen by user
+   *
+   * @param thePanel is the panel to be added to the frame
+   */
+  public void addPanel(JPanel thePanel){
+    this.myPanel = thePanel;
+    this.myPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+    this.myPanel.setFocusable(true);
+    this.myPanel.requestFocusInWindow();
   }
 
-  public void addKeyListener(KeyListener listener) {
+  /**
+   * addKeyListener method makes this manager's panel a keylistener
+   *
+   * @param theListener is the keylistener for the panel
+   */
+  public void addKeyListener(KeyListener theListener) {
         try {
-      this.panel.addKeyListener(listener);
+      this.myPanel.addKeyListener(theListener);
     } catch(NullPointerException e) {
       System.err.println("[WindowManager]: Error! Tried to add KeyListener before JPanel");
       System.exit(-1);
     }
   }
 
+  /**
+   * createWindow method adds myPanel to myFrame
+   */
   public void createWindow() {
-    this.frame.setContentPane(panel);
-    this.frame.pack();
-    this.frame.setVisible(true);
+    this.myFrame.setContentPane(myPanel);
+    this.myFrame.pack();
+    this.myFrame.setVisible(true);
   }
 
+  /**
+   * getHeight method provides the height of the frame
+   *
+   * @return the frame height
+   */
   public static int getHeight() {
     return HEIGHT;
   }
 
+  /**
+   * getWidth method provides the width of the frame
+   *
+   * @return the frame width
+   */
   public static int getWidth() {
     return WIDTH;
   }
