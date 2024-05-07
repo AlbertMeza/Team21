@@ -49,7 +49,7 @@ public class MainMenu extends GameScreen {
       encapsulationUnlock = false;
       polymorphismUnlock = false;
       mysteryUnlock = false;
-      playBackgroundMusic();
+      //playBackgroundMusic();
 
     try {
       selectorImage = ImageIO.read(new File("src/Assets/Images/skeleton1.png"));
@@ -98,7 +98,7 @@ public class MainMenu extends GameScreen {
       case KeyEvent.VK_UP:
       case KeyEvent.VK_W:
         if(this.selected > 0) this.selected--;
-        playSoundEffect(SWITCH_EFFECT);
+        //playSoundEffect(SWITCH_EFFECT);
         break;
       case KeyEvent.VK_DOWN:
       case KeyEvent.VK_S:
