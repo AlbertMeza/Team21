@@ -14,19 +14,19 @@ import java.awt.Graphics;
 public abstract class GameScreen {
 
   /**
-   * gameScreenStack field is the stack that game screens will be put on
+   * myGameScreenStack field is the stack that game screens will be put on
    */
-  protected GameScreenStack gameScreenStack;
+  protected GameScreenStack myGameScreenStack;
 
   /**
-   * musicManager is the manager implementing game screens can get music from
+   * myMusicManager is the manager implementing game screens can get music from
    */
-  protected MusicManager musicManager;
+  protected MusicManager myMusicManager;
 
   /**
-   * soundEffectsManager is the manager the game screen gets sound effects from
+   * mySoundEffectsManager is the manager the game screen gets sound effects from
    */
-  protected SoundEffectsManager soundEffectsManager;
+  protected SoundEffectsManager mySoundEffectsManager;
 
   /**
    * GameScreen constructor creates an instance of game screen and puts it
@@ -35,7 +35,7 @@ public abstract class GameScreen {
    * @param manager is the game screen stack this game screen will be on
    */
   protected GameScreen(GameScreenStack manager) {
-    this.gameScreenStack = manager;
+    this.myGameScreenStack = manager;
   }
 
   /**
@@ -44,7 +44,7 @@ public abstract class GameScreen {
    * @param musicManager is the music manager to be used
    */
   public void setSoundManager(MusicManager musicManager) {
-    this.musicManager = musicManager;
+    this.myMusicManager = musicManager;
   }
 
   /**

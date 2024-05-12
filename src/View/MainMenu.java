@@ -131,8 +131,8 @@ public class MainMenu extends GameScreen {
   public MainMenu(GameScreenStack theSM, MusicManager theMM, SoundEffectsManager theSEM) {
       super(theSM);
       this.OPTION_MENU = new String[] {START_GAME, POLYMORPHISM, ENCAPSULATION, INHERITANCE, ABSTRACTION, MYSTERY, QUIT_GAME};
-      this.musicManager = theMM;
-      this.soundEffectsManager = theSEM;
+      this.myMusicManager = theMM;
+      this.mySoundEffectsManager = theSEM;
       this.mySelected = 0;
       abstractionUnlock = false;
       inheritanceUnlock = false;
@@ -240,7 +240,7 @@ public class MainMenu extends GameScreen {
    */
   @Override
   protected void playBackgroundMusic() {
-    musicManager.playBackgroundMusic(START_MENU_MUSIC);
+    myMusicManager.playBackgroundMusic(START_MENU_MUSIC);
   }
 
   /**
@@ -248,7 +248,7 @@ public class MainMenu extends GameScreen {
    */
   @Override
   protected void stopBackgroundMusic() {
-    musicManager.stopBackgroundMusic();
+    myMusicManager.stopBackgroundMusic();
   }
 
   /**
@@ -256,7 +256,7 @@ public class MainMenu extends GameScreen {
    */
   @Override
   protected void playSoundEffect(String effectName) {
-    soundEffectsManager.playSoundEffect(effectName);
+    mySoundEffectsManager.playSoundEffect(effectName);
   }
 
   /**

@@ -29,13 +29,13 @@ public class MazeGenerator {
   /**
    * myRoomData field is a 2D arraylist of directions for rooms
    */
-  private ArrayList<MathHelper.Direction>[][] myRoomData;
+  private final ArrayList<MathHelper.Direction>[][] myRoomData;
 
   /**
    * myGenerated field is a 2D array of boolean
    * where true when location is traversable, and false otherwise
    */
-  private boolean myGenerated[][];
+  private final boolean[][] myGenerated;
 
   /**
    * MazeGenerator constructor initializes fields and creates

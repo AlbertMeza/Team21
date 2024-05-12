@@ -23,6 +23,9 @@ public class MathHelper {
    * @return returns a random int between 0 inclusive and the upperBound exclusive
    */
   public static int randomInt(int upperBound){
+    if(upperBound < 2) {
+      throw new IllegalArgumentException("Upper bound must be at least 2");
+    }
     return RANDOM.nextInt(upperBound);
   }
 
@@ -93,8 +96,10 @@ public class MathHelper {
      * @param dirY is the change in y
      */
     private Direction(int dirX, int dirY) {
-      this.dirX = dirX;
-      this.dirY = dirY;
+      if (dirX > 0 && dirY > 0) {
+        this.dirX = dirX;
+        this.dirY = dirY;
+      }
     }
   }
 }
