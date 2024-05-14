@@ -55,11 +55,11 @@ public class PlayingScreen extends GameScreen {
   protected void loop() {
     this.player.move();
     this.dungeon.changeRoom(player);
-    visited[dungeon.getCurrY()][dungeon.getCurrX()] = true;
-    RoomData roomIn = this.dungeon.getRoom().getData();
+    visited[dungeon.getMyCurrY()][dungeon.getMyCurrX()] = true;
+    RoomData roomIn = this.dungeon.getRoom().getMyData();
     for(int i=0; i < roomIn.getSizeX(); i++){
       for(int j=0; j < roomIn.getSizeY(); j++){
-        this.player.handleCollisionWith(this.dungeon.getRoom().getData().getTileAt(i, j));
+        this.player.handleCollisionWith(this.dungeon.getRoom().getMyData().getTileAt(i, j));
       }
     }
   }
@@ -78,7 +78,7 @@ public class PlayingScreen extends GameScreen {
 //      }
 //    }
       //tempRoom.getData().render(graphics);
-      dungeon.getRoom().getData().render(graphics);
+      dungeon.getRoom().getMyData().render(graphics);
       //Maze Drawing
 //      for(int i = 0; i < generator.getWORLD_SIZE(); i++){
 //        for(int j = 0; j < generator.getWORLD_SIZE(); j++){
@@ -115,7 +115,7 @@ public class PlayingScreen extends GameScreen {
         }
       }
     }
-    if(dungeon.getCurrX() + dungeon.getCurrY() == 1){
+    if(dungeon.getMyCurrX() + dungeon.getMyCurrY() == 1){
         graphics.drawImage(monsterImg, FrameManager.getWidth() / 2, FrameManager.getHeight() / 2, 33, 24, null);
     }
   }
@@ -149,7 +149,7 @@ public class PlayingScreen extends GameScreen {
         this.showMaze = true;
         break;
         case KeyEvent.VK_ENTER:
-          if(dungeon.getCurrY() + dungeon.getCurrX() == 1){
+          if(dungeon.getMyCurrY() + dungeon.getMyCurrX() == 1){
             gameScreenStack.addScreen(new BattleScreen(gameScreenStack));
           }
           break;
@@ -191,9 +191,9 @@ public class PlayingScreen extends GameScreen {
   private void generateMaze() {
     this.generator.reset(5);
     while(!generator.finished()) {
-      generator.generate(5);
+      generator.generate();
     }
-    this.dungeon = new Dungeon(this.generator.getRoomData(), generator.getWORLD_SIZE());
+    this.dungeon = new Dungeon(this.generator.getMyRoomData(), generator.getWORLD_SIZE());
   }
 
 	public static File getRoom(HashSet<Direction> dirs) {

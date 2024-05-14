@@ -33,37 +33,25 @@ public class MainMenu extends GameScreen {
   private static final String SELECT_EFFECT = "steelsword";
   private static final String SWITCH_EFFECT = "215029__taira-komori__extracting_knife";
   private static final String START_MENU_MUSIC = "POL-misty-dungeon-short";
-  private final String[] optionMenu;
-  private int selected;
-  private Image selectorImage;
+  private final String[] myOptionMenu;
+  private int mySelected;
+  private Image mySelectorImage;
   private Image menuBackgroundImage;
-  private boolean abstractionUnlock;
-  private boolean inheritanceUnlock;
-  private boolean encapsulationUnlock;
-  private boolean polymorphismUnlock;
-  private boolean mysteryUnlock;
-  private Hero myHero;
-  private final File saveLocation;
+  private boolean isAbstractionUnlock;
+  private boolean isInheritanceUnlock;
+  private boolean isEncapsulationUnlock;
+  private boolean isPolymorphismUnlock;
+  private boolean isMysteryUnlocked;
 
 
 
-
-  public MainMenu(GameScreenStack manager) {
-    super(manager);
-    myHero = new Elf();
+  public MainMenu(GameScreenStack theManager) {
+    super(theManager);
     String MYSTERY = "???????";
-    optionMenu = new String[] {START_GAME, POLYMORPHISM, ENCAPSULATION, INHERITANCE, ABSTRACTION,
-            MYSTERY, QUIT_GAME, BATTLE_SCREEN, SAVE_GAME, LOAD_GAME};
-    selected = 0;
-    abstractionUnlock = false;
-    inheritanceUnlock = false;
-    encapsulationUnlock = false;
-    polymorphismUnlock = false;
-    mysteryUnlock = false;
-    playBackgroundMusic(START_MENU_MUSIC);
-    saveLocation = new File("src/SavedGame");
+    this.myOptionMenu = new String[] {START_GAME, POLYMORPHISM, ENCAPSULATION, INHERITANCE, ABSTRACTION,
+            MYSTERY, QUIT_GAME, BATTLE_SCREEN};
     try {
-      selectorImage = ImageIO.read(new File("src/Assets/Images/skeleton1.png"));
+      mySelectorImage = ImageIO.read(new File("src/Assets/Images/skeleton1.png"));
       menuBackgroundImage = ImageIO.read(new File("src/Assets/Images/title.png"));
     } catch (IOException e) {
       e.printStackTrace();
@@ -80,18 +68,17 @@ public class MainMenu extends GameScreen {
                        FrameManager.getHeight(), null);
     theGraphics.setColor(new Color(30, 30, 70,120));
     theGraphics.fillRect(0, 0, FrameManager.getWidth(), FrameManager.getHeight());
-    theGraphics.setFont(getCustomFont());
-    theGraphics.setFont(theGraphics.getFont().deriveFont(Font.PLAIN, 25));
+    theGraphics.setFont(new Font("Arial", Font.PLAIN, 25));
     int optionHeight = theGraphics.getFontMetrics().getHeight();
-    int totalHeight = optionMenu.length * optionHeight;
+    int totalHeight = myOptionMenu.length * optionHeight;
     int yStart = (FrameManager.getHeight() - totalHeight) / 2;
-    for (int i = 0; i < optionMenu.length; i++) {
-      String optionText = optionMenu[i];
+    for (int i = 0; i < myOptionMenu.length; i++) {
+      String optionText = myOptionMenu[i];
       int textWidth = theGraphics.getFontMetrics().stringWidth(optionText);
       int xStart = (FrameManager.getWidth() - textWidth) / 2;
-      if (i == selected) {
+      if (i == mySelected) {
         theGraphics.setColor(Color.magenta);
-        theGraphics.drawImage(selectorImage, xStart - selectorImage.getWidth(null) - 5,
+        theGraphics.drawImage(mySelectorImage, xStart - mySelectorImage.getWidth(null) - 5,
                            yStart + i * optionHeight - optionHeight / 2, null);
       } else {
         if (isOptionEnabled(i)) {
@@ -105,21 +92,22 @@ public class MainMenu extends GameScreen {
   }
 
   @Override
-  protected void keyPressed(int keyCode) {
-    switch(keyCode) {
+  protected void keyPressed(int theKeyCode) {
+    switch(theKeyCode) {
       case KeyEvent.VK_UP:
       case KeyEvent.VK_W:
-        if(selected > 0) selected--;
+        if(this.mySelected > 0) this.mySelected--;
+
         playSoundEffect(SWITCH_EFFECT);
         break;
       case KeyEvent.VK_DOWN:
       case KeyEvent.VK_S:
-        if(selected < optionMenu.length - 1) selected++;
+        if(this.mySelected < this.myOptionMenu.length-1) this.mySelected++;
         playSoundEffect(SWITCH_EFFECT);
         break;
       case KeyEvent.VK_ENTER:
         playSoundEffect(SELECT_EFFECT);
-        switch(optionMenu[selected]) {
+        switch(this.myOptionMenu[mySelected]) {
           case START_GAME:
             stopBackgroundMusic();
             gameScreenStack.addScreen(new CharacterScreen(gameScreenStack));
@@ -171,37 +159,36 @@ public class MainMenu extends GameScreen {
   }
 
   @Override
-  protected void keyReleased(int keyCode) {
+  protected void keyReleased(int theKeyCode) {
   }
-
-  private boolean isOptionEnabled(int index) {
-    return switch (index) {
-      case 0, 6, 7, 8, 9 -> true;
-      case 1 -> polymorphismUnlock;
-      case 2 -> encapsulationUnlock;
-      case 3 -> inheritanceUnlock;
-      case 4 -> abstractionUnlock;
-      case 5 -> mysteryUnlock;
+  private boolean isOptionEnabled(int theIndex) {
+    return switch (theIndex) {
+      case 0, 6, 7 -> true;
+      case 1 -> isPolymorphismUnlock;
+      case 2 -> isEncapsulationUnlock;
+      case 3 -> isInheritanceUnlock;
+      case 4 -> isAbstractionUnlock;
+      case 5 -> isMysteryUnlocked;
       default -> false;
     };
   }
 
   private void unlockMystery(){
-    optionMenu[5] = "Final Level";
+    myOptionMenu[5] = "Final Level";
   }
 
   private void unlockLevel(int index) {
     switch (index) {
       case 1:
-        polymorphismUnlock = true;
+        isPolymorphismUnlock = true;
       case 2:
-        encapsulationUnlock = true;
+        isEncapsulationUnlock = true;
       case 3:
-        inheritanceUnlock = true;
+        isInheritanceUnlock = true;
       case 4:
-        abstractionUnlock = true;
+        isAbstractionUnlock = true;
       case 5:
-        mysteryUnlock = true;
+        isMysteryUnlocked = true;
     }
   }
 }

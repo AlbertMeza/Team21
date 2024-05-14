@@ -4,112 +4,111 @@ import Controller.MathHelper.Direction;
 import java.util.HashSet;
 
 public class MazeGenerator {
-  public int WORLD_SIZE = 5;
-  private int posX;
-  private int posY;
+  private int WORLD_SIZE = 5;
+  private int myPosX;
+  private int myPosY;
 
-  private HashSet<MathHelper.Direction>[][] roomData;
-  private boolean generated[][];
+  private HashSet<MathHelper.Direction>[][] myRoomData;
+  private boolean myGenerated[][];
 
 
   @SuppressWarnings("unchecked")
-  public void reset(int size){
-    WORLD_SIZE = size;
-    roomData = new HashSet[WORLD_SIZE][WORLD_SIZE];
-    generated = new boolean[WORLD_SIZE][WORLD_SIZE];
-    for(int i=0; i < roomData.length; i++){
-      for(int j=0; j < roomData[i].length; j++){
-        this.roomData[i][j] = new HashSet<>();
-        this.generated[i][j] = false;
+  public void reset(int theSize){
+    WORLD_SIZE = theSize;
+    myRoomData = new HashSet[WORLD_SIZE][WORLD_SIZE];
+    myGenerated = new boolean[WORLD_SIZE][WORLD_SIZE];
+    for(int i=0; i < myRoomData.length; i++){
+      for(int j=0; j < myRoomData[i].length; j++){
+        this.myRoomData[i][j] = new HashSet<>();
+        this.myGenerated[i][j] = false;
       }
     }
     setRandomPosition();
   }
-  public void generate(int size) {
-    WORLD_SIZE = size;
+  public void generate() {
     MathHelper.Direction direction = MathHelper.randomDirection();
-    if(this.isValidPosition(posX + direction.dirX, posY + direction.dirY)) {
-      if(!this.generated[posX + direction.dirX][posY + direction.dirY]) {
-        this.roomData[posX][posY].add(direction);
-        this.roomData[posX + direction.dirX][posY + direction.dirY].add(direction.opposite);
+    if(this.isValidPosition(myPosX + direction.myDirX, myPosY + direction.myDirY)) {
+      if(!this.myGenerated[myPosX + direction.myDirX][myPosY + direction.myDirY]) {
+        this.myRoomData[myPosX][myPosY].add(direction);
+        this.myRoomData[myPosX + direction.myDirX][myPosY + direction.myDirY].add(direction.myOpposite);
       }
-      this.posX += direction.dirX;
-      this.posY += direction.dirY;
-      this.generated[posX][posY] = true;
+      this.myPosX += direction.myDirX;
+      this.myPosY += direction.myDirY;
+      this.myGenerated[myPosX][myPosY] = true;
     }
     else {
-      this.generate(WORLD_SIZE);
+      this.generate();
     }
   }
 
   private void move() {
     switch (MathHelper.randomDirection()) {
       case NORTH:
-        if(isValidPosition(posX, posY-1)) {
-          if(!this.roomData[posX][posY].contains(Direction.NORTH)) this.roomData[posX][posY].add(Direction.NORTH);
-          this.posY++;
-          if(!this.roomData[posX][posY].contains(Direction.SOUTH) && !this.generated[posX][posY])
-            this.roomData[posX][posY].add(Direction.SOUTH);
-          this.generated[posX][posY] = true;
+        if(isValidPosition(myPosX, myPosY -1)) {
+          if(!this.myRoomData[myPosX][myPosY].contains(Direction.NORTH)) this.myRoomData[myPosX][myPosY].add(Direction.NORTH);
+          this.myPosY++;
+          if(!this.myRoomData[myPosX][myPosY].contains(Direction.SOUTH) && !this.myGenerated[myPosX][myPosY])
+            this.myRoomData[myPosX][myPosY].add(Direction.SOUTH);
+          this.myGenerated[myPosX][myPosY] = true;
         }
         break;
       case SOUTH:
-        if(isValidPosition(posX, posY+1)) {
-          if(!this.roomData[posX][posY].contains(Direction.SOUTH)) this.roomData[posX][posY].add(Direction.SOUTH);
-          this.posY--;
-          if(!this.roomData[posX][posY].contains(Direction.NORTH) && !this.generated[posX][posY])
-            this.roomData[posX][posY].add(Direction.NORTH);
-          this.generated[posX][posY] = true;
+        if(isValidPosition(myPosX, myPosY +1)) {
+          if(!this.myRoomData[myPosX][myPosY].contains(Direction.SOUTH)) this.myRoomData[myPosX][myPosY].add(Direction.SOUTH);
+          this.myPosY--;
+          if(!this.myRoomData[myPosX][myPosY].contains(Direction.NORTH) && !this.myGenerated[myPosX][myPosY])
+            this.myRoomData[myPosX][myPosY].add(Direction.NORTH);
+          this.myGenerated[myPosX][myPosY] = true;
         }
         break;
       case WEST:
-        if(isValidPosition(posX-1, posY)) {
-          if(!this.roomData[posX][posY].contains(Direction.WEST)) this.roomData[posX][posY].add(Direction.WEST);
-          this.posX--;
-          if(!this.roomData[posX][posY].contains(Direction.EAST) && !this.generated[posX][posY])
-            this.roomData[posX][posY].add(Direction.EAST);
-          this.generated[posX][posY] = true;
+        if(isValidPosition(myPosX -1, myPosY)) {
+          if(!this.myRoomData[myPosX][myPosY].contains(Direction.WEST)) this.myRoomData[myPosX][myPosY].add(Direction.WEST);
+          this.myPosX--;
+          if(!this.myRoomData[myPosX][myPosY].contains(Direction.EAST) && !this.myGenerated[myPosX][myPosY])
+            this.myRoomData[myPosX][myPosY].add(Direction.EAST);
+          this.myGenerated[myPosX][myPosY] = true;
         }
         break;
       case EAST:
-        if(isValidPosition(posX-1, posY)) {
-          if(!this.roomData[posX][posY].contains(Direction.EAST)) this.roomData[posX][posY].add(Direction.EAST);
-          this.posX++;
-          if(!this.roomData[posX][posY].contains(Direction.WEST) && !this.generated[posX][posY])
-            this.roomData[posX][posY].add(Direction.WEST);
-          this.generated[posX][posY] = true;
+        if(isValidPosition(myPosX -1, myPosY)) {
+          if(!this.myRoomData[myPosX][myPosY].contains(Direction.EAST)) this.myRoomData[myPosX][myPosY].add(Direction.EAST);
+          this.myPosX++;
+          if(!this.myRoomData[myPosX][myPosY].contains(Direction.WEST) && !this.myGenerated[myPosX][myPosY])
+            this.myRoomData[myPosX][myPosY].add(Direction.WEST);
+          this.myGenerated[myPosX][myPosY] = true;
         }
         break;
     }
   }
   private void setRandomPosition(){
-    this.posX = MathHelper.randomInt(WORLD_SIZE);
-    this.posY = MathHelper.randomInt(WORLD_SIZE);
-    this.generated[posX][posY] = true;
+    this.myPosX = MathHelper.randomInt(WORLD_SIZE);
+    this.myPosY = MathHelper.randomInt(WORLD_SIZE);
+    this.myGenerated[myPosX][myPosY] = true;
   }
 
-  private boolean isValidPosition(int x, int y) {
-    return x >= 0 && y >= 0 && x < WORLD_SIZE && y < WORLD_SIZE;
+  private boolean isValidPosition(int theX, int theY) {
+    return theX >= 0 && theY >= 0 && theX < WORLD_SIZE && theY < WORLD_SIZE;
   }
 
   public boolean finished() {
-    for (int i = 0; i < generated.length; i++){
-      for(int j = 0; j < generated[i].length; j++) {
-        if (!this.generated[i][j]) return false;
+    for (int i = 0; i < myGenerated.length; i++){
+      for(int j = 0; j < myGenerated[i].length; j++) {
+        if (!this.myGenerated[i][j]) return false;
       }
     }
     return true;
   }
 
-  public HashSet<Direction> getDirForRoom(int x, int y){
-    return this.roomData[x][y];
+  public HashSet<Direction> getDirForRoom(int theX, int theY){
+    return this.myRoomData[theX][theY];
   }
 
   public int getWORLD_SIZE(){
     return WORLD_SIZE;
   }
 
-  public HashSet<MathHelper.Direction>[][] getRoomData(){
-    return this.roomData;
+  public HashSet<MathHelper.Direction>[][] getMyRoomData(){
+    return this.myRoomData;
   }
 }
