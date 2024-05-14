@@ -1,5 +1,8 @@
 package View;
 
+import Model.Character.*;
+import Model.Character.Saving.HeroSave;
+import Model.Character.Saving.SavedGameLister;
 import Model.GameScreen;
 import Model.GameScreenStack;
 import java.awt.Color;
@@ -8,8 +11,10 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.Image;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.io.IOException;
 import java.io.File;
+import java.util.List;
 
 //Music: “Misty Dungeon”, from PlayOnLoop.com
 //Licensed under Creative Commons by Attribution 4.0
@@ -21,6 +26,9 @@ public class MainMenu extends GameScreen {
   private static final String ABSTRACTION = "Abstraction";
   private static String MYSTERY = "???????";
   private static final String QUIT_GAME = "Quit Game";
+  private static final String SAVE_GAME = "Save Game";
+  private static final String LOAD_GAME = "Load Game";
+
   private static final String BATTLE_SCREEN = "DEBUG Battle Screen";
   private static final String SELECT_EFFECT = "steelsword";
   private static final String SWITCH_EFFECT = "215029__taira-komori__extracting_knife";
@@ -89,6 +97,7 @@ public class MainMenu extends GameScreen {
       case KeyEvent.VK_UP:
       case KeyEvent.VK_W:
         if(this.mySelected > 0) this.mySelected--;
+
         playSoundEffect(SWITCH_EFFECT);
         break;
       case KeyEvent.VK_DOWN:
@@ -102,17 +111,48 @@ public class MainMenu extends GameScreen {
           case START_GAME:
             stopBackgroundMusic();
             gameScreenStack.addScreen(new CharacterScreen(gameScreenStack));
-//            MazeGenerator generator = new MazeGenerator();
-//            while(!generator.finished()) {
-//              generator.generate();
-//            }
             break;
+
           case QUIT_GAME:
             System.exit(0);
             break;
+
           case BATTLE_SCREEN:
             stopBackgroundMusic();
-            gameScreenStack.addScreen(new BattleScreen(gameScreenStack));
+            gameScreenStack.addScreen(new BattleScreen(gameScreenStack, myHero, new Skeleton()));
+            break;
+
+          case SAVE_GAME:
+            String saveFileName = JOptionPane.showInputDialog("Enter a name for your save file:");
+            if (saveFileName != null && !saveFileName.trim().isEmpty()) {
+              HeroSave.saveHero(myHero, saveFileName + ".sav");
+              JOptionPane.showMessageDialog(null, "Game saved successfully.");
+            } else {
+              JOptionPane.showMessageDialog(null, "Invalid file name. Game not saved.");
+            }
+            break;
+
+          case LOAD_GAME:
+            List<String> savedGames = SavedGameLister.listSavedGames();
+            if (savedGames.isEmpty()) {
+              JOptionPane.showMessageDialog(null, "No saved games found.");
+            } else {
+              String selectedGame = (String) JOptionPane.showInputDialog(
+                      null,
+                      "Select a saved game to load:",
+                      "Load Game",
+                      JOptionPane.PLAIN_MESSAGE,
+                      null,
+                      savedGames.toArray(),
+                      savedGames.get(0)
+              );
+              if (selectedGame != null) {
+                myHero = HeroSave.loadHero(selectedGame);
+                JOptionPane.showMessageDialog(null, "Game loaded successfully.");
+                // Transition to the game screen or perform any additional setup
+              }
+            }
+            break;
         }
         break;
     }
@@ -121,7 +161,6 @@ public class MainMenu extends GameScreen {
   @Override
   protected void keyReleased(int theKeyCode) {
   }
-
   private boolean isOptionEnabled(int theIndex) {
     return switch (theIndex) {
       case 0, 6, 7 -> true;
