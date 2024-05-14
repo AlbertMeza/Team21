@@ -92,7 +92,7 @@ public class BattleScreen extends GameScreen {
         super(Objects.requireNonNull(theStack));
         optionMenu = new String[] {BASE_ATTACK, INVENTORY, ESCAPE};
         selected = 0;
-        playBackgroundMusic(BATTLE_MUSIC);
+        //playBackgroundMusic(BATTLE_MUSIC);
         try {
             Random random = new Random();
             battleBackgroundImage = ImageIO.read(
@@ -217,6 +217,7 @@ System.out.println("DEBUG: Attack");
 System.out.println("DEBUG: Inventory");
                         break;
                     case ESCAPE:
+                        stopBackgroundMusic();
                         gameScreenStack.backToPreviousState();
                 }
                 break;

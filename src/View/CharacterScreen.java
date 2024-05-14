@@ -32,7 +32,7 @@ public class CharacterScreen extends GameScreen {
   protected CharacterScreen(GameScreenStack theStack) {
     super(theStack);
     selected = 0;
-    playBackgroundMusic(START_MENU_MUSIC);
+    //playBackgroundMusic(START_MENU_MUSIC);
 
     try {
       elfImage = ImageIO.read(new File("src/Assets/Images/ElfBattle.png"));

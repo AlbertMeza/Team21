@@ -19,11 +19,11 @@ public class MathHelper {
    * randomInt method provides a random value between 0 and
    * the passed param upper bound, not including the upper bound
    *
-   * @param upperBound is the value 1 more than the max random value
+   * @param theUpperBound is the value 1 more than the max random value
    * @return returns a random int between 0 inclusive and the upperBound exclusive
    */
-  public static int randomInt(int upperBound){
-    return RANDOM.nextInt(upperBound);
+  public static int randomInt(int theUpperBound){
+    return RANDOM.nextInt(theUpperBound);
   }
 
   /**
@@ -63,38 +63,38 @@ public class MathHelper {
     /**
      * dirX variable is the change in x for the direction of the enum
      */
-    public int dirX;
+    public int myDirX;
 
     /**
      * dirY variable is the change in y for the direction of the enum
      */
-    public int dirY;
+    public int myDirY;
 
     /**
      * opposite variable is the opposite direction enum for each direction enum
      */
-    public Direction opposite;
+    public Direction myOpposite;
 
     /**
      * declares opposite directions for each direction
      */
     static {
-      NORTH.opposite = SOUTH;
-      SOUTH.opposite = NORTH;
-      WEST.opposite = EAST;
-      EAST.opposite = WEST;
+      NORTH.myOpposite = SOUTH;
+      SOUTH.myOpposite = NORTH;
+      WEST.myOpposite = EAST;
+      EAST.myOpposite = WEST;
     }
 
     /**
      * Direction constructor creates a direction enum based on
      * changes in x and y.
      *
-     * @param dirX is the change in x
-     * @param dirY is the change in y
+     * @param theDirX is the change in x
+     * @param theDirY is the change in y
      */
-    private Direction(int dirX, int dirY) {
-      this.dirX = dirX;
-      this.dirY = dirY;
+    private Direction(int theDirX, int theDirY) {
+      this.myDirX = theDirX;
+      this.myDirY = theDirY;
     }
   }
 }

@@ -1,31 +1,27 @@
 package Model;
 
-import View.FrameManager;
 import java.awt.Rectangle;
 
 public class Tile extends Rectangle {
 
-  private byte tileID;
-  private boolean wall;
-  private int sizeX;
-  private int sizeY;
+  private byte myTileID;
+  private boolean myWall;
+  private int mySizeX;
+  private int mySizeY;
 
-  public Tile(byte id, int posXinRoom, int posYinRoom, boolean isWall, int sizeX, int sizeY){
-    super(posXinRoom * sizeX, posYinRoom * sizeY, sizeX, sizeY);
-    this.tileID = id;
-    this.wall = isWall;
-    this.sizeX = sizeX;
-    this.sizeY = sizeY;
+  public Tile(byte theID, int thePosXInRoom, int thePosYInRoom, boolean isWall, int theSizeX, int theSizeY){
+    super(thePosXInRoom * theSizeX, thePosYInRoom * theSizeY, theSizeX, theSizeY);
+    this.myTileID = theID;
+    this.myWall = isWall;
+    this.mySizeX = theSizeX;
+    this.mySizeY = theSizeY;
   }
 
   public byte getID() {
-    return tileID;
+    return myTileID;
   }
 
-  public boolean isWall() {
-    return wall;
+  public boolean isMyWall() {
+    return myWall;
   }
-
-  public int getSizeX() { return sizeX; }
-  public int getSizeY() { return sizeY; }
 }

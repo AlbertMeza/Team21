@@ -4,14 +4,14 @@ import Controller.RoomData;
 
 public class Room {
 
-  private RoomData data;
+  private RoomData myData;
 
-  public Room(RoomData data) {
-    this.data = data;
+  public Room(RoomData theData) {
+    this.myData = theData;
   }
 
-  public RoomData getData() {
-    return data;
+  public RoomData getMyData() {
+    return myData;
   }
 
 }
