@@ -5,6 +5,7 @@ import Model.Character.Saving.HeroSave;
 import Model.Character.Saving.SavedGameLister;
 import Model.GameScreen;
 import Model.GameScreenStack;
+import Model.PlayableHero;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -42,6 +43,7 @@ public class MainMenu extends GameScreen {
   private boolean isEncapsulationUnlock;
   private boolean isPolymorphismUnlock;
   private boolean isMysteryUnlocked;
+  private Hero myHero;
 
 
 
@@ -56,6 +58,10 @@ public class MainMenu extends GameScreen {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    isAbstractionUnlock = true;
+    isEncapsulationUnlock = true;
+    isInheritanceUnlock = true;
+    isPolymorphismUnlock = true;
   }
 
   @Override
@@ -107,18 +113,27 @@ public class MainMenu extends GameScreen {
         break;
       case KeyEvent.VK_ENTER:
         playSoundEffect(SELECT_EFFECT);
+        stopBackgroundMusic();
         switch(this.myOptionMenu[mySelected]) {
           case START_GAME:
-            stopBackgroundMusic();
             gameScreenStack.addScreen(new CharacterScreen(gameScreenStack));
             break;
-
-          case QUIT_GAME:
+            case QUIT_GAME:
             System.exit(0);
             break;
-
+          case POLYMORPHISM:
+            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, 3, 1));
+            break;
+          case ENCAPSULATION:
+            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, 4, 2));
+            break;
+          case INHERITANCE:
+            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, 5, 3));
+            break;
+          case ABSTRACTION:
+            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, 6, 4));
+            break;
           case BATTLE_SCREEN:
-            stopBackgroundMusic();
             gameScreenStack.addScreen(new BattleScreen(gameScreenStack, myHero, new Skeleton()));
             break;
 

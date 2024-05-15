@@ -24,7 +24,8 @@ public class RoomData {
   private HashSet<Direction> myExits;
   private int myWidth;
   private int myHeight;
-  public RoomData(byte[][] theTilesData, int theWidth, int theHeight, MathHelper.Direction... theExits) {
+  private int myLevel;
+  public RoomData(byte[][] theTilesData, int theLevel, int theWidth, int theHeight, MathHelper.Direction... theExits) {
     this.myTilesData = new Tile[theTilesData.length][theTilesData[0].length];
     for(int i=0;i<this.myTilesData.length;i++) {
       for(int j=0;j<this.myTilesData[i].length;j++) {
@@ -38,12 +39,34 @@ public class RoomData {
     }
     this.myWidth = theWidth;
     this.myHeight = theHeight;
+    this.myLevel = theLevel;
     try {
-      myWallTexture = ImageIO.read(new File("src/Assets/Images/Wall.png"));
-      myTileTexture = ImageIO.read(new File("src/Assets/Images/Tile.png"));
-      myLeftWall = ImageIO.read(new File("src/Assets/Images/leftWall.png"));
-      myRightWall = ImageIO.read(new File("src/Assets/Images/rightWall.png"));
-      myBlank = ImageIO.read(new File("src/Assets/Images/blank.png"));
+      if (getMyLevel() == 2) {
+        myWallTexture = ImageIO.read(new File("src/Assets/Images/Level2Bottom.png"));
+        myTileTexture = ImageIO.read(new File("src/Assets/Images/Level2Tile.png"));
+        myLeftWall = ImageIO.read(new File("src/Assets/Images/Level2Left.png"));
+        myRightWall = ImageIO.read(new File("src/Assets/Images/Level2Right.png"));
+        myBlank = ImageIO.read(new File("src/Assets/Images/Level2Blank.png"));
+      } else if (getMyLevel() == 3) {
+        myWallTexture = ImageIO.read(new File("src/Assets/Images/Level3Wall.png"));
+        myTileTexture = ImageIO.read(new File("src/Assets/Images/Level3Tile.png"));
+        myLeftWall = ImageIO.read(new File("src/Assets/Images/Level3LeftWall.png"));
+        myRightWall = ImageIO.read(new File("src/Assets/Images/Level3RightWall.png"));
+        myBlank = ImageIO.read(new File("src/Assets/Images/Level3Blank.png"));
+      } else if (getMyLevel() == 4) {
+        myWallTexture = ImageIO.read(new File("src/Assets/Images/Level4Wall.png"));
+        myTileTexture = ImageIO.read(new File("src/Assets/Images/Level4Tile.png"));
+        myLeftWall = ImageIO.read(new File("src/Assets/Images/Level4Left.png"));
+        myRightWall = ImageIO.read(new File("src/Assets/Images/Level4Right.png"));
+        myBlank = ImageIO.read(new File("src/Assets/Images/Level4Blank.png"));
+      }
+      else {
+        myWallTexture = ImageIO.read(new File("src/Assets/Images/Wall.png"));
+        myTileTexture = ImageIO.read(new File("src/Assets/Images/Tile.png"));
+        myLeftWall = ImageIO.read(new File("src/Assets/Images/leftWall.png"));
+        myRightWall = ImageIO.read(new File("src/Assets/Images/rightWall.png"));
+        myBlank = ImageIO.read(new File("src/Assets/Images/blank.png"));
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -87,4 +110,7 @@ public class RoomData {
     return myTilesData[theX][theY];
   }
 
+  public int getMyLevel() {
+    return myLevel;
+  }
 }

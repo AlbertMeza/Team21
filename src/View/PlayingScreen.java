@@ -30,21 +30,34 @@ public class PlayingScreen extends GameScreen {
   private Image monsterImg;
   private PlayableHero player;
 
+  private int myLevel;
 
-    protected PlayingScreen(GameScreenStack stack) {
-    super(stack);
+  private Image myEndingImg;
+
+
+    protected PlayingScreen(GameScreenStack theStack, int theNum, int theLevel) {
+    super(theStack);
     this.generator = new MazeGenerator();
-    this.generateMaze();
-    this.visited = new boolean[5][5];
+    this.myLevel = theLevel;
+    this.generateMaze(theNum);
+    this.visited = new boolean[theNum][theNum];
     visited[0][0] = true;
-    visited[4][4] = true;
+    visited[theNum-1][theNum-1] = true;
     this.player = new PlayableHero((byte)0, FrameManager.getWidth()/2, FrameManager.getHeight()/2);
     this.showMaze = false;
     int[] monsterPos = generateMonsterPosition();
     this.monsterX = monsterPos[0];
     this.monsterY = monsterPos[1];
-
     try {
+      if(theLevel == 4) {
+        myEndingImg = ImageIO.read(new File("src/Assets/Images/AbstractionGem.png"));
+      } else if (theLevel == 3) {
+        myEndingImg = ImageIO.read(new File("src/Assets/Images/InheritanceTree.png"));
+      } else if (theLevel == 2) {
+        myEndingImg = ImageIO.read(new File("src/Assets/Images/Encapsulation.png"));
+      } else {
+        myEndingImg = ImageIO.read(new File("src/Assets/Images/PolymorphismCup.png"));
+      }
       monsterImg = ImageIO.read(new File("src/Assets/Images/skeleton1.png"));
     } catch (IOException e) {
       e.printStackTrace();
@@ -66,33 +79,7 @@ public class PlayingScreen extends GameScreen {
 
   @Override
   protected void render(Graphics graphics) {
-//    Image imageOne = null;
-//    for(int i = 0; i < generator.getWORLD_SIZE(); i++){
-//      for(int j = 0; j < generator.getWORLD_SIZE(); j++) {
-//        try {
-//        imageOne = ImageIO.read(getRoom(generator.getDataForRoom(j, i)));
-//      } catch (IOException e) {
-//        e.printStackTrace();
-//      }
-//        graphics.drawImage(imageOne, j*50, i*50, 50,50,null);
-//      }
-//    }
-      //tempRoom.getData().render(graphics);
       dungeon.getRoom().getMyData().render(graphics);
-      //Maze Drawing
-//      for(int i = 0; i < generator.getWORLD_SIZE(); i++){
-//        for(int j = 0; j < generator.getWORLD_SIZE(); j++){
-//          Image image = null;
-//          Image imageTwo = null;
-//          try {
-//          image = ImageIO.read(getRoom(dungeon.getRoom(j, i).getData().getExits()));
-//          imageTwo = ImageIO.read(getRoom(generator.getDirForRoom(j, i)));
-//          } catch (IOException e) {
-//          e.printStackTrace();
-//          }
-//          graphics.drawImage(imageTwo, 400+j*30, 200+i*30, 30, 30, null);
-//        }
-//      }
     this.player.render(graphics);
     if(showMaze){
       for(int i = 0; i < generator.getWORLD_SIZE(); i++){
@@ -118,16 +105,13 @@ public class PlayingScreen extends GameScreen {
     if(dungeon.getMyCurrX() + dungeon.getMyCurrY() == 1){
         graphics.drawImage(monsterImg, FrameManager.getWidth() / 2, FrameManager.getHeight() / 2, 33, 24, null);
     }
+    if(dungeon.getMyCurrX() == generator.getWORLD_SIZE() - 1 && dungeon.getMyCurrY()  == generator.getWORLD_SIZE() - 1 ){
+      graphics.drawImage(myEndingImg, FrameManager.getWidth() / 2, FrameManager.getHeight() / 2, 50, 50, null);
+    }
   }
 
   @Override
   protected void keyPressed(int keyCode) {
-//
-//    if(keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP && roomY > 0) this.roomY--;
-//    else if(keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT && roomX > 0) this.roomX--;
-//    else if(keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN && roomY < generator.getWORLD_SIZE()-1) this.roomY++;
-//    else if(keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT && roomX < generator.getWORLD_SIZE()-1) this.roomX++;
-//    else if(keyCode == KeyEvent.VK_ENTER) this.generateMaze();
     switch(keyCode) {
       case KeyEvent.VK_W:
       case KeyEvent.VK_UP:
@@ -150,7 +134,7 @@ public class PlayingScreen extends GameScreen {
         break;
         case KeyEvent.VK_ENTER:
           if(dungeon.getMyCurrY() + dungeon.getMyCurrX() == 1){
-            gameScreenStack.addScreen(new BattleScreen(gameScreenStack));
+//            gameScreenStack.addScreen();
           }
           break;
 
@@ -188,12 +172,12 @@ public class PlayingScreen extends GameScreen {
 
   }
 
-  private void generateMaze() {
-    this.generator.reset(5);
+  private void generateMaze(int theNum) {
+    this.generator.reset(theNum);
     while(!generator.finished()) {
       generator.generate();
     }
-    this.dungeon = new Dungeon(this.generator.getMyRoomData(), generator.getWORLD_SIZE());
+    this.dungeon = new Dungeon(this.generator.getMyRoomData(), generator.getWORLD_SIZE(), getMyLevel());
   }
 
 	public static File getRoom(HashSet<Direction> dirs) {
@@ -231,7 +215,6 @@ public class PlayingScreen extends GameScreen {
 			return new File("src/Assets/Directions/deh.png");
 	}
 
-  private void collision(){}
 
   public int[] generateMonsterPosition() {
     Random rand = new Random();
@@ -243,5 +226,9 @@ public class PlayingScreen extends GameScreen {
     } while ((result[0] == 0 && result[1] == 0) || (result[0] == worldSize && result[1] == worldSize));
 
     return result;
+  }
+
+  public int getMyLevel() {
+    return myLevel;
   }
 }
