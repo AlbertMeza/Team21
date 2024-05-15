@@ -11,7 +11,7 @@ public class Dungeon {
     private int myCurrX;
     private int myCurrY;
     private int myWorldSize;
-    public Dungeon(HashSet<MathHelper.Direction>[][] theRoomsData, int theWorldSize){
+    public Dungeon(HashSet<MathHelper.Direction>[][] theRoomsData, int theWorldSize, int theLevel){
         this.myRooms = new Room[theRoomsData.length][theRoomsData[0].length];
         this.myWorldSize = theWorldSize;
         for(int i=0; i < theWorldSize; i++){
@@ -26,7 +26,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
+                        {1, 1, 0, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST));
                 } else if (theRoomsData[i][j].contains(Direction.NORTH) &&
@@ -37,7 +37,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
+                        {1, 1, 0, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.NORTH, Direction.SOUTH, Direction.WEST));
                 } else if (theRoomsData[i][j].contains(Direction.NORTH) &&
@@ -48,7 +48,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
+                        {1, 1, 1, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.NORTH, Direction.WEST, Direction.EAST));
                 } else if (theRoomsData[i][j].contains(Direction.NORTH) &&
@@ -59,7 +59,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
+                        {1, 1, 0, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.NORTH, Direction.SOUTH, Direction.EAST));
                 }  else if (theRoomsData[i][j].contains(Direction.EAST) &&
@@ -70,7 +70,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
+                        {1, 1, 0, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.EAST, Direction.SOUTH, Direction.WEST));
                 } else if (theRoomsData[i][j].contains(Direction.EAST) &&
@@ -80,7 +80,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
+                        {1, 1, 1, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.EAST, Direction.NORTH));
                 } else if (theRoomsData[i][j].contains(Direction.SOUTH) &&
@@ -90,7 +90,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
+                        {1, 1, 0, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.SOUTH, Direction.NORTH));
                 }else if (theRoomsData[i][j].contains(Direction.WEST) &&
@@ -100,7 +100,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
+                        {1, 1, 1, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.WEST, Direction.NORTH));
                 } else if (theRoomsData[i][j].contains(Direction.SOUTH) &&
@@ -110,7 +110,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
+                        {1, 1, 0, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.SOUTH, Direction.EAST));
                 }else if (theRoomsData[i][j].contains(Direction.WEST) &&
@@ -120,7 +120,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
+                        {1, 1, 1, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.WEST, Direction.EAST));
                 }else if (theRoomsData[i][j].contains(Direction.WEST) &&
@@ -130,7 +130,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
+                        {1, 1, 0, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.SOUTH, Direction.EAST));
                 } else if (theRoomsData[i][j].contains(Direction.NORTH)) {
@@ -139,7 +139,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
+                        {1, 1, 1, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.NORTH));
                 } else if (theRoomsData[i][j].contains(Direction.EAST)) {
@@ -148,7 +148,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
+                        {1, 1, 1, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.EAST));
                 } else if (theRoomsData[i][j].contains(Direction.SOUTH)) {
@@ -157,7 +157,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
+                        {1, 1, 0, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.SOUTH));
                 } else {
@@ -166,7 +166,7 @@ public class Dungeon {
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
+                        {1, 1, 1, 1, 1}}, theLevel,
                         FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.WEST));
                 }
