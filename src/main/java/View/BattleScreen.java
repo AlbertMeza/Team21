@@ -87,8 +87,8 @@ public class BattleScreen extends GameScreen {
     private final Hero myHero;
     private final BattleAssets myBattleAssets;
     private final BattleAssets myWinningAssets;
-    private final BattleTurnManager myTurnManager;
-    private final BattleManager myBattleManager;
+    private BattleTurnManager myTurnManager;
+    private BattleManager myBattleManager;
     private Boolean myHealed = false;
 
     /**
@@ -210,6 +210,66 @@ public class BattleScreen extends GameScreen {
         }
     }
 
+    public int getSelected() {
+        return mySelected;
+    }
+
+    public void setSelected(int selected) {
+        this.mySelected = selected;
+    }
+
+    public Image getBattleBackgroundImage() {
+        return myBattleBackgroundImage;
+    }
+
+    public void setBattleBackgroundImage(Image battleBackgroundImage) {
+        this.myBattleBackgroundImage = battleBackgroundImage;
+    }
+
+    public BattleLogArea getBattleLogArea() {
+        return myBattleLogArea;
+    }
+
+    public Monster getMonster() {
+        return myMonster;
+    }
+
+    public Hero getHero() {
+        return myHero;
+    }
+
+    public BattleAssets getBattleAssets() {
+        return myBattleAssets;
+    }
+
+    public BattleAssets getWinningAssets() {
+        return myWinningAssets;
+    }
+
+    public BattleTurnManager getTurnManager() {
+        return myTurnManager;
+    }
+
+    public BattleManager getBattleManager() {
+        return myBattleManager;
+    }
+
+    public boolean isHealed() {
+        return myHealed;
+    }
+
+    public void setHealed(boolean healed) {
+        this.myHealed = healed;
+    }
+
+    public int getEnemyTurnCount() {
+        return myEnemyTurnCount;
+    }
+
+    public void setEnemyTurnCount(int enemyTurnCount) {
+        this.myEnemyTurnCount = enemyTurnCount;
+    }
+
 
     /**
      * Navigates the battle options.
@@ -275,7 +335,15 @@ public class BattleScreen extends GameScreen {
     }
 
     @Override
-    protected void keyReleased(int keyCode) {
+    protected void keyReleased(final int theKeyCode) {
 
+    }
+
+    public void setBattleManager(final BattleManager theBattleManager) {
+        myBattleManager = Objects.requireNonNull(theBattleManager);
+    }
+
+    public void setTurnManager(final BattleTurnManager theTurnManager) {
+        myTurnManager = Objects.requireNonNull(theTurnManager);
     }
 }

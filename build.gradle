@@ -1,22 +1,22 @@
-// Define the project name, version, and other metadata
 group = 'com.example'
 version = '1.0'
 
-// Apply the Java plugin for Java projects
 apply plugin: 'java'
 
-// Configure repositories for fetching dependencies
 repositories {
     mavenCentral()
 }
 
-// Define dependencies for your project
 dependencies {
+    // JUnit 5 dependencies
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    // Mockito dependencies
+    testImplementation 'org.mockito:mockito-core:4.0.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
 }
 
-// Use JUnit Platform for testing
 test {
     useJUnitPlatform()
 }

@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.File;
 import java.util.List;
 
-//Music: “Misty Dungeon”, from PlayOnLoop.com
+//Music: "Misty Dungeon", from PlayOnLoop.com
 //Licensed under Creative Commons by Attribution 4.0
 public class MainMenu extends GameScreen {
   private static final String START_GAME = "Start Game";
