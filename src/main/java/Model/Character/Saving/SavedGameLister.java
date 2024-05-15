@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class SavedGameLister {
 
-    private static final String SAVED_GAME_DIR = "src/SavedGame/";
+    private static final String SAVED_GAME_DIR = "src/SavedGames/";
 
     /**
      * List all saved game files in the SavedGame directory.

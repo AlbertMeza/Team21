@@ -32,8 +32,8 @@ public class GameScreenStack {
     this.screens = new Stack<>();
     myMusicManager = new AudioManager();
     mySoundManager = new AudioManager();
-    myMusicManager.loadAllAudio(new File("src/Assets/BackgroundMusic"));
-    mySoundManager.loadAllAudio(new File("src/Assets/SoundEffects"));
+    myMusicManager.loadAllAudio(new File("src/main/resources/Assets/BackgroundMusic"));
+    mySoundManager.loadAllAudio(new File("src/main/resources/Assets/SoundEffects"));
   }
 
 /**

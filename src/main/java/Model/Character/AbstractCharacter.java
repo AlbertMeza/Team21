@@ -61,7 +61,7 @@ public class AbstractCharacter implements Serializable {
      */
     private final String myImage;
 
-    private static final String DEFAULT_IMAGE_PATH = "src/Assets/Images/";
+    private static final String DEFAULT_IMAGE_PATH = "src/main/resources/Assets/Images/";
 
 
     /**

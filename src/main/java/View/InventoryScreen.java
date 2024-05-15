@@ -36,7 +36,7 @@ public class InventoryScreen extends GameScreen {
         itemOptions = tempList.toArray(new String[tempList.size()]);
         try {
             inventoryBackgroundImage = ImageIO.read(new File(
-                    "src/Assets/Images/inventoryBackground.jpeg"));
+                    "src/main/resources/Assets/Images/inventoryBackground.jpeg"));
         } catch (IOException e) {
             e.printStackTrace();
         }

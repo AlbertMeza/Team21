@@ -5,7 +5,7 @@ import Model.Character.Hero;
 import java.io.*;
 
 public class HeroSave {
-    private static final String SAVED_GAME_DIR = "src/SavedGame/";
+    private static final String SAVED_GAME_DIR = "src/SavedGames/";
 
     /**
      * Save the hero to a file in the SavedGame directory.

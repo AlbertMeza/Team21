@@ -61,10 +61,10 @@ public class MainMenu extends GameScreen {
     polymorphismUnlock = false;
     mysteryUnlock = false;
     playBackgroundMusic(START_MENU_MUSIC);
-    saveLocation = new File("src/SavedGame");
+    saveLocation = new File("src/SavedGames");
     try {
-      selectorImage = ImageIO.read(new File("src/Assets/Images/skeleton1.png"));
-      menuBackgroundImage = ImageIO.read(new File("src/Assets/Images/title.png"));
+      selectorImage = ImageIO.read(new File("src/main/resources/Assets/Images/skeleton1.png"));
+      menuBackgroundImage = ImageIO.read(new File("src/main/resources/Assets/Images/title.png"));
     } catch (IOException e) {
       e.printStackTrace();
     }

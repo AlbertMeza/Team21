@@ -29,13 +29,12 @@ public class BattleAssets {
         // Load images
         try {
             if (theVictory) {
-                monsterImage = ImageIO.read(new File("src/Assets/Images/chest.png"));
+                monsterImage = ImageIO.read(new File("src/main/resources/Assets/Images/chest.png"));
             } else {
                 monsterImage = ImageIO.read(new File(theMonster.getImage()));
-//                monsterImage = ImageIO.read(new File("src/Assets/Images/LeechBattle.png")); //for testing leech img w/o Leech class
             }
             heroImage = ImageIO.read(new File(theHero.getImage()));
-            platformImage = ImageIO.read(new File("src/Assets/Images/battlePlatform.png"));
+            platformImage = ImageIO.read(new File("src/main/resources/Assets/Images/battlePlatform.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -15,7 +15,6 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -64,25 +63,25 @@ public class BattleScreen extends GameScreen {
     /**
      * Battle options array.
      */
-    private final String[] optionMenu;
+    private final String[] myOptionMenu;
 
-    private final String[] gameOverMenu;
-    private final String[] returnMenu;
+    private final String[] myGameOverMenu;
+    private final String[] myReturnMenu;
 
     /**
      * Currently selected battle option.
      */
-    private int selected;
+    private int mySelected;
 
     /**
      * Image to be used as background.
      */
-    private Image battleBackgroundImage;
+    private Image myBattleBackgroundImage;
 
     /**
      * Object used to display battle text on screen.
      */
-    private final BattleLogArea battleLogArea;
+    private final BattleLogArea myBattleLogArea;
 
     private final Monster myMonster;
     private final Hero myHero;
@@ -90,12 +89,12 @@ public class BattleScreen extends GameScreen {
     private final BattleAssets myWinningAssets;
     private final BattleTurnManager myTurnManager;
     private final BattleManager myBattleManager;
-    private Boolean healed = false;
+    private Boolean myHealed = false;
 
     /**
      * Counter to give enemy time during their turn.
      */
-    private int enemyTurnCount = 0;
+    private int myEnemyTurnCount = 0;
 
     /**
      * Constructor. Sets hero and monster. Sets background image.
@@ -106,28 +105,28 @@ public class BattleScreen extends GameScreen {
         myHero = Objects.requireNonNull(theHero);
         myMonster = Objects.requireNonNull(theMonster);
         if (myHero.getName().equals("Elf")) {
-            optionMenu = new String[] {BASE_ATTACK, HEAL, INVENTORY, ESCAPE};
+            myOptionMenu = new String[] {BASE_ATTACK, HEAL, INVENTORY, ESCAPE};
         } else {
-            optionMenu = new String[] {BASE_ATTACK, INVENTORY, ESCAPE};
+            myOptionMenu = new String[] {BASE_ATTACK, INVENTORY, ESCAPE};
         }
-        gameOverMenu = new String[] {END_GAME};
-        returnMenu = new String[] {RETURN};
-        selected = 0;
+        myGameOverMenu = new String[] {END_GAME};
+        myReturnMenu = new String[] {RETURN};
+        mySelected = 0;
         playBackgroundMusic(BATTLE_MUSIC);
         try {
             Random random = new Random();
-            battleBackgroundImage = ImageIO.read(
-                    new File("src/Assets/Images/dungeon background "
+            myBattleBackgroundImage = ImageIO.read(
+                    new File("src/main/resources/Assets/Images/dungeon background "
                             + random.nextInt(1, DEFAULT_NUM_IMAGES + 1) + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // Create the JTextArea for the battle log
-        battleLogArea = new BattleLogArea();
+        myBattleLogArea = new BattleLogArea();
 
         // Set BattleLogOut as the output stream
-        BattleLogOut battleLogOut = new BattleLogOut(battleLogArea);
+        BattleLogOut battleLogOut = new BattleLogOut(myBattleLogArea);
         System.setOut(new PrintStream(battleLogOut));
 
         myBattleAssets = new BattleAssets();
@@ -140,11 +139,11 @@ public class BattleScreen extends GameScreen {
 
     @Override
     protected void loop() {
-        if (!myTurnManager.getTurn() && enemyTurnCount == 20) {
+        if (!myTurnManager.getTurn() && myEnemyTurnCount == 20) {
             myBattleManager.monsterTurn();
-            enemyTurnCount = 0;
+            myEnemyTurnCount = 0;
         } else if (!myTurnManager.getTurn()){
-            enemyTurnCount++;
+            myEnemyTurnCount++;
         }
     }
 
@@ -157,7 +156,7 @@ public class BattleScreen extends GameScreen {
     @Override
     protected void render(Graphics theGraphics) {
         // Draw the battle background
-        theGraphics.drawImage(battleBackgroundImage, 0, 0, FrameManager.getWidth(),
+        theGraphics.drawImage(myBattleBackgroundImage, 0, 0, FrameManager.getWidth(),
                 FrameManager.getHeight(), null);
         theGraphics.setColor(new Color(30, 30, 70,120));
         theGraphics.setFont(getCustomFont());
@@ -169,7 +168,7 @@ public class BattleScreen extends GameScreen {
         } else {
             PlaceChars.placeChars(theGraphics, myBattleAssets);
         }
-        DrawBattleLog.drawBattleLog(theGraphics, battleLogArea);
+        DrawBattleLog.drawBattleLog(theGraphics, myBattleLogArea);
         DrawCharStatus.drawCharStatus(theGraphics, myHero, myMonster);
     }
 
@@ -188,7 +187,7 @@ public class BattleScreen extends GameScreen {
 
         for (int i = 0; i < menu.length; i++) {
             String optionText = menu[i];
-            if (i == selected) {
+            if (i == mySelected) {
                 theGraphics.setColor(Color.magenta);
             } else {
                 theGraphics.setColor(Color.white);
@@ -203,37 +202,37 @@ public class BattleScreen extends GameScreen {
      */
     private String[] getCurrentMenu() {
         if (myHero.checkIfDead()) {
-            return gameOverMenu;
+            return myGameOverMenu;
         } else if (myMonster.checkIfDead()) {
-            return returnMenu;
+            return myReturnMenu;
         } else {
-            return optionMenu;
+            return myOptionMenu;
         }
     }
 
 
     /**
      * Navigates the battle options.
-     * @param keyCode the key that has been pressed.
+     * @param theKeyCode the key that has been pressed.
      */
     @Override
-    protected void keyPressed(int keyCode) {
+    protected void keyPressed(final int theKeyCode) {
         String[] currentMenu;
-        switch(keyCode) {
+        switch(theKeyCode) {
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
-                if(selected > 0) selected--;
+                if(mySelected > 0) mySelected--;
                 break;
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
                 currentMenu = getCurrentMenu();
-                if (selected < currentMenu.length - 1) selected++;
+                if (mySelected < currentMenu.length - 1) mySelected++;
 //                super.soundManager.playAudio();
 
                 break;
             case KeyEvent.VK_ENTER:
                 currentMenu = getCurrentMenu();
-                String selectedOption = currentMenu[selected];
+                String selectedOption = currentMenu[mySelected];
                 switch (selectedOption) {
                     case BASE_ATTACK:
                         if (myTurnManager.getTurn()) {
@@ -243,9 +242,9 @@ public class BattleScreen extends GameScreen {
                     case HEAL:
                         if (myHero.getMaxHP() == myHero.getHP()) {
                             System.out.println(myHero.getName() + " is already at max health!");
-                        } else if (!healed) {
+                        } else if (!myHealed) {
                             myBattleManager.healHero();
-                            healed = true;
+                            myHealed = true;
                         } else {
                             System.out.println(myHero.getName() + " can only heal once per battle!");
                         }
@@ -254,17 +253,17 @@ public class BattleScreen extends GameScreen {
                         gameScreenStack.addScreen(new InventoryScreen(gameScreenStack, myHero));
                         break;
                     case ESCAPE:
-                        if (currentMenu == optionMenu) {
+                        if (currentMenu == myOptionMenu) {
                             // Handle escape option in battle
                         }
                     case RETURN:
-                        if (currentMenu == returnMenu) {
+                        if (currentMenu == myReturnMenu) {
                             // Handle return option upon victory
                         }
                         gameScreenStack.backToPreviousState();
                         break;
                     case END_GAME:
-                        if (currentMenu == gameOverMenu) {
+                        if (currentMenu == myGameOverMenu) {
                             gameScreenStack.clearStack();
                             gameScreenStack.addScreen(new MainMenu(gameScreenStack));
                             // Handle end game scenario
