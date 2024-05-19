@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Austin Maggert
  * @version Spring 2024
  */
-public abstract class GameItem {
+public  class GameItem {
     /**
      * myName field is the name of the game item
      */
