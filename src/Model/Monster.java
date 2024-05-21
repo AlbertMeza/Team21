@@ -39,13 +39,11 @@ public class Monster extends AbstractCharacter implements Healable{
      * @param theDodgeRate is the dodge rate for the monster
      * @param theMinHeal is the minimum amount of points to be healed
      * @param theHealRange is the range that can be healed
-     * @param theItems is the initial items in the monster's bag
 
      */
     public Monster(String theName, int theHP, int theDamage, int theSpeed,
-                   double theDodgeRate, int theMinHeal, int theHealRange,
-                   GameItem[] theItems) {
-        super(theName, theHP, theDamage, theSpeed, theDodgeRate, theItems);
+                   double theDodgeRate, int theMinHeal, int theHealRange) {
+        super(theName, theHP, theDamage, theSpeed, theDodgeRate, new GameItem[] {});
         myMinHeal = theMinHeal;
         myHealRange = theHealRange;
     }
@@ -60,7 +58,27 @@ public class Monster extends AbstractCharacter implements Healable{
         super.buffHP(healAmount);
     }
 
+    /**
+     * addLoot method adds loot to the monster's bag according
+     * to the name/type of monster.
+     */
     public void addLoot() {
-        //addloot based on the monster name it is
+        if ("Goblin".equals(super.getName())) {
+            GoblinLoot loot = new GoblinLoot();
+            super.pickUpItem(loot.getLootOne());
+            super.pickUpItem(loot.getLootTwo());
+        } else if ("Leach".equals(super.getName())) {
+            LeachLoot loot = new LeachLoot();
+            super.pickUpItem(loot.getLootOne());
+            super.pickUpItem(loot.getLootTwo());
+        } else if ("Ogre".equals(super.getName())) {
+            OgreLoot loot = new OgreLoot();
+            super.pickUpItem(loot.getLootOne());
+            super.pickUpItem(loot.getLootTwo());
+        } else if ("Skeleton".equals(super.getName())) {
+            SkeletonLoot loot = new SkeletonLoot();
+            super.pickUpItem(loot.getLootOne());
+            super.pickUpItem(loot.getLootTwo());
+        }
     }
 }

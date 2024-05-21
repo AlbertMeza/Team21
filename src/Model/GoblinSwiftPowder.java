@@ -1,7 +1,8 @@
 package Model;
 
 /**
- * This class represents a goblin swift powder game item
+ * GoblinSwiftPowder class is a GameItem
+ * that buffs speed
  *
  * @author Austin Maggert
  * @version Spring 2024
@@ -9,11 +10,26 @@ package Model;
 public class GoblinSwiftPowder extends GameItem {
 
     /**
-     * GoblinSwiftPowder constructor creates a goblin swift powder game item
-     * When used, the goblin swift powder buffs speed
-     *
+     * SP_BUFF is the amount of sp to buff
+     * character speed by.
+     */
+    private final int SP_BUFF = 1;
+
+    /**
+     * GoblinSwiftPowder constructor creates an instance of
+     * Goblin Swift Powder.
      */
     public GoblinSwiftPowder() {
         super("Goblin Swift Powder");
     }
+
+    /**
+     * useItem buffs speed of the passed character
+     *
+     * @param theCharacter is the hero using the Goblin Swift Powder
+     */
+    public void useItem(AbstractCharacter theCharacter) {
+        theCharacter.buffSpeed(SP_BUFF);
+    }
 }
+

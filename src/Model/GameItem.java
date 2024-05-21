@@ -8,21 +8,17 @@ import java.util.Objects;
  * @author Austin Maggert
  * @version Spring 2024
  */
-public  class GameItem {
-    /**
-     * myName field is the name of the game item
-     */
-    private final String myName;
+public abstract class GameItem {
 
     /**
-     * GameItem constructor creates an abstract level
-     * game item and initializes myName
-     *
-     * @param theName is the name for this game item
+     * myName field is the name for this Game Item
      */
-    public GameItem(String theName) {
-        myName = Objects.requireNonNull(theName);
-    }
+    String myName;
+    /**
+     * GameItem constructor creates an abstract level
+     * game item.
+     */
+    public GameItem(String theName){myName = theName;};
 
     /**
      * getItemName method returns the name of this game item
@@ -32,4 +28,9 @@ public  class GameItem {
     public String getItemName() {
         return myName;
     }
+
+    /**
+     * useItem method uses the game item on the passed hero param
+     */
+    public abstract void useItem(AbstractCharacter theCharacter);
 }

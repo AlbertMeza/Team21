@@ -145,6 +145,30 @@ public class AbstractCharacter {
     private double myDodgeRate;
 
     /**
+     * myInitialHP is the Character's hp
+     * during instantiation
+     */
+    private final int myInitialHP;
+
+    /**
+     * myInitialDamage field is the character's damage points
+     * during instantiation.
+     */
+    private int myInitialDamage;
+
+    /**
+     * myInitialSpeed field is the character's speed points
+     * during instantiation.
+     */
+    private int myInitialSpeed;
+
+    /**
+     * myInitialDodgeRate field is the character's dodge rate
+     * on scale 0.0 - 0.7 (0% to 70%) during instantiation
+     */
+    private double myInitialDodgeRate;
+
+    /**
      * myBag field is the character's inventory bag of game items.
      */
     private final Bag myBag;
@@ -167,9 +191,13 @@ public class AbstractCharacter {
   public  AbstractCharacter(String theName, int theHP, int theDamage, int theSpeed,
                             double theDodgeRate, GameItem[] theItems) {
       myName = Objects.requireNonNull(theName);
+      myInitialHP = theHP;
       setHPs(theHP);
+      myInitialDamage = theDamage;
       setDamage(theDamage);
+      myInitialSpeed = theSpeed;
       setSpeed(theSpeed);
+      myInitialDodgeRate = theDodgeRate;
       setDodgeRate(theDodgeRate);
       myBag = new Bag(theItems);
       myDeathStatus = false;
@@ -295,6 +323,17 @@ public class AbstractCharacter {
   public int getSpeed() {
       return mySpeed;
   }
+
+    /**
+     * resetCharacter resets all stats of the character
+     * to original stats. Bag does not get altered.
+     */
+    public void resetCharacter() {
+        setHPs(myInitialHP);
+        setDamage(myInitialDamage);
+        setSpeed(myInitialSpeed);
+        setDodgeRate(myInitialDodgeRate);
+    }
 
     /**
      * attack method receives another character and attempts an attack on that
@@ -440,118 +479,7 @@ public class AbstractCharacter {
       }
       String result = "Bag does not contain this item!";
       if (myBag.hasItem(theItem)) {
-          switch (theItem.getItemName()) {
-              case "Health Potion":
-                  int hp = RANDOM.nextInt(HEALTH_POTION_MAX_BOUND) + HEALTH_POTION_MIN;
-                  buffHP(hp);
-                  myBag.removeItem(theItem);
-                  result = "Hero drank health potion."
-                            + " Hero's health increased to " + myHP + " points!";
-              case "Damage Potion":
-                  int dp = RANDOM.nextInt(DAMAGE_POTION_MAX_BOUND) + DAMAGE_POTION_MIN;
-                  buffDamage(dp);
-                  myBag.removeItem(theItem);
-                  result = "Hero drank damage potion."
-                            + " Hero's damage increased " + dp + " points!";
-              case "Speed Potion":
-                  int sp = RANDOM.nextInt(SPEED_POTION_MAX_BOUND) + SPEED_POTION_MIN;
-                  buffSpeed(sp);
-                  myBag.removeItem(theItem);
-                  result = "Hero drank speed potion."
-                            + " Hero's speed increased " + sp + " points!";
-              case "Evasion Potion":
-                  if (myDodgeRate < MAX_DODGE_RATE) {
-                      double ep = 0.1 * (RANDOM.nextInt(EVASION_POTION_MAX_BOUND) + EVASION_POTION_MIN);
-                      buffDodgeRate(ep);
-                      myBag.removeItem(theItem);
-                      result = "Hero drank evasion potion."
-                                + " Hero's dodge rate increased to "
-                                + (myDodgeRate * 100) + " percent!";
-                  } else result = "Hero's dodge rate is maximized!"
-                                    + " Potion was not used.";
-              case "Time Turner" :
-                    // implement exiting the battle with the monster and resetting hero back to previous room
-                  result = "Hero went back in time to before "
-                           + "encountering the monster!";
-              case "Soul Charm"  :
-                  int randomBuff = RANDOM.nextInt(4);
-                  result = "Hero donned Soul Charm.";
-                  switch (randomBuff) {
-                      case 0 :
-                          buffMaxHP(SOUL_CHARM_HP_BUFF);
-                          result += "Hero's max HP increased "
-                                   + SOUL_CHARM_HP_BUFF + " points!";
-                      case 1 :
-                          buffDamage(SOUL_CHARM_DAMAGE_BUFF);
-                          result += "Hero's damage increased "
-                                   + SOUL_CHARM_DAMAGE_BUFF + " points!";
-                      case 2 :
-                          buffSpeed(SOUL_CHARM_SPEED_BUFF);
-                          result += "Hero's speed increased "
-                                   + SOUL_CHARM_SPEED_BUFF + " points!";
-                      case 3 :
-                          buffDodgeRate(SOUL_CHARM_EVASION_BUFF);
-                          result += "Hero's dodge rate increased to "
-                                  + myDodgeRate * 100 + " percent!";
-                  }
-                  myBag.removeItem(theItem);
-              case "Leach Tonic" :
-                  buffMaxHP(LEACH_TONIC_BUFF);
-                  myBag.removeItem(theItem);
-                  result = "Hero drank the leach tonic."
-                          + " Hero's max HP increased by "
-                          + LEACH_TONIC_BUFF + " points!";
-              case "Leach Fang" :
-                  buffDamage(LEACH_FANG_BUFF);
-                  myBag.removeItem(theItem);
-                  result = "Hero donned leach fang."
-                          + " Hero's damage increased by "
-                          + LEACH_FANG_BUFF + " points!";
-              case "Goblin Swift Powder" :
-                  buffSpeed(GOBLIN_SWIFT_POWDER_BUFF);
-                  myBag.removeItem(theItem);
-                  result = "Hero inhaled goblin swift powder."
-                          + "Hero's speed increased by "
-                          + GOBLIN_SWIFT_POWDER_BUFF + " point!";
-              case "Goblin Trickster Talisman" :
-                  buffDodgeRate(GOBLIN_TRICKSTER_TALISMAN_BUFF);
-                  myBag.removeItem(theItem);
-                  result = "Hero donned goblin trickster talisman."
-                          + " Hero's dodge rate increased to "
-                          + (myDodgeRate * 100) + " percent!";
-              case "Goblin Salve" :
-                  buffHP(GOBLIN_SALVE_BUFF);
-                  myBag.removeItem(theItem);
-                  result = "Hero applied goblin salve."
-                          + " Hero's health increased to " + myHP + " points!";
-              case "Ogre Club" :
-                  buffDamage(OGRE_CLUB_BUFF);
-                  myBag.removeItem(theItem);
-                  result = "Hero picked up ogre club."
-                          + " Hero's damage increased by "
-                          + OGRE_CLUB_BUFF + " points!";
-              case "Goblinhide Cloak" :
-                  buffDodgeRate(GOBLINHIDE_CLOAK_BUFF);
-                  myBag.removeItem(theItem);
-                  result = "Hero donned goblinhide cloak."
-                          + " Hero's didge rate increased to "
-                          + (myDodgeRate * 100) + " percent!";
-              case "Archaic Boots":
-                  buffSpeed(BOOT_SPEED_BUFF);
-                  myBag.removeItem(theItem);
-                  result = "Hero donned the archaic boots."
-                          + " Hero's speed increased by "
-                          + BOOT_SPEED_BUFF + " point!";
-              case "Bone Sword":
-                  buffDamage(BONE_SWORD_BUFF);
-                  myBag.removeItem(theItem);
-                  result = "Hero grabbed the bone sword."
-                          + " Hero's damage increased by "
-                          + BONE_SWORD_BUFF + " points!";
-              case "Gold Coin" :
-                  result = "Hero admired the gold coin,"
-                          + " then put it back in the bag for later.";
-          }
+          theItem.useItem(this);
       }
       return result;
   }

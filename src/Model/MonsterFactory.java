@@ -108,7 +108,7 @@ public class MonsterFactory {
                 double dodgeRate = rs.getDouble("DODGE_RATE");
                 int healMin = rs.getInt("HEAL_MIN");
                 int healMaxBound = rs.getInt("HEAL_MAX_BOUND");
-                myMonsters[count++] = new Monster(name, hp, damage, speed, dodgeRate, healMin, healMaxBound, new GameItem[] {});
+                myMonsters[count++] = new Monster(name, hp, damage, speed, dodgeRate, healMin, healMaxBound);
             }
         } catch ( SQLException e ) {
             e.printStackTrace();
@@ -127,18 +127,26 @@ public class MonsterFactory {
     }
 
     public Monster getGoblin() {
-        return myMonsters[goblin];
+        Monster monster = myMonsters[goblin];
+        monster.addLoot();
+        return monster;
     }
 
     public Monster getOgre() {
-        return myMonsters[ogre];
+        Monster monster = myMonsters[ogre];
+        monster.addLoot();
+        return monster;
     }
 
     public Monster getLeach() {
-        return myMonsters[leach];
+        Monster monster = myMonsters[leach];
+        monster.addLoot();
+        return monster;
     }
 
     public Monster getSkeleton() {
-        return myMonsters[skeleton];
+        Monster monster = myMonsters[skeleton];
+        monster.addLoot();
+        return monster;
     }
 }

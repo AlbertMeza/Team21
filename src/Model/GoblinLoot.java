@@ -43,13 +43,13 @@ public class GoblinLoot {
         GameItem result = null;
         switch (num) {
             case 0:
-                result = new GameItem("Goblin Salve");
+                result = new GoblinSalve();
             case 1:
-                result = new GameItem("Goblin Swift Powder");
+                result = new GoblinSwiftPowder();
             case 2:
-                result = new GameItem("Goblin Trickster Talisman");
+                result = new GoblinTricksterTalisman();
             case 3:
-                result = new GameItem("Gold Coin");
+                result = new GoldCoin();
         }
         return result;
     }
@@ -62,8 +62,15 @@ public class GoblinLoot {
      */
     public GameItem[] getLoot() {
         GameItem[] loot = new GameItem[2];
-        loot[0] = new GameItem(myLoot[0].getItemName());
-        loot[1] = new GameItem(myLoot[1].getItemName());
+        for (int i = 0; i < myLoot.length; i++) {
+            if(myLoot[i].getItemName().equals("Goblin Salve")) {
+                loot[i] = new GoblinSalve();
+            } else if (myLoot[i].getItemName().equals("Goblin Swift Powder")) {
+                loot[i] = new GoblinSwiftPowder();
+            } else if(myLoot[i].getItemName().equals("Goblin Trickster Talisman")) {
+                loot[i] = new GoblinTricksterTalisman();
+            } else loot[i] = new GoldCoin();
+        }
         return loot;
     }
 
@@ -74,7 +81,15 @@ public class GoblinLoot {
      * @return returns a deep copy of the first item in myLoot
      */
     public GameItem getLootOne() {
-        return new GameItem(myLoot[0].getItemName());
+        GameItem loot = null;
+        if(myLoot[0].getItemName().equals("Goblin Salve")) {
+            loot = new GoblinSalve();
+        } else if (myLoot[0].getItemName().equals("Goblin Swift Powder")) {
+            loot = new GoblinSwiftPowder();
+        } else if(myLoot[0].getItemName().equals("Goblin Trickster Talisman")) {
+            loot = new GoblinTricksterTalisman();
+        } else loot = new GoldCoin();
+        return loot;
     }
 
     /**
@@ -84,6 +99,14 @@ public class GoblinLoot {
      * @return returns a deep copy of the second item in myLoot
      */
     public GameItem getLootTwo() {
-        return new GameItem(myLoot[1].getItemName());
+        GameItem loot = null;
+        if(myLoot[1].getItemName().equals("Goblin Salve")) {
+            loot = new GoblinSalve();
+        } else if (myLoot[1].getItemName().equals("Goblin Swift Powder")) {
+            loot = new GoblinSwiftPowder();
+        } else if(myLoot[1].getItemName().equals("Goblin Trickster Talisman")) {
+            loot = new GoblinTricksterTalisman();
+        } else loot = new GoldCoin();
+        return loot;
     }
 }
