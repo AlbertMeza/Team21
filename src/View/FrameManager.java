@@ -1,7 +1,13 @@
 package View;
 
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -98,5 +104,18 @@ public class FrameManager {
 
   private JPanel getMyPanel(){
     return myPanel;
+  }
+
+  public static ImageIcon resizeImage(String imagePath, int width, int height) {
+    try {
+      BufferedImage originalImage = ImageIO.read(new File(imagePath));
+
+      Image resizedImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+      return new ImageIcon(resizedImage);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 }

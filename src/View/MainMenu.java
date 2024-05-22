@@ -5,7 +5,6 @@ import Model.Character.Saving.HeroSave;
 import Model.Character.Saving.SavedGameLister;
 import Model.GameScreen;
 import Model.GameScreenStack;
-import Model.PlayableHero;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -27,15 +26,7 @@ import java.util.List;
  * @version Spring 2024
  */
 public class MainMenu extends GameScreen {
-
-  /**
-   * START_GAME constant for "start screen" text to be displayed
-   */
-  private static final String START_GAME = "Start Game";
-
-  /**
-   * POLYMORPHISM constant for "Polymorphsim" text to be displayed
-   */
+  private static final String CHARACTER_SELECT = "Character Select";
   private static final String POLYMORPHISM = "Polymorphism";
 
   /**
@@ -73,12 +64,16 @@ public class MainMenu extends GameScreen {
   private int mySelected;
   private Image mySelectorImage;
   private Image menuBackgroundImage;
+  private Image heroImage;
+  private String heroType;
+  private boolean[][] myProgress;
   private boolean isAbstractionUnlock;
   private boolean isInheritanceUnlock;
   private boolean isEncapsulationUnlock;
   private boolean isPolymorphismUnlock;
   private boolean isMysteryUnlocked;
   private Hero myHero;
+  private int myHeroIndex;
 
   /**
    * SELECT_EFFECT constant is the name of the audio file for selecting an option
@@ -141,22 +136,18 @@ public class MainMenu extends GameScreen {
   private boolean mysteryUnlock;
 
 
-    /**
-     * MainMenu constructor initializes all fields
-     * and renders the menu screen for the game.
-     *
-     * @param theSM is the game screen stack this menu goes on
-     * @param theMM is the music manager for the game
-     * @param theSEM is the sound effects manager for the game
-     */
+
   public MainMenu(GameScreenStack theManager) {
     super(theManager);
     String MYSTERY = "???????";
-    this.myOptionMenu = new String[] {START_GAME, POLYMORPHISM, ENCAPSULATION, INHERITANCE, ABSTRACTION,
+    heroType = "";
+    this.myOptionMenu = new String[] {CHARACTER_SELECT, POLYMORPHISM, ENCAPSULATION, INHERITANCE, ABSTRACTION,
             MYSTERY, QUIT_GAME, BATTLE_SCREEN};
     try {
       mySelectorImage = ImageIO.read(new File("src/Assets/Images/skeleton1.png"));
       menuBackgroundImage = ImageIO.read(new File("src/Assets/Images/title.png"));
+      heroImage = ImageIO.read(new File("src/Assets/Images/silhouette.png"));
+
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -164,7 +155,16 @@ public class MainMenu extends GameScreen {
     isEncapsulationUnlock = true;
     isInheritanceUnlock = true;
     isPolymorphismUnlock = true;
+    myProgress = new boolean[4][4];
+    myHeroIndex = -1;
   }
+
+  public MainMenu(GameScreenStack theManager, int theHero, boolean[][] theProgress){
+    this(theManager);
+    setHero(theHero);
+    setProgress(theProgress);
+  }
+
 
   @Override
   protected void loop() {
@@ -192,10 +192,47 @@ public class MainMenu extends GameScreen {
         if (isOptionEnabled(i)) {
           theGraphics.setColor(Color.white);
         } else {
-          theGraphics.setColor(Color.gray); // Grey out disabled options
+          theGraphics.setColor(Color.gray);
         }
       }
       theGraphics.drawString(optionText, xStart, yStart + i * optionHeight);
+    }
+    theGraphics.setFont(new Font("Arial", Font.BOLD, 20));
+    String heroLabel = "Hero:";
+    int heroLabelX = 10;
+    int heroLabelY = FrameManager.getHeight() - 50;
+    theGraphics.setColor(Color.white);
+    theGraphics.drawString(heroLabel, heroLabelX, heroLabelY);
+
+    int bgWidth = 75;
+    int bgHeight = 155;
+    int bgX = 70;
+    int bgY = FrameManager.getHeight() - 150;
+    theGraphics.setColor(Color.gray);
+    theGraphics.fillRect(bgX, bgY, bgWidth, bgHeight);
+
+    int heroImageX = 60;
+    int heroImageY = FrameManager.getHeight() - 150;
+    int heroImageWidth = 90;
+    int heroImageHeight = 140;
+    theGraphics.drawImage(heroImage, heroImageX, heroImageY, heroImageWidth, heroImageHeight, null);
+
+    theGraphics.setFont(new Font("Arial", Font.BOLD, 15));
+    int heroNameX = bgX + (bgWidth - theGraphics.getFontMetrics().stringWidth(heroType)) / 2;
+    int heroNameY = bgY - 20;
+    theGraphics.setColor(Color.white);
+    theGraphics.drawString(heroType, heroNameX, heroNameY);
+
+    int starY = heroNameY + 15;
+    if(myHeroIndex != -1) {
+      for (int i = 0; i < 4; i++) {
+        if (myProgress[myHeroIndex][i])
+          theGraphics.setColor(new Color(255, 255, 0));
+        else
+          theGraphics.setColor(new Color(128, 128, 128));
+        theGraphics.drawString("★", bgX + i * 20, starY);
+      }
+      theGraphics.setColor(Color.white);
     }
   }
 
@@ -218,28 +255,31 @@ public class MainMenu extends GameScreen {
         playSoundEffect(SELECT_EFFECT);
         stopBackgroundMusic();
         switch(this.myOptionMenu[mySelected]) {
-          case START_GAME:
-            gameScreenStack.addScreen(new CharacterScreen(gameScreenStack));
+          case CHARACTER_SELECT:
+            gameScreenStack.addScreen(new CharacterScreen(gameScreenStack, myProgress));
             break;
             case QUIT_GAME:
             System.exit(0);
             break;
           case POLYMORPHISM:
-            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, 3, 1));
+            if(!heroType.equals(""))
+            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, heroImage, 3, myHeroIndex, 1, myProgress));
             break;
           case ENCAPSULATION:
-            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, 4, 2));
+            if(!heroType.equals(""))
+            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, heroImage, 4, myHeroIndex, 2, myProgress));
             break;
           case INHERITANCE:
-            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, 5, 3));
+            if(!heroType.equals(""))
+            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, heroImage, 5, myHeroIndex, 3, myProgress));
             break;
           case ABSTRACTION:
-            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, 6, 4));
+            if(!heroType.equals(""))
+            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, heroImage, 6, myHeroIndex, 4, myProgress));
             break;
           case BATTLE_SCREEN:
             gameScreenStack.addScreen(new BattleScreen(gameScreenStack, myHero, new Skeleton()));
             break;
-
           case SAVE_GAME:
             String saveFileName = JOptionPane.showInputDialog("Enter a name for your save file:");
             if (saveFileName != null && !saveFileName.trim().isEmpty()) {
@@ -249,7 +289,6 @@ public class MainMenu extends GameScreen {
               JOptionPane.showMessageDialog(null, "Invalid file name. Game not saved.");
             }
             break;
-
           case LOAD_GAME:
             List<String> savedGames = SavedGameLister.listSavedGames();
             if (savedGames.isEmpty()) {
@@ -317,5 +356,30 @@ public class MainMenu extends GameScreen {
       case 5:
         isMysteryUnlocked = true;
     }
+  }
+
+  public void setHero(int theHero){
+      try {
+        if(theHero == 0) {
+          heroType = "Elf";
+          heroImage = ImageIO.read(new File("src/Assets/Images/ElfBattle.png"));
+        } else if (theHero == 1) {
+          heroType = "Wizard";
+          heroImage = ImageIO.read(new File("src/Assets/Images/wizard.png"));
+        } else if (theHero == 2) {
+          heroType = "Rogue";
+          heroImage = ImageIO.read(new File("src/Assets/Images/rogue.png"));
+        } else {
+          heroType = "Barbarian";
+          heroImage = ImageIO.read(new File("src/Assets/Images/barbarian.png"));
+        }
+        myHeroIndex = theHero;
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+  }
+
+  private void setProgress(boolean[][] theProgress){
+    myProgress = theProgress;
   }
 }
