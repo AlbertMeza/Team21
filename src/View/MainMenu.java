@@ -5,6 +5,8 @@ import Model.Character.Saving.HeroSave;
 import Model.Character.Saving.SavedGameLister;
 import Model.GameScreen;
 import Model.GameScreenStack;
+import Model.Skeleton;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -57,21 +59,12 @@ public class MainMenu extends GameScreen {
   private static final String LOAD_GAME = "Load Game";
 
   private static final String BATTLE_SCREEN = "DEBUG Battle Screen";
-  private static final String SELECT_EFFECT = "steelsword";
-  private static final String SWITCH_EFFECT = "215029__taira-komori__extracting_knife";
-  private static final String START_MENU_MUSIC = "POL-misty-dungeon-short";
   private final String[] myOptionMenu;
-  private int mySelected;
   private Image mySelectorImage;
   private Image menuBackgroundImage;
   private Image heroImage;
   private String heroType;
   private boolean[][] myProgress;
-  private boolean isAbstractionUnlock;
-  private boolean isInheritanceUnlock;
-  private boolean isEncapsulationUnlock;
-  private boolean isPolymorphismUnlock;
-  private boolean isMysteryUnlocked;
   private Hero myHero;
   private int myHeroIndex;
 
@@ -91,50 +84,35 @@ public class MainMenu extends GameScreen {
   private static final String START_MENU_MUSIC = "POL-misty-dungeon-short.wav";
 
   /**
-   * OPTION_MENU constant stores the gameplay option strings
-   */
-  private final String[] OPTION_MENU;
-
-  /**
    * mySelected field stores the currently selected game option
    */
   private int mySelected;
 
-  /**
-   * SELECTOR_IMAGE constant is the Image for the selector
-   */
-  private Image SELECTOR_IMAGE;
-
-  /**
-   * MENU_BACKGROUND_IMAGE constant is the background image for the menu screen
-   */
-  private Image MENU_BACKGROUND_IMAGE;
 
   /**
    * abstractionUnlock field stores true if that level is unlocked, false otherwise
    */
-  private boolean abstractionUnlock;
+  private boolean isAbstractionUnlock;
 
   /**
    * inheritanceUnlock field stores true if that level is unlocked, false otherwise
    */
-  private boolean inheritanceUnlock;
+  private boolean isInheritanceUnlock;
 
   /**
    * encapsulationUnlock field stores true if that level is unlocked, false otherwise
    */
-  private boolean encapsulationUnlock;
+  private boolean isEncapsulationUnlock;
 
   /**
    * polymorphismUnlock field stores true if that level is unlocked, false otherwise
    */
-  private boolean polymorphismUnlock;
+  private boolean isPolymorphismUnlock;
 
   /**
    * mysteryUnlock field stores true if that level is unlocked, false otherwise
    */
-  private boolean mysteryUnlock;
-
+  private boolean isMysteryUnlock;
 
 
   public MainMenu(GameScreenStack theManager) {
@@ -256,29 +234,29 @@ public class MainMenu extends GameScreen {
         stopBackgroundMusic();
         switch(this.myOptionMenu[mySelected]) {
           case CHARACTER_SELECT:
-            gameScreenStack.addScreen(new CharacterScreen(gameScreenStack, myProgress));
+            myGameScreenStack.addScreen(new CharacterScreen(myGameScreenStack, myProgress));
             break;
             case QUIT_GAME:
             System.exit(0);
             break;
           case POLYMORPHISM:
             if(!heroType.equals(""))
-            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, heroImage, 3, myHeroIndex, 1, myProgress));
+            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 3, myHeroIndex, 1, myProgress));
             break;
           case ENCAPSULATION:
             if(!heroType.equals(""))
-            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, heroImage, 4, myHeroIndex, 2, myProgress));
+            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 4, myHeroIndex, 2, myProgress));
             break;
           case INHERITANCE:
             if(!heroType.equals(""))
-            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, heroImage, 5, myHeroIndex, 3, myProgress));
+            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 5, myHeroIndex, 3, myProgress));
             break;
           case ABSTRACTION:
             if(!heroType.equals(""))
-            gameScreenStack.addScreen(new PlayingScreen(gameScreenStack, heroImage, 6, myHeroIndex, 4, myProgress));
+            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 6, myHeroIndex, 4, myProgress));
             break;
           case BATTLE_SCREEN:
-            gameScreenStack.addScreen(new BattleScreen(gameScreenStack, myHero, new Skeleton()));
+            myGameScreenStack.addScreen(new BattleScreen(myGameScreenStack, myHero, new Skeleton()));
             break;
           case SAVE_GAME:
             String saveFileName = JOptionPane.showInputDialog("Enter a name for your save file:");
@@ -326,7 +304,7 @@ public class MainMenu extends GameScreen {
       case 2 -> isEncapsulationUnlock;
       case 3 -> isInheritanceUnlock;
       case 4 -> isAbstractionUnlock;
-      case 5 -> isMysteryUnlocked;
+      case 5 -> isMysteryUnlock;
       default -> false;
     };
   }
@@ -354,7 +332,7 @@ public class MainMenu extends GameScreen {
       case 4:
         isAbstractionUnlock = true;
       case 5:
-        isMysteryUnlocked = true;
+        isMysteryUnlock = true;
     }
   }
 

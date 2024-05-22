@@ -1,5 +1,12 @@
 package Model;
 
+import Model.Character.Healable;
+import Model.Character.Monster;
+import Model.Items.ArchaicBoots;
+import Model.Items.BoneSword;
+import Model.Items.GoldCoin;
+import Model.Items.HealthPotion;
+
 import java.util.Random;
 
 /**
@@ -31,7 +38,7 @@ public class Skeleton extends Monster implements Healable {
      * to it's bag to be looted by heros.
      */
     public Skeleton() {
-        super("Skeleton", 60, 25, 2, 0.1, new GameItem[] {});
+        super("Skeleton", 60, 25, 2, 0.1, getRandomLoot());
         super.pickUpItem(getRandomLoot());
         super.pickUpItem(getRandomLoot());
     }

@@ -1,7 +1,6 @@
 package Model.Items;
 
 import java.io.Serializable;
-
 import java.util.Objects;
 
 /**

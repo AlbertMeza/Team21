@@ -1,6 +1,11 @@
 package Model.Character;
 
+import Model.Items.GameItem;
+
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -160,11 +165,6 @@ public class AbstractCharacter implements Serializable {
 
 
     /**
-     * rand is a Random generator for class usage.
-     */
-    private final Random RANDOM = new Random();
-
-    /**
      * AbstractCharacter constructor initializes all fields.
      *
      * @param theName is the character's name
@@ -183,6 +183,7 @@ public class AbstractCharacter implements Serializable {
       setDodgeRate(theDodgeRate);
       myBag = new Bag(theItems);
       myDeathStatus = false;
+      myImage = DEFAULT_IMAGE_PATH + theName + "Battle.png";
   }
 
     /**
@@ -235,8 +236,6 @@ public class AbstractCharacter implements Serializable {
             throw new IllegalArgumentException("The dodge rate must be a value between 0 and 0.7.");
         }
         myDodgeRate = theDodgeRate;
-        myImage = DEFAULT_IMAGE_PATH + theName + "Battle.png";
-
     }
 
     /**
@@ -463,12 +462,11 @@ public class AbstractCharacter implements Serializable {
               case "Health Potion":
                   int hp = RANDOM.nextInt(HEALTH_POTION_MAX_BOUND) + HEALTH_POTION_MIN;
                   buffHP(hp);
+                  int tempHP = myHP;
                   myBag.removeItem(theItem);
                   result = "Hero drank health potion.\n"
                             + "Hero's health increased " + (myHP - tempHP) + " points!";
                   break;
-                  result = "Hero drank health potion."
-                            + " Hero's health increased to " + myHP + " points!";
               case "Damage Potion":
                   int dp = RANDOM.nextInt(DAMAGE_POTION_MAX_BOUND) + DAMAGE_POTION_MIN;
                   buffDamage(dp);
@@ -579,13 +577,21 @@ public class AbstractCharacter implements Serializable {
       return result;
   }
 
+  public Bag getBag() {
+      return myBag;
+  }
+
+  public int getMaxHP() {
+      return myMaxHP;
+  }
+
     /**
      * inner class Bag is an inventory of game items for the character
      *
      * @author Austin Maggert
      * @version 03may2024
      */
-  private class Bag {
+    public class Bag {
 
         /**
          * myBag field stores the game items in an arraylist

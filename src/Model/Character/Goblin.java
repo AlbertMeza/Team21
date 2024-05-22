@@ -1,44 +1,49 @@
-package Model;
+package Model.Character;
+
+import Model.GoblinSalve;
+import Model.GoblinSwiftPowder;
+import Model.GoblinTricksterTalisman;
+import Model.Items.GameItem;
 
 import java.util.Random;
 
 /**
- * This class represents an ogre monster
+ * This class represents a goblin monster
  *
  * @author Austin Maggert
  * @version Spring 2024
  */
-public class Ogre extends Monster implements Healable {
+public class Goblin extends Monster implements Healable {
 
     /**
      * HEAL_MAX_BOUND constant is the max bound, i.e.
      * range for amount of hp healed
      */
-    private static final int HEAL_MAX_BOUND = 10;
+    private static final int HEAL_MAX_BOUND = 20;
 
     /**
      * HEAL_MIN constant is the minimum hp to be healed
      */
-    private static final int HEAL_MIN = 5;
+    private static final int HEAL_MIN = 10;
 
     /**
-     * RAND constant is for randomness for ogres
+     * RAND constant is for randomness for goblins
      */
     final Random RAND = new Random();
 
     /**
-     * Ogre constructor creates an oogre character and adds 2 random items
+     * Goblin constructor creates a goblin character and adds 2 random items
      * to it's bag to be looted by heros.
      */
-    public Ogre() {
-        super("Ogre", 100, 50, 1, 0.1, new GameItem[] {});
+    public Goblin() {
+        super("Goblin", 70, 30, 3, 0.3, new GameItem[] {});
         super.pickUpItem(getRandomLoot());
         super.pickUpItem(getRandomLoot());
     }
 
     /**
      * getRandomLoot method gets 1 of 4 random game items
-     * to be stored in the ogre's bag
+     * to be stored in the goblin's bag
      *
      * @return returns a random game item for the bag
      */
@@ -47,11 +52,11 @@ public class Ogre extends Monster implements Healable {
         GameItem result = null;
         switch (num) {
             case 0:
-                result = new OgreClub();
+                result = new GoblinSalve();
             case 1:
-                result = new SpeedPotion();
+                result = new GoblinSwiftPowder();
             case 2:
-                result = new GoblinhideCloak();
+                result = new GoblinTricksterTalisman();
             case 3:
                 result = new GoldCoin();
         }
@@ -59,7 +64,7 @@ public class Ogre extends Monster implements Healable {
     }
 
     /**
-     * heal method increases ogre's hp between 5 and 15 points at random
+     * heal method increases goblin's hp between 10 and 30 points at random
      */
     @Override
     public void heal() {

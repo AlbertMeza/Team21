@@ -1,4 +1,8 @@
-package Model;
+package Model.Character;
+
+import Model.Items.GameItem;
+import Model.LeachFang;
+import Model.LeachTonic;
 
 import java.util.Random;
 

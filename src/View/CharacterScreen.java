@@ -115,8 +115,8 @@ public class CharacterScreen extends GameScreen {
         break;
       case KeyEvent.VK_ENTER:
         playSoundEffect(SELECT_EFFECT);
-        gameScreenStack.clearStack();
-        gameScreenStack.addScreen(new MainMenu(gameScreenStack, getHero(), myProgress));//Will this accept a Hero object?
+        myGameScreenStack.clearStack();
+        myGameScreenStack.addScreen(new MainMenu(myGameScreenStack, getHero(), myProgress));//Will this accept a Hero object?
     }
   }
 

@@ -3,6 +3,7 @@ package Model;
 import Controller.AudioManager;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -31,7 +32,7 @@ public abstract class GameScreen {
    * @param manager is the game screen stack this game screen will be on
    */
   protected GameScreen(GameScreenStack manager) {
-    this.gameScreenStack = manager;
+    this.myGameScreenStack = manager;
     try {
       GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
       Font loadedFont = Font.createFont(Font.TRUETYPE_FONT,
@@ -42,8 +43,8 @@ public abstract class GameScreen {
     } catch (FontFormatException | IOException e) {
       e.printStackTrace();
     }
-    myMusicManager = gameScreenStack.getMusicManager();
-    mySoundManager = gameScreenStack.getSoundManger();
+    myMusicManager = myGameScreenStack.getMusicManager();
+    mySoundManager = myGameScreenStack.getSoundManger();
 
   }
 
@@ -84,6 +85,7 @@ public abstract class GameScreen {
    * keyPressed allows key pressed listening events to be managed
    *
    * @param keyCode is the code for the key pressed
+   * @return
    */
   protected abstract void keyPressed(int keyCode);
 

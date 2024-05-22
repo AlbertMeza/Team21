@@ -2,6 +2,7 @@ package Controller;
 
 import Controller.MathHelper.Direction;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * MazeGenerator class creates random 5 x 5 mazes
@@ -14,7 +15,7 @@ public class MazeGenerator {
   /**
    * WORLD_SIZE constant is the dimensions for the maze
    */
-  public static final int WORLD_SIZE = 5;
+  public static int WORLD_SIZE = 5;
 
   /**
    * myPosX is the x position for the hero sprite in the maze
@@ -29,25 +30,26 @@ public class MazeGenerator {
   /**
    * myRoomData field is a 2D arraylist of directions for rooms
    */
-  private final ArrayList<MathHelper.Direction>[][] myRoomData;
+  private HashSet<MathHelper.Direction>[][] myRoomData;
 
   /**
    * myGenerated field is a 2D array of boolean
    * where true when location is traversable, and false otherwise
    */
-  private final boolean[][] myGenerated;
+  private boolean[][] myGenerated;
 
   /**
    * MazeGenerator constructor initializes fields and creates
    * a random maze. It them sets hero location in the maze
    */
   @SuppressWarnings("unchecked")
-  public MazeGenerator(){
-    myRoomData = new ArrayList[WORLD_SIZE][WORLD_SIZE];
+  public void reset(final int theSize) {
+    WORLD_SIZE = theSize;
+    myRoomData = new HashSet[WORLD_SIZE][WORLD_SIZE];
     myGenerated = new boolean[WORLD_SIZE][WORLD_SIZE];
     for(int i = 0; i < myRoomData.length; i++){
       for(int j = 0; j < myRoomData[i].length; j++){
-        this.myRoomData[i][j] = new ArrayList<>();
+        this.myRoomData[i][j] = new HashSet<>();
         this.myGenerated[i][j] = false;
       }
     }
@@ -160,5 +162,17 @@ public class MazeGenerator {
       }
     }
     return true;
+  }
+
+  public HashSet<Direction> getDirForRoom(final int theX, final int theY) {
+    return myRoomData[theX][theY];
+  }
+
+  public int getWorldSize() {
+    return WORLD_SIZE;
+  }
+
+  public HashSet<MathHelper.Direction>[][] getMyRoomData() {
+    return myRoomData;
   }
 }

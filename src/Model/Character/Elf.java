@@ -1,4 +1,7 @@
 package Model;
+import Model.Character.Healable;
+import Model.Character.Hero;
+
 import java.util.Random;
 
 /**
