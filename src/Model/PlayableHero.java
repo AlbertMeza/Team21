@@ -16,18 +16,14 @@ public class PlayableHero extends Rectangle {
   protected boolean myRight;
   private Image myHeroImage;
 
-  public PlayableHero(byte theID, int theX, int theY) {
+  public PlayableHero(byte theID, int theX, int theY, Image theHeroImage) {
     super(theX, theY, 34, 24);
     this.myEntityID = theID;
     this.myUp = false;
     this.myDown = false;
     this.myLeft = false;
     this.myRight = false;
-    try {
-      this.myHeroImage = ImageIO.read(new File("src/Assets/Images/wizard.png"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    this.myHeroImage = theHeroImage;
   }
 
   public byte getID() {

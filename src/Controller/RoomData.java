@@ -25,6 +25,7 @@ public class RoomData {
   private int myWidth;
   private int myHeight;
   private int myLevel;
+
   public RoomData(byte[][] theTilesData, int theLevel, int theWidth, int theHeight, MathHelper.Direction... theExits) {
     this.myTilesData = new Tile[theTilesData.length][theTilesData[0].length];
     for(int i=0;i<this.myTilesData.length;i++) {
@@ -67,6 +68,7 @@ public class RoomData {
         myRightWall = ImageIO.read(new File("src/Assets/Images/rightWall.png"));
         myBlank = ImageIO.read(new File("src/Assets/Images/blank.png"));
       }
+
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -97,7 +99,6 @@ public class RoomData {
         else {
           theGraphics.drawImage(myWallTexture, j * SIZE_X, i * SIZE_Y, SIZE_X, SIZE_Y, null);
         }
-
       }
     }
   }
