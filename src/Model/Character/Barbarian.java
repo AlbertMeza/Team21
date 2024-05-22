@@ -14,6 +14,7 @@ public class Barbarian extends Hero {
      * Barbarian constructor creates a Barbarian hero character
      */
     public Barbarian() {
-        super("Barbarian", 150, 50, 4, 0.3, new GameItem[] {});
+        super("Barbarian", 150, 50,
+                4, 0.3, new GameItem[] {});
     }
 }

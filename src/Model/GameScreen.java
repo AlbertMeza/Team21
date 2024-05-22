@@ -17,10 +17,10 @@ public abstract class GameScreen {
   private final AudioManager mySoundManager;
   private final AudioManager myMusicManager;
   /**
-   * gameScreenStack field is the stack that game screens will be put on
+   * myGameScreenStack field is the stack that game screens will be put on
    */
-  protected GameScreenStack gameScreenStack;
   private Font retroGamingFont;
+  protected GameScreenStack myGameScreenStack;
 
 
 

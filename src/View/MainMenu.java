@@ -19,13 +19,48 @@ import java.util.List;
 
 //Music: “Misty Dungeon”, from PlayOnLoop.com
 //Licensed under Creative Commons by Attribution 4.0
+
+/**
+ * MainMenu class is the screen for the game main menu
+ *
+ * @author Albert Meza, Austin Maggert, and James Simpson
+ * @version Spring 2024
+ */
 public class MainMenu extends GameScreen {
+
+  /**
+   * START_GAME constant for "start screen" text to be displayed
+   */
   private static final String START_GAME = "Start Game";
+
+  /**
+   * POLYMORPHISM constant for "Polymorphsim" text to be displayed
+   */
   private static final String POLYMORPHISM = "Polymorphism";
+
+  /**
+   * ENCAPSULATION constant for "Encapsulation" text to be displayed
+   */
   private static final String ENCAPSULATION = "Encapsulation";
+
+  /**
+   * INHERITANCE constant for "Inheritance" text to be displayed
+   */
   private static final String INHERITANCE = "Inheritance";
+
+  /**
+   * ABSTRACTION constant for "Abstraction" text to be displayed
+   */
   private static final String ABSTRACTION = "Abstraction";
+
+  /**
+   * MYSTERY  constant for "???????" text to be displayed
+   */
   private static String MYSTERY = "???????";
+
+  /**
+   * QUIT_GAME  constant for "Quit Game" text to be displayed
+   */
   private static final String QUIT_GAME = "Quit Game";
   private static final String SAVE_GAME = "Save Game";
   private static final String LOAD_GAME = "Load Game";
@@ -45,8 +80,75 @@ public class MainMenu extends GameScreen {
   private boolean isMysteryUnlocked;
   private Hero myHero;
 
+  /**
+   * SELECT_EFFECT constant is the name of the audio file for selecting an option
+   */
+  private static final String SELECT_EFFECT = "steelsword.wav";
+
+  /**
+   * SWITCH_EFFECT constant is the name of the audio file for switching options
+   */
+  private static final String SWITCH_EFFECT = "215029__taira-komori__extracting_knife.wav";
+
+  /**
+   * START_MENU_MUSIC constant for name of the audio file for background music
+   */
+  private static final String START_MENU_MUSIC = "POL-misty-dungeon-short.wav";
+
+  /**
+   * OPTION_MENU constant stores the gameplay option strings
+   */
+  private final String[] OPTION_MENU;
+
+  /**
+   * mySelected field stores the currently selected game option
+   */
+  private int mySelected;
+
+  /**
+   * SELECTOR_IMAGE constant is the Image for the selector
+   */
+  private Image SELECTOR_IMAGE;
+
+  /**
+   * MENU_BACKGROUND_IMAGE constant is the background image for the menu screen
+   */
+  private Image MENU_BACKGROUND_IMAGE;
+
+  /**
+   * abstractionUnlock field stores true if that level is unlocked, false otherwise
+   */
+  private boolean abstractionUnlock;
+
+  /**
+   * inheritanceUnlock field stores true if that level is unlocked, false otherwise
+   */
+  private boolean inheritanceUnlock;
+
+  /**
+   * encapsulationUnlock field stores true if that level is unlocked, false otherwise
+   */
+  private boolean encapsulationUnlock;
+
+  /**
+   * polymorphismUnlock field stores true if that level is unlocked, false otherwise
+   */
+  private boolean polymorphismUnlock;
+
+  /**
+   * mysteryUnlock field stores true if that level is unlocked, false otherwise
+   */
+  private boolean mysteryUnlock;
 
 
+    /**
+     * MainMenu constructor initializes all fields
+     * and renders the menu screen for the game.
+     *
+     * @param theSM is the game screen stack this menu goes on
+     * @param theMM is the music manager for the game
+     * @param theSEM is the sound effects manager for the game
+     */
   public MainMenu(GameScreenStack theManager) {
     super(theManager);
     String MYSTERY = "???????";
@@ -110,6 +212,7 @@ public class MainMenu extends GameScreen {
       case KeyEvent.VK_S:
         if(this.mySelected < this.myOptionMenu.length-1) this.mySelected++;
         playSoundEffect(SWITCH_EFFECT);
+
         break;
       case KeyEvent.VK_ENTER:
         playSoundEffect(SELECT_EFFECT);
@@ -173,6 +276,7 @@ public class MainMenu extends GameScreen {
     }
   }
 
+
   @Override
   protected void keyReleased(int theKeyCode) {
   }
@@ -188,12 +292,20 @@ public class MainMenu extends GameScreen {
     };
   }
 
+  /**
+   * unlockMystery changes the "?????" to "final level"
+   */
   private void unlockMystery(){
     myOptionMenu[5] = "Final Level";
   }
 
-  private void unlockLevel(int index) {
-    switch (index) {
+  /**
+   * unlockLevel unlocks each level when the level is passed
+   *
+   * @param theLevel is the level to be unlocked
+   */
+  private void unlockLevel(int theLevel) {
+    switch (theLevel) {
       case 1:
         isPolymorphismUnlock = true;
       case 2:

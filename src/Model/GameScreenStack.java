@@ -15,10 +15,10 @@ import java.util.Stack;
  */
 public class GameScreenStack {
 
-/**
- * screens field is the stack that holds all game screens in the game
- */
-  private final Stack<GameScreen> screens;
+  /**
+   * screens field is the stack that holds all game screens in the game
+   */
+  private Stack<GameScreen> myScreens;
 
   private final AudioManager myMusicManager;
   private final AudioManager mySoundManager;
@@ -29,7 +29,7 @@ public class GameScreenStack {
  * initializes the fields
  */
   public GameScreenStack() {
-    this.screens = new Stack<>();
+    myScreens = new Stack<>();
     myMusicManager = new AudioManager();
     mySoundManager = new AudioManager();
     myMusicManager.loadAllAudio(new File("src/Assets/BackgroundMusic"));
@@ -42,21 +42,23 @@ public class GameScreenStack {
  * @param theScreen is the game screen to be added
  */
   public void addScreen(GameScreen theScreen) {
-      this.screens.add(theScreen);
+      myScreens.add(theScreen);
+
+
   }
 
   /**
    * backToPreviousState method pops off the top screen of the stack
    */
   public void backToPreviousState() {
-    this.screens.pop();
+    myScreens.pop();
   }
 
   /**
    * clearStack method empties the stack
    */
   public void clearStack() {
-    this.screens.clear();
+    myScreens.clear();
   }
 
   /**
@@ -64,7 +66,7 @@ public class GameScreenStack {
    */
   public void loop() {
     try {
-      this.screens.peek().loop();
+      myScreens.peek().loop();
     } catch(EmptyStackException e) {
       System.err.println("[GameStateManager]: GameState stack is empty!");
       System.exit(-1);
@@ -78,7 +80,7 @@ public class GameScreenStack {
    */
   public void render(Graphics graphics) {
     try {
-      this.screens.peek().render(graphics);
+      myScreens.peek().render(graphics);
     } catch(EmptyStackException e) {
       System.err.println("[GameStateManager]: GameState stack is empty!");
       System.exit(-1);
@@ -93,7 +95,7 @@ public class GameScreenStack {
    */
   public void keyPressed(int keyCode) {
     try {
-      this.screens.peek().keyPressed(keyCode);
+      myScreens.peek().keyPressed(keyCode);
     } catch(EmptyStackException e) {
       System.err.println("[GameStateManager]: GameState stack is empty!");
       System.exit(-1);
@@ -108,7 +110,7 @@ public class GameScreenStack {
    */
   public void keyReleased(int keyCode) {
     try {
-      this.screens.peek().keyReleased(keyCode);
+      myScreens.peek().keyReleased(keyCode);
     } catch(EmptyStackException e) {
       System.err.println("[GameStateManager]: GameState stack is empty!");
       System.exit(-1);

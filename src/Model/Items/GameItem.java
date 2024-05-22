@@ -2,6 +2,8 @@ package Model.Items;
 
 import java.io.Serializable;
 
+import java.util.Objects;
+
 /**
  * This class represents a game item on an abstract level.
  *
@@ -12,7 +14,7 @@ public abstract class GameItem implements Serializable {
     /**
      * myName field is the name of the game item
      */
-    String myName;
+    private final String myName;
 
     /**
      * GameItem constructor creates an abstract level
@@ -21,7 +23,7 @@ public abstract class GameItem implements Serializable {
      * @param theName is the name for this game item
      */
     public GameItem(String theName) {
-        myName = theName;
+        myName = Objects.requireNonNull(theName);
     }
 
     /**
