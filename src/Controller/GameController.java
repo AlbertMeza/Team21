@@ -35,33 +35,24 @@ public class GameController {
   private static Timer myTimer;
 
   /**
-   * myMusicManager field is for game music management
-   */
-  private static MusicManager myMusicManager;
-
-  /**
-   * mySoundEffectsManager is for game sound effect management
-   */
-  private static SoundEffectsManager soundEffectsManager;
-
-  /**
    * init method initializes the fields
    */
   public static void init() {
     myGameScreenStack = new GameScreenStack();
     myFrameManager = new FrameManager();
     myTimer = new Timer(20, new MainGameLoop());
-    myMusicManager = new MusicManager();
-    soundEffectsManager = new SoundEffectsManager();
-    myMusicManager.loadAllBackgroundMusic();
-    soundEffectsManager.loadAllSoundEffects();
   }
 
   /**
    * start method starts the game, and initializes game play state
    */
   public static void start() {
-    myGameScreenStack.addState(new MainMenu(myGameScreenStack, myMusicManager, soundEffectsManager));
+    myGameScreenStack.addScreen(new MainMenu(myGameScreenStack));
+    myFrameManager.addPanel(new GameScreen());
+    myFrameManager.addKeyListener(new Keyboard());
+    myFrameManager.createWindow();
+    myTimer.start();
+    myGameScreenStack.addScreen(new MainMenu(myGameScreenStack));
     myFrameManager.addPanel(new GameScreen());
     myFrameManager.addKeyListener(new Keyboard());
     myFrameManager.createWindow();
@@ -72,6 +63,7 @@ public class GameController {
    * nested MainGameLoop class provides looping action listening
    */
   private static class MainGameLoop implements ActionListener {
+
     /**
      * actionPerformed method kicks off the loop action
      * in the game screen stack

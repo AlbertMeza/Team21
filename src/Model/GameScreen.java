@@ -1,9 +1,10 @@
 package Model;
 
-import Controller.MusicManager;
-import Controller.SoundEffectsManager;
+import Controller.AudioManager;
 
-import java.awt.Graphics;
+import java.awt.*;
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * This class is the base for each game screen on an abstract level.
@@ -13,20 +14,15 @@ import java.awt.Graphics;
  */
 public abstract class GameScreen {
 
+  private final AudioManager mySoundManager;
+  private final AudioManager myMusicManager;
   /**
-   * myGameScreenStack field is the stack that game screens will be put on
+   * gameScreenStack field is the stack that game screens will be put on
    */
-  protected GameScreenStack myGameScreenStack;
+  protected GameScreenStack gameScreenStack;
+  private Font retroGamingFont;
 
-  /**
-   * myMusicManager is the manager implementing game screens can get music from
-   */
-  protected MusicManager myMusicManager;
 
-  /**
-   * mySoundEffectsManager is the manager the game screen gets sound effects from
-   */
-  protected SoundEffectsManager mySoundEffectsManager;
 
   /**
    * GameScreen constructor creates an instance of game screen and puts it
@@ -35,16 +31,42 @@ public abstract class GameScreen {
    * @param manager is the game screen stack this game screen will be on
    */
   protected GameScreen(GameScreenStack manager) {
-    this.myGameScreenStack = manager;
+    this.gameScreenStack = manager;
+    try {
+      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+      Font loadedFont = Font.createFont(Font.TRUETYPE_FONT,
+              Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("Assets/fonts/Retro Gaming.ttf")));
+      ge.registerFont(loadedFont);
+      int desiredFontSize = 40;
+      retroGamingFont = loadedFont.deriveFont((float) desiredFontSize);
+    } catch (FontFormatException | IOException e) {
+      e.printStackTrace();
+    }
+    myMusicManager = gameScreenStack.getMusicManager();
+    mySoundManager = gameScreenStack.getSoundManger();
+
   }
 
-  /**
-   * setSoundManager method sets the sound manager for implementing game screens
-   *
-   * @param musicManager is the music manager to be used
-   */
-  public void setSoundManager(MusicManager musicManager) {
-    this.myMusicManager = musicManager;
+  public Font getCustomFont() {
+    return retroGamingFont;
+  }
+
+  protected void playBackgroundMusic(String musicKey) {
+    if (myMusicManager != null) {
+      myMusicManager.playAudio(musicKey, true);
+    } else {
+      System.out.println("DEBUG: null music file");
+    }
+  }
+
+  protected void playSoundEffect(String effectKey) {
+    if (mySoundManager != null) {
+      mySoundManager.playAudio(effectKey, false);
+    }
+  }
+
+  protected void stopBackgroundMusic() {
+    mySoundManager.stopAudio();
   }
 
   /**
@@ -71,22 +93,4 @@ public abstract class GameScreen {
    * @param keyCode is the code for the key released
    */
   protected abstract void keyReleased(int keyCode);
-
-  /**
-   * playBackgroundMusic enables the playing of background music
-   */
-  protected abstract void playBackgroundMusic();
-
-  /**
-   * stopBackgoundMusic enables stopping of background music
-   */
-  protected abstract void stopBackgroundMusic();
-
-  /**
-   * playSoundEfect enables playing sound effects
-   *
-   * @param theEffectName is the name of the sound effect to be played
-   */
-  protected abstract void playSoundEffect(String theEffectName);
-
 }

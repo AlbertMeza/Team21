@@ -1,8 +1,9 @@
 package Model;
 
-import Controller.MusicManager;
+import Controller.AudioManager;
 
 import java.awt.Graphics;
+import java.io.File;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
@@ -14,48 +15,48 @@ import java.util.Stack;
  */
 public class GameScreenStack {
 
-  /**
-   * screens field is the stack that holds all game screens in the game
-   */
-  private Stack<GameScreen> myScreens;
+/**
+ * screens field is the stack that holds all game screens in the game
+ */
+  private final Stack<GameScreen> screens;
+
+  private final AudioManager myMusicManager;
+  private final AudioManager mySoundManager;
+
 
   /**
-   * musicManager field is the music manager for the game
-   */
-  private MusicManager myMusicManager;
-
-  /**
-   * GameScreenStack constructor makes a game screen stack and
-   * initializes the fields
-   */
+ * GameScreenStack constructor makes a game screen stack and
+ * initializes the fields
+ */
   public GameScreenStack() {
-    myScreens = new Stack<>();
-    myMusicManager = new MusicManager();
+    this.screens = new Stack<>();
+    myMusicManager = new AudioManager();
+    mySoundManager = new AudioManager();
+    myMusicManager.loadAllAudio(new File("src/Assets/BackgroundMusic"));
+    mySoundManager.loadAllAudio(new File("src/Assets/SoundEffects"));
   }
 
-  /**
-   * addState method puts a game screen on the stack
-   *
-   * @param state is the game screen to be added
-   */
-  public void addState(GameScreen state) {
-    state.setSoundManager(myMusicManager);
-    myScreens.add(state);
-
+/**
+ * addState method puts a game screen on the stack
+ *
+ * @param theScreen is the game screen to be added
+ */
+  public void addScreen(GameScreen theScreen) {
+      this.screens.add(theScreen);
   }
 
   /**
    * backToPreviousState method pops off the top screen of the stack
    */
   public void backToPreviousState() {
-    myScreens.pop();
+    this.screens.pop();
   }
 
   /**
    * clearStack method empties the stack
    */
   public void clearStack() {
-    myScreens.clear();
+    this.screens.clear();
   }
 
   /**
@@ -63,7 +64,7 @@ public class GameScreenStack {
    */
   public void loop() {
     try {
-      myScreens.peek().loop();
+      this.screens.peek().loop();
     } catch(EmptyStackException e) {
       System.err.println("[GameStateManager]: GameState stack is empty!");
       System.exit(-1);
@@ -77,7 +78,7 @@ public class GameScreenStack {
    */
   public void render(Graphics graphics) {
     try {
-      myScreens.peek().render(graphics);
+      this.screens.peek().render(graphics);
     } catch(EmptyStackException e) {
       System.err.println("[GameStateManager]: GameState stack is empty!");
       System.exit(-1);
@@ -92,7 +93,7 @@ public class GameScreenStack {
    */
   public void keyPressed(int keyCode) {
     try {
-      myScreens.peek().keyPressed(keyCode);
+      this.screens.peek().keyPressed(keyCode);
     } catch(EmptyStackException e) {
       System.err.println("[GameStateManager]: GameState stack is empty!");
       System.exit(-1);
@@ -107,10 +108,18 @@ public class GameScreenStack {
    */
   public void keyReleased(int keyCode) {
     try {
-      myScreens.peek().keyReleased(keyCode);
+      this.screens.peek().keyReleased(keyCode);
     } catch(EmptyStackException e) {
       System.err.println("[GameStateManager]: GameState stack is empty!");
       System.exit(-1);
     }
+  }
+
+  public AudioManager getMusicManager() {
+    return myMusicManager;
+  }
+
+  public AudioManager getSoundManger() {
+    return mySoundManager;
   }
 }
