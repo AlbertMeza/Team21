@@ -65,10 +65,10 @@ public class OgreLoot {
             if(myLoot[i].getItemName().equals("Ogre Club")) {
                 loot[i] = new OgreClub();
             } else if (myLoot[i].getItemName().equals("Speed Potion")) {
-                loot[i] = new Model.SpeedPotion();
+                loot[i] = new SpeedPotion();
             } else if(myLoot[i].getItemName().equals("Goblinhide Cloak")) {
                 loot[i] = new GoblinhideCloak();
-            } else loot[i] = new Model.GoldCoin();
+            } else loot[i] = new GoldCoin();
         }
         return loot;
     }
@@ -84,10 +84,10 @@ public class OgreLoot {
         if (myLoot[0].getItemName().equals("Ogre Club")) {
             loot = new OgreClub();
         } else if (myLoot[0].getItemName().equals("Speed Potion")) {
-            loot = new Model.SpeedPotion();
+            loot = new SpeedPotion();
         } else if(myLoot[0].getItemName().equals("Goblinhide Cloak")) {
             loot = new GoblinhideCloak();
-        } else loot = new Model.GoldCoin();
+        } else loot = new GoldCoin();
         return loot;
     }
 

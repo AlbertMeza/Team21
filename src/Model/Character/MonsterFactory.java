@@ -107,7 +107,8 @@ public class MonsterFactory {
         try ( Connection conn = ds.getConnection();
               Statement stmt = conn.createStatement(); ) {
             int rv = stmt.executeUpdate( query );
-            System.out.println( "executeUpdate() returned " + rv );
+            stmt.close();
+            conn.close();
         } catch ( SQLException e ) {
             e.printStackTrace();
             System.exit( 0 );
@@ -133,16 +134,11 @@ public class MonsterFactory {
         try ( Connection conn = ds.getConnection();
               Statement stmt = conn.createStatement(); ) {
             int rv = stmt.executeUpdate( query1 );
-            System.out.println( "1st executeUpdate() returned " + rv );
-
             rv = stmt.executeUpdate( query2 );
-            System.out.println( "2nd executeUpdate() returned " + rv );
-
             rv = stmt.executeUpdate( query3 );
-            System.out.println( "3rd executeUpdate() returned " + rv );
-
             rv = stmt.executeUpdate( query4 );
-            System.out.println( "4th executeUpdate() returned " + rv );
+            stmt.close();
+            conn.close();
         } catch ( SQLException e ) {
             e.printStackTrace();
             System.exit( 0 );
@@ -171,14 +167,13 @@ public class MonsterFactory {
                 int healMin = rs.getInt("HEAL_MIN");
                 int healMaxBound = rs.getInt("HEAL_MAX_BOUND");
                 myMonsters[count++] = new Monster(name, hp, damage, speed, dodgeRate, healMin, healMaxBound);
+                stmt.close();
+                conn.close();
             }
         } catch ( SQLException e ) {
             e.printStackTrace();
             System.exit( 0 );
         }
-        System.out.println("press enter to close program/window");
-        Scanner input = new Scanner(System.in);
-        input.nextLine();
     }
 
     /**

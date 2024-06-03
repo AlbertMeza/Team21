@@ -1,16 +1,16 @@
 package Model.Tests;
 
 import Model.Character.AbstractCharacter;
-import Model.Character.Monster;
+import Model.Character.Hero;
 import Model.Items.GameItem;
 
 /**
- * This class tests Monster class
+ * This class tests Hero class
  *
  * @author Austin Maggert
  * @version Spring 2024
  */
-public class MonsterTests {
+public class HeroTests {
 
     /**
      * main method to call test methods
@@ -18,7 +18,7 @@ public class MonsterTests {
      * @param theArgs is any command line arguments
      */
     public static void main(String[] theArgs) {
-        AbstractCharacter myCharacter = new Monster("Skeleton", 25, 25, 5, 0.5, 5, 5);
+        AbstractCharacter myCharacter = new Hero("Rogue", 25, 25, 5, 0.5, new GameItem[] {});
         System.out.println(verifyName(myCharacter));
         System.out.println(verifyHP(myCharacter));
         System.out.println(verifyDamage(myCharacter));
@@ -34,7 +34,7 @@ public class MonsterTests {
      * @return String whether name was properly set
      */
     private static String verifyName(AbstractCharacter theCharacter) {
-        if ("Skeleton".equals(theCharacter.getName())) {
+        if ("Rogue".equals(theCharacter.getName())) {
             return "Name set correctly";
         } else return "Name not set correctly!";
     }

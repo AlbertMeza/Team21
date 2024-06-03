@@ -20,13 +20,15 @@ public class GoldCoin extends GameItem {
     }
 
     /**
-     * useItem doesn't currently do anything
-     * for Gold Coins
+     * useItem buffs all stats a little and heals to max hp
      *
-     * @param theCharacter is the hero trying to use the gold coin
+     * @param theCharacter is the hero using to use the gold coin
      */
     @Override
     public void useItem(AbstractCharacter theCharacter) {
-        //add an action for this item here
+        theCharacter.buffMaxHP(5);
+        theCharacter.buffDamage(5);
+        theCharacter.buffSpeed(1);
+        theCharacter.buffDodgeRate(0.1);
     }
 }

@@ -68,7 +68,7 @@ public class LeachLoot {
                 loot[i] = new EvasionPotion();
             } else if(myLoot[i].getItemName().equals("Leach Tonic")) {
                 loot[i] = new LeachTonic();
-            } else loot[i] = new Model.GoldCoin();
+            } else loot[i] = new GoldCoin();
         }
         return loot;
     }
@@ -87,7 +87,7 @@ public class LeachLoot {
             loot = new EvasionPotion();
         } else if(myLoot[0].getItemName().equals("Leach Tonic")) {
             loot = new LeachTonic();
-        } else loot = new Model.GoldCoin();
+        } else loot = new GoldCoin();
         return loot;
     }
 
