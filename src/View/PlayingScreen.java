@@ -1,8 +1,5 @@
 package View;
 
-import static View.FrameManager.getWidth;
-
-import Controller.MathHelper;
 import Controller.MathHelper.Direction;
 import Controller.MazeGenerator;
 import Controller.RoomData;
@@ -25,11 +22,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
+import static View.FrameManager.getWidth;
+
+/**
+ * PlayingScreen class is the screen for rooms in the dungeon
+ *
+ * @author Albert Meza, Austin Maggert, and James Simpson
+ * @version Spring 2024
+ */
 public class PlayingScreen extends GameScreen {
+  private PlayableHero myPlayer;
 
   private final MazeGenerator myGenerator;
   private Dungeon myDungeon;
@@ -48,7 +52,8 @@ public class PlayingScreen extends GameScreen {
   private final int myLevel;
 
   private Image myEndingImg;
-
+  private final boolean[][] myProgress;
+  private final int myHeroIndex;
   private final boolean[][] myProgress;
   private final int myHeroIndex;
   private boolean isBattleTextVisible;
@@ -112,6 +117,9 @@ public class PlayingScreen extends GameScreen {
     lightningBolts = new ArrayList<>();
   }
 
+  /**
+   * loop method is for any looping events during game play
+   */
   @Override
   protected void loop() {
     this.myPlayer.move();
@@ -135,6 +143,11 @@ public class PlayingScreen extends GameScreen {
     handleMonsterCollision();
   }
 
+  /**
+   * render method displays the screen
+   *
+   * @param graphics is the graphics for game controller
+   */
   @Override
   protected void render(Graphics graphics) {
     myDungeon.getRoom().getMyData().render(graphics);
@@ -265,6 +278,11 @@ public class PlayingScreen extends GameScreen {
     graphics.drawString("Menu Display", x + 40, 60 + 20);
   }
 
+  /**
+   * keyPressed method enables handling key press events
+   *
+   * @param keyCode is the code for the key pressed
+   */
   @Override
   protected void keyPressed(int keyCode) {
     switch (keyCode) {
@@ -298,12 +316,12 @@ public class PlayingScreen extends GameScreen {
         int choice = -1;
         while (choice != JOptionPane.YES_OPTION && choice != JOptionPane.NO_OPTION) {
           choice = JOptionPane.showConfirmDialog(null,
-              "Do you want to go back to the home screen?", "Quit Confirmation",
-              JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, escapeIcon);
+                  "Do you want to go back to the home screen?", "Quit Confirmation",
+                  JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, escapeIcon);
         }
         if (choice == JOptionPane.YES_OPTION) {
-          gameScreenStack.clearStack();
-          gameScreenStack.addScreen(new MainMenu(gameScreenStack, myHeroIndex, myProgress));
+          myGameScreenStack.clearStack();
+          myGameScreenStack.addScreen(new MainMenu(myGameScreenStack, myHeroIndex, myProgress));
         }
         break;
       case KeyEvent.VK_T:
@@ -377,10 +395,19 @@ public class PlayingScreen extends GameScreen {
           }
         }
         break;
-
+          myGameScreenStack.clearStack();
+          myGameScreenStack.addScreen(new MainMenu(myGameScreenStack, myHeroIndex, myProgress));
+        });
+        break;
     }
   }
 
+
+  /**
+   * keyReleased method enables handling key release events
+   *
+   * @param keyCode is the code for the key pressed
+   */
   @Override
   protected void keyReleased(int keyCode) {
     switch (keyCode) {
@@ -393,6 +420,12 @@ public class PlayingScreen extends GameScreen {
 
   }
 
+  /**
+   * playSoundEffect method plays sound effects
+   * when their coordinating string name is passed
+   *
+   * @param theEffectName is the name of the sound effect to be played
+   */
   @Override
   protected void playSoundEffect(String theEffectName) {
 

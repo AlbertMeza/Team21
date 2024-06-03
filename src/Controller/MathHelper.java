@@ -19,11 +19,14 @@ public class MathHelper {
    * randomInt method provides a random value between 0 and
    * the passed param upper bound, not including the upper bound
    *
-   * @param theUpperBound is the value 1 more than the max random value
+   * @param upperBound is the value 1 more than the max random value
    * @return returns a random int between 0 inclusive and the upperBound exclusive
    */
-  public static int randomInt(int theUpperBound){
-    return RANDOM.nextInt(theUpperBound);
+  public static int randomInt(int upperBound){
+    if(upperBound < 2) {
+      throw new IllegalArgumentException("Upper bound must be at least 2");
+    }
+    return RANDOM.nextInt(upperBound);
   }
 
   /**
@@ -63,38 +66,40 @@ public class MathHelper {
     /**
      * dirX variable is the change in x for the direction of the enum
      */
-    public int myDirX;
+    public int dirX;
 
     /**
      * dirY variable is the change in y for the direction of the enum
      */
-    public int myDirY;
+    public int dirY;
 
     /**
      * opposite variable is the opposite direction enum for each direction enum
      */
-    public Direction myOpposite;
+    public Direction opposite;
 
     /**
      * declares opposite directions for each direction
      */
     static {
-      NORTH.myOpposite = SOUTH;
-      SOUTH.myOpposite = NORTH;
-      WEST.myOpposite = EAST;
-      EAST.myOpposite = WEST;
+      NORTH.opposite = SOUTH;
+      SOUTH.opposite = NORTH;
+      WEST.opposite = EAST;
+      EAST.opposite = WEST;
     }
 
     /**
      * Direction constructor creates a direction enum based on
      * changes in x and y.
      *
-     * @param theDirX is the change in x
-     * @param theDirY is the change in y
+     * @param dirX is the change in x
+     * @param dirY is the change in y
      */
-    private Direction(int theDirX, int theDirY) {
-      this.myDirX = theDirX;
-      this.myDirY = theDirY;
+    private Direction(int dirX, int dirY) {
+      if (dirX > 0 && dirY > 0) {
+        this.dirX = dirX;
+        this.dirY = dirY;
+      }
     }
   }
 }

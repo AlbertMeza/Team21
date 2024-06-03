@@ -15,7 +15,6 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -214,7 +213,9 @@ public class BattleScreen extends GameScreen {
 
     /**
      * Navigates the battle options.
+     *
      * @param keyCode the key that has been pressed.
+     * @return
      */
     @Override
     protected void keyPressed(int keyCode) {
@@ -251,7 +252,7 @@ public class BattleScreen extends GameScreen {
                         }
                         break;
                     case INVENTORY:
-                        gameScreenStack.addScreen(new InventoryScreen(gameScreenStack, myHero));
+                        myGameScreenStack.addScreen(new InventoryScreen(myGameScreenStack, myHero));
                         break;
                     case ESCAPE:
                         if (currentMenu == optionMenu) {
@@ -261,12 +262,12 @@ public class BattleScreen extends GameScreen {
                         if (currentMenu == returnMenu) {
                             // Handle return option upon victory
                         }
-                        gameScreenStack.backToPreviousState();
+                        myGameScreenStack.backToPreviousState();
                         break;
                     case END_GAME:
                         if (currentMenu == gameOverMenu) {
-                            gameScreenStack.clearStack();
-                            gameScreenStack.addScreen(new MainMenu(gameScreenStack));
+                            myGameScreenStack.clearStack();
+                            myGameScreenStack.addScreen(new MainMenu(myGameScreenStack));
                             // Handle end game scenario
                         }
                         break;

@@ -1,6 +1,11 @@
-package Model.Character;
+package Model;
 
-import Model.Items.*;
+import Model.Character.Healable;
+import Model.Character.Monster;
+import Model.Items.ArchaicBoots;
+import Model.Items.BoneSword;
+import Model.Items.GoldCoin;
+import Model.Items.HealthPotion;
 
 import java.util.Random;
 
@@ -13,16 +18,29 @@ import java.util.Random;
 public class Skeleton extends Monster implements Healable {
 
     /**
+     * HEAL_MAX_BOUND constant is the max bound, i.e.
+     * range for amount of hp healed
+     */
+    private static final int HEAL_MAX_BOUND = 20;
+
+    /**
+     * HEAL_MIN constant is the minimum hp to be healed
+     */
+    private static final int HEAL_MIN = 5;
+
+    /**
      * RAND constant is for randomness for skeletons
      */
     static final Random RAND = new Random();
 
     /**
-     * Skeleton constructor creates a skeleton character and adds 1 random item
+     * Skeleton constructor creates a skeleton character and adds 2 random items
      * to it's bag to be looted by heros.
      */
     public Skeleton() {
-        super("Skeleton", 60, 25, 1, 0.1, new GameItem[]{getRandomLoot()});
+        super("Skeleton", 60, 25, 2, 0.1, getRandomLoot());
+        super.pickUpItem(getRandomLoot());
+        super.pickUpItem(getRandomLoot());
     }
 
     /**
@@ -47,7 +65,7 @@ public class Skeleton extends Monster implements Healable {
      */
     @Override
     public void heal() {
-        int healAmount = RAND.nextInt(20) + 5;
+        int healAmount = RAND.nextInt(HEAL_MAX_BOUND) + HEAL_MIN;
         super.buffHP(healAmount);
     }
 }

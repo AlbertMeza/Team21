@@ -4,7 +4,7 @@ import Model.Items.GameItem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -15,6 +15,106 @@ import java.util.Random;
  * @version Spring 2024
  */
 public class AbstractCharacter implements Serializable {
+
+    /**
+     * HEALTH_POTION_MAX_BOUND constant is the max bound, i.e. the
+     * range for the amount of hp to be returned by health potion
+     */
+    private static final int HEALTH_POTION_MAX_BOUND = 15;
+
+    /**
+     * HEALTH_POTION_MIN constant is the minimum amount
+     * of hp to be returned by health potion
+     */
+    private static final int HEALTH_POTION_MIN = 15;
+
+    /**
+     * DAMAGE_POTION_MAX_BOUND constant is the max bound, i.e. the
+     * range for the amount of damage points to be buffed by damage potion
+     */
+    private static final int DAMAGE_POTION_MAX_BOUND = 10;
+
+    /**
+     * DAMAGE_POTION_MIN constant is the minimum amount
+     * of damage to be buffed by damage potion
+     */
+    private static final int DAMAGE_POTION_MIN = 5;
+
+    /**
+     * SPEED_POTION_MAX_BOUND constant is the max bound, i.e. the
+     * range for the amount of speed points to be buffed by speed potion
+     */
+    private static final int SPEED_POTION_MAX_BOUND = 3;
+
+    /**
+     * SPEED_POTION_MIN constant is the minimum amount
+     * of speed points to be buffed by speed potion
+     */
+    private static final int SPEED_POTION_MIN = 1;
+
+    /**
+     * EVASION_POTION_MAX_BOUND constant is the max bound, i.e. the range
+     * for the amount of evasion percentage to be buffed by evasion potion
+     */
+    private static final int EVASION_POTION_MAX_BOUND = 2;
+
+    /**
+     * EVASION_POTION_MIN constant is the minimum amount
+     * of evasion percentage to be buffed by evasion potion
+     */
+    private static final double EVASION_POTION_MIN = 0.5;
+
+    /**
+     * BOOT_SPEED_BUFF constant is the amount
+     * of speed points to be buffed by boots
+     */
+    private static final int BOOT_SPEED_BUFF = 1;
+
+    /**
+     * BONE_SWORD_BUFF constant is the amount
+     * of damage points to be buffed by Bone Sword
+     */
+    private static final int BONE_SWORD_BUFF = 10;
+
+    /**
+     * SOUL_CHARM_HP_BUFF is the buff to max hp if
+     * hp is randomly chosen for soul charm buff
+     */
+    private static final int SOUL_CHARM_HP_BUFF = 25;
+
+    /**
+     * SOUL_CHARM_DAMAGE_BUFF is the buff to damage if
+     * damage is randomly chosen for soul charm buff
+     */
+    private static final int SOUL_CHARM_DAMAGE_BUFF = 25;
+
+    /**
+     * SOUL_CHARM_SPEED_BUFF is the buff to speed if
+     * speed is randomly chosen for soul charm buff
+     */
+    private static final int SOUL_CHARM_SPEED_BUFF = 3;
+
+    /**
+     * SOUL_CHARM_EVASION_BUFF is the buff to dodge rate if
+     * evasion is randomly chosen for soul charm buff
+     */
+    private static final double SOUL_CHARM_EVASION_BUFF = 0.3;
+    private static final int LEACH_TONIC_BUFF = 15;
+    private static final int LEACH_FANG_BUFF = 5;
+    private static final int GOBLIN_SWIFT_POWDER_BUFF = 1;
+    private static final double GOBLIN_TRICKSTER_TALISMAN_BUFF = 0.15;
+    private static final int GOBLIN_SALVE_BUFF = 25;
+    private static final int OGRE_CLUB_BUFF = 20;
+    private static final double GOBLINHIDE_CLOAK_BUFF = 0.15;
+
+    /**
+     * RANDOM constant is a Random generator for class usage.
+     */
+    private final Random RANDOM = new Random();
+    /**
+     * MAX_DODGE_RATE is the max allowed dodge rate
+     */
+    double MAX_DODGE_RATE = 0.7;
 
     /**
      * myName field is the name of the character.
@@ -65,11 +165,6 @@ public class AbstractCharacter implements Serializable {
 
 
     /**
-     * rand is a Random generator for class usage.
-     */
-    private final Random RANDOM = new Random();
-
-    /**
      * AbstractCharacter constructor initializes all fields.
      *
      * @param theName is the character's name
@@ -81,16 +176,67 @@ public class AbstractCharacter implements Serializable {
      */
   public  AbstractCharacter(String theName, int theHP, int theDamage, int theSpeed,
                             double theDodgeRate, GameItem[] theItems) {
-      myName = theName;
-      myHP = theHP;
-      myMaxHP = theHP;
-      myDamage = theDamage;
-      mySpeed = theSpeed;
-      myDodgeRate = theDodgeRate;
+      myName = Objects.requireNonNull(theName);
+      setHPs(theHP);
+      setDamage(theDamage);
+      setSpeed(theSpeed);
+      setDodgeRate(theDodgeRate);
       myBag = new Bag(theItems);
       myDeathStatus = false;
       myImage = DEFAULT_IMAGE_PATH + theName + "Battle.png";
   }
+
+    /**
+     * setHP checks the input is valid. if so, it assigns the
+     * parameter to myHP and myMaxHP fields. if not, it throws an exception.
+     *
+     * @param theHP is the initial health points for this character
+     */
+    private void setHPs(int theHP) {
+        if (theHP <= 0) {
+            throw new IllegalArgumentException("The HP must be a positive integer.");
+        }
+        myHP = theHP;
+        myMaxHP = theHP;
+    }
+
+    /**
+     * setDamage checks the input is valid. if so, it assigns the
+     * parameter to myDamage field. if not, it throws an exception.
+     *
+     * @param theDamage is the damage points for this character
+     */
+    private void setDamage(int theDamage) {
+        if (theDamage <= 0) {
+            throw new IllegalArgumentException("The damage must be a positive integer.");
+        }
+        myDamage = theDamage;
+    }
+
+    /**
+     * setSpeed checks the input is valid. if so, it assigns the
+     * parameter to mySpeed field. if not, it throws an exception.
+     *
+     * @param theSpeed is the speed points for this character
+     */
+    private void setSpeed(int theSpeed) {
+        if (theSpeed <= 0) {
+            throw new IllegalArgumentException("theHP must be a positive integer.");
+        }
+    }
+
+    /**
+     * setDodgeRate checks the input is valid. if so, it assigns the
+     * parameter to myDodgeRate field. if not, it throws an exception.
+     *
+     * @param theDodgeRate is the dodge rate (0 - 1) for this character
+     */
+    private void setDodgeRate(double theDodgeRate) {
+        if (theDodgeRate < 0 || theDodgeRate > MAX_DODGE_RATE) {
+            throw new IllegalArgumentException("The dodge rate must be a value between 0 and 0.7.");
+        }
+        myDodgeRate = theDodgeRate;
+    }
 
     /**
      * attacked method receives an attack damage. Then it determines if the hit
@@ -101,6 +247,9 @@ public class AbstractCharacter implements Serializable {
      * @return returns boolean true when the attack lands, and false otherwise
      */
   public boolean attacked(int theDamage) {
+      if (theDamage <= 0) {
+          throw new IllegalArgumentException("Damage must be a positive integer.");
+      }
       boolean hitLanded = false;
       double dodge = RANDOM.nextDouble();
       if (dodge >= myDodgeRate) {
@@ -118,13 +267,18 @@ public class AbstractCharacter implements Serializable {
      *
      * @param theDamage is the damage to be deducted from this character's hp
      */
-  public void takeDamage(int theDamage) {
+  private void takeDamage(int theDamage) {
       myHP = myHP - theDamage;
       if (myHP < 1) {
           myHP = 0;
           myDeathStatus = true;
       }
   }
+
+    /**
+     * getName method returns the character's name/type
+     */
+    public String getName() {return myName;}
 
     /**
      * getHP method returns the character's current health points
@@ -154,46 +308,15 @@ public class AbstractCharacter implements Serializable {
   }
 
     /**
-     * Image representing this character.
-     * @return Character image string.
-     */
-    public String getImage() {
-        return myImage;
-    }
-
-    /**
-     * Gets the name of the character.
-     * @return Character name string
-     */
-    public String getName() {
-        return myName;
-    }
-
-    /**
-     * Gets the character's max HP.
-     * @return Character maxHP int.
-     */
-    public int getMaxHP() {
-        return myMaxHP;
-    }
-
-    /**
-     * Getter for dodge rate
-     * @return Character dodge rate.
-     */
-    public double getDodgeRate() {
-        return myDodgeRate;
-    }
-
-    /**
      * attack method receives another character and attempts an attack on that
-     * character. It will return true if the attack lands, and false otherwise.
+     * character. It will return truee if the attack lands, and false otherwise.
      *
      * @param theOtherCharacter is the character to be attacked
      * @return returns true when attack lands and false otherwise
      */
   public boolean attack(AbstractCharacter theOtherCharacter) {
-      return theOtherCharacter.attacked(myDamage);
+      boolean attackLanded = theOtherCharacter.attacked(myDamage);
+      return attackLanded;
   }
 
     /**
@@ -203,6 +326,9 @@ public class AbstractCharacter implements Serializable {
      * @param theHP is the points to be added to hp, up to max hp
      */
   public void buffHP(int theHP) {
+      if (theHP < 1) {
+          throw new IllegalArgumentException("HP boost must be a positive integer");
+      }
       myHP += theHP;
       if (myHP > myMaxHP) {
           myHP = myMaxHP;
@@ -216,6 +342,9 @@ public class AbstractCharacter implements Serializable {
      * @param theHP is the points to be added to max HP
      */
     public void buffMaxHP(int theHP) {
+        if (theHP <= 0) {
+            throw new IllegalArgumentException("Max HP buff must be a positive integer");
+        }
         myMaxHP += theHP;
         myHP = myMaxHP;
     }
@@ -227,6 +356,9 @@ public class AbstractCharacter implements Serializable {
      * @param theDamage are the damage points to be added.
      */
   public void buffDamage(int theDamage) {
+      if (theDamage <= 0) {
+          throw new IllegalArgumentException("Damage buff must be a positive integer");
+      }
       myDamage += theDamage;
   }
 
@@ -237,6 +369,9 @@ public class AbstractCharacter implements Serializable {
      * @param theSpeed are the speed points to be added.
      */
   public void buffSpeed(int theSpeed) {
+      if (theSpeed <= 0) {
+          throw new IllegalArgumentException("Speed buff must be a positive integer");
+      }
       mySpeed += theSpeed;
   }
 
@@ -247,9 +382,12 @@ public class AbstractCharacter implements Serializable {
      * @param theDodgeRate is the dodge rate to be added up to max.
      */
   public void buffDodgeRate(double theDodgeRate) {
+      if (theDodgeRate <= 0) {
+          throw new IllegalArgumentException("Dodge rate buff must be a positive double");
+      }
       myDodgeRate += theDodgeRate;
-      if (myDodgeRate > 0.7) {
-          myDodgeRate = 0.7;
+      if (myDodgeRate > MAX_DODGE_RATE) {
+          myDodgeRate = MAX_DODGE_RATE;
       }
   }
 
@@ -262,32 +400,51 @@ public class AbstractCharacter implements Serializable {
         return myDeathStatus;
     }
 
-//    /**
-//     * addItemToBag receives an item and puts it into the character's bag
-//     *
-//     * @param theItem is the item to be stored in the bag
-//     */
-//  public void addItemToBag(GameItem theItem) {
-//      myBag.addItem(theItem);
-//  }
+    /**
+     * addItemToBag receives an item and puts it into the character's bag
+     *
+     * @param theItem is the item to be stored in the bag
+     */
+  public void pickUpItem(GameItem theItem) {
+      if (null == theItem) {
+          throw new IllegalArgumentException("Item must not be null");
+      }
+      myBag.addItem(theItem);
+  }
 
-  // this method is only to be kept if a monster is capable of carrying more than one item. getReward() in monster
-    // class returns an array of GameItem. Should it instead return only the 1st item in their inventory/the only item?
     /**
      * Method used when defeating monster to add the monster's rewards to the player's bag.
      * @param theRewards Array of items in monster's inventory.
      */
-  public void addRewardsToBag(GameItem[] theRewards) {
-      StringBuilder sb = new StringBuilder();
-      sb.append(theRewards[0]);
-      myBag.addItem(theRewards[0]);
-      for (int i = 1; i < theRewards.length; i++){
-          sb.append(", ");
-          sb.append(theRewards[i]);
-          myBag.addItem(theRewards[i]);
-      }
-      System.out.println(sb);
-  }
+    public void addRewardsToBag(GameItem[] theRewards) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(theRewards[0]);
+        myBag.addItem(theRewards[0]);
+        for (int i = 1; i < theRewards.length; i++){
+            sb.append(", ");
+            sb.append(theRewards[i]);
+            myBag.addItem(theRewards[i]);
+        }
+        System.out.println(sb);
+    }
+
+    /**
+     * dropItem removes the item from the bag without using it
+     * and returns the dropped item
+     *
+     * @return returns the dropped Game Item
+     */
+    public GameItem dropItem(GameItem theItem) {
+        if (null == theItem) {
+            throw new IllegalArgumentException("Item must not be null");
+        }
+        else if (!myBag.hasItem(theItem)) {
+            throw new IllegalArgumentException("Item to drop must already"
+                                               + " be in character's bag");
+        }
+        myBag.removeItem(theItem);
+        return theItem;
+    }
 
     /**
      * useItem method checks if the item is in the characters bag,
@@ -303,62 +460,130 @@ public class AbstractCharacter implements Serializable {
       if (myBag.hasItem(theItem)) {
           switch (theItem.getItemName()) {
               case "Health Potion":
-                  int hp = RANDOM.nextInt(15) + 15;
-                  int tempHP = myHP;
+                  int hp = RANDOM.nextInt(HEALTH_POTION_MAX_BOUND) + HEALTH_POTION_MIN;
                   buffHP(hp);
+                  int tempHP = myHP;
                   myBag.removeItem(theItem);
                   result = "Hero drank health potion.\n"
                             + "Hero's health increased " + (myHP - tempHP) + " points!";
                   break;
               case "Damage Potion":
-                  int dp = RANDOM.nextInt(10) + 5;
+                  int dp = RANDOM.nextInt(DAMAGE_POTION_MAX_BOUND) + DAMAGE_POTION_MIN;
                   buffDamage(dp);
                   myBag.removeItem(theItem);
                   result = "Hero drank damage potion.\n"
                             + "Hero's damage increased " + dp + " points!";
                   break;
               case "Speed Potion":
-                  int sp = RANDOM.nextInt(3) + 1;
+                  int sp = RANDOM.nextInt(SPEED_POTION_MAX_BOUND) + SPEED_POTION_MIN;
                   buffSpeed(sp);
                   myBag.removeItem(theItem);
-                  result = "Hero drank speed potion.\n"
-                            + "Hero's speed increased " + sp + " points!";
-                  break;
+                  result = "Hero drank speed potion."
+                            + " Hero's speed increased " + sp + " points!";
               case "Evasion Potion":
-                  if (myDodgeRate <= 0.6) {
-                      double ep = 0.1 * (RANDOM.nextInt(3) + 1);
+                  if (myDodgeRate < MAX_DODGE_RATE) {
+                      double ep = 0.1 * (RANDOM.nextInt(EVASION_POTION_MAX_BOUND) + EVASION_POTION_MIN);
                       buffDodgeRate(ep);
                       myBag.removeItem(theItem);
-                      result = "Hero drank evasion potion.\n"
-                                + "Hero's dodge rate increased by "
-                                + (ep * 100) + " percent!";
-                  } else result = "Hero's dodge rate is maximized!\n"
-                                    + "Potion was not used.";
-                  break;
+                      result = "Hero drank evasion potion."
+                                + " Hero's dodge rate increased to "
+                                + (myDodgeRate * 100) + " percent!";
+                  } else result = "Hero's dodge rate is maximized!"
+                                    + " Potion was not used.";
+              case "Time Turner" :
+                    // implement exiting the battle with the monster and resetting hero back to previous room
+                  result = "Hero went back in time to before "
+                           + "encountering the monster!";
+              case "Soul Charm"  :
+                  int randomBuff = RANDOM.nextInt(4);
+                  result = "Hero donned Soul Charm.";
+                  switch (randomBuff) {
+                      case 0 :
+                          buffMaxHP(SOUL_CHARM_HP_BUFF);
+                          result += "Hero's max HP increased "
+                                   + SOUL_CHARM_HP_BUFF + " points!";
+                      case 1 :
+                          buffDamage(SOUL_CHARM_DAMAGE_BUFF);
+                          result += "Hero's damage increased "
+                                   + SOUL_CHARM_DAMAGE_BUFF + " points!";
+                      case 2 :
+                          buffSpeed(SOUL_CHARM_SPEED_BUFF);
+                          result += "Hero's speed increased "
+                                   + SOUL_CHARM_SPEED_BUFF + " points!";
+                      case 3 :
+                          buffDodgeRate(SOUL_CHARM_EVASION_BUFF);
+                          result += "Hero's dodge rate increased to "
+                                  + myDodgeRate * 100 + " percent!";
+                  }
+                  myBag.removeItem(theItem);
+              case "Leach Tonic" :
+                  buffMaxHP(LEACH_TONIC_BUFF);
+                  myBag.removeItem(theItem);
+                  result = "Hero drank the leach tonic."
+                          + " Hero's max HP increased by "
+                          + LEACH_TONIC_BUFF + " points!";
+              case "Leach Fang" :
+                  buffDamage(LEACH_FANG_BUFF);
+                  myBag.removeItem(theItem);
+                  result = "Hero donned leach fang."
+                          + " Hero's damage increased by "
+                          + LEACH_FANG_BUFF + " points!";
+              case "Goblin Swift Powder" :
+                  buffSpeed(GOBLIN_SWIFT_POWDER_BUFF);
+                  myBag.removeItem(theItem);
+                  result = "Hero inhaled goblin swift powder."
+                          + "Hero's speed increased by "
+                          + GOBLIN_SWIFT_POWDER_BUFF + " point!";
+              case "Goblin Trickster Talisman" :
+                  buffDodgeRate(GOBLIN_TRICKSTER_TALISMAN_BUFF);
+                  myBag.removeItem(theItem);
+                  result = "Hero donned goblin trickster talisman."
+                          + " Hero's dodge rate increased to "
+                          + (myDodgeRate * 100) + " percent!";
+              case "Goblin Salve" :
+                  buffHP(GOBLIN_SALVE_BUFF);
+                  myBag.removeItem(theItem);
+                  result = "Hero applied goblin salve."
+                          + " Hero's health increased to " + myHP + " points!";
+              case "Ogre Club" :
+                  buffDamage(OGRE_CLUB_BUFF);
+                  myBag.removeItem(theItem);
+                  result = "Hero picked up ogre club."
+                          + " Hero's damage increased by "
+                          + OGRE_CLUB_BUFF + " points!";
+              case "Goblinhide Cloak" :
+                  buffDodgeRate(GOBLINHIDE_CLOAK_BUFF);
+                  myBag.removeItem(theItem);
+                  result = "Hero donned goblinhide cloak."
+                          + " Hero's didge rate increased to "
+                          + (myDodgeRate * 100) + " percent!";
               case "Archaic Boots":
-                  buffSpeed(1);
+                  buffSpeed(BOOT_SPEED_BUFF);
                   myBag.removeItem(theItem);
-                  result = "Hero donned the Archaic Boots.\n"
-                            + "Hero's speed increased by 1 point!";
-                  break;
+                  result = "Hero donned the archaic boots."
+                          + " Hero's speed increased by "
+                          + BOOT_SPEED_BUFF + " point!";
               case "Bone Sword":
-                  buffDamage(10);
+                  buffDamage(BONE_SWORD_BUFF);
                   myBag.removeItem(theItem);
-                  result = "Hero picked up Bone Sword.\n"
-                            + "Hero's damage increased by 10 points!";
-                  break;
+                  result = "Hero grabbed the bone sword."
+                          + " Hero's damage increased by "
+                          + BONE_SWORD_BUFF + " points!";
               case "Gold Coin" :
                   result = "Hero admired the gold coin,"
-                            + "then put it back in the bag \nfor later.";
-                  break;
+                            + " then put it back in the bag for later.";
           }
       }
       return result;
   }
 
-    public Bag getBag() {
+  public Bag getBag() {
       return myBag;
-    }
+  }
+
+  public int getMaxHP() {
+      return myMaxHP;
+  }
 
     /**
      * inner class Bag is an inventory of game items for the character
@@ -366,22 +591,25 @@ public class AbstractCharacter implements Serializable {
      * @author Austin Maggert
      * @version 03may2024
      */
-  public static class Bag implements Serializable {
+    public class Bag {
 
         /**
          * myBag field stores the game items in an arraylist
          */
-      ArrayList<GameItem> myBag;
+      private final ArrayList<GameItem> myImplementedBag;
 
         /**
-         * Bag constructor recieves an array of items, sometimes empty,
+         * Bag constructor receives an array of items, sometimes empty,
          * and initializes myBag to the contents of the array.
          *
          * @param theItems the array of game items to be initialized with
          */
       public Bag(GameItem[] theItems) {
-          myBag = new ArrayList<>();
-          Collections.addAll(myBag, Objects.requireNonNull(theItems));
+          if (null == theItems) {
+              throw new IllegalArgumentException("Items array must not be null");
+          }
+          myImplementedBag = new ArrayList<GameItem>();
+          myImplementedBag.addAll(Arrays.asList(theItems));
       }
 
         /**
@@ -390,7 +618,10 @@ public class AbstractCharacter implements Serializable {
          * @param theItem is the game item to be added to myBag
          */
       public void addItem(GameItem theItem) {
-          myBag.add(Objects.requireNonNull(theItem));
+          if (null == theItem) {
+              throw new IllegalArgumentException("Item must not be null");
+          }
+          myImplementedBag.add(theItem);
       }
 
         /**
@@ -400,7 +631,13 @@ public class AbstractCharacter implements Serializable {
          * @param theItem is the game item to be removed
          */
       public void removeItem(GameItem theItem) {
-          myBag.remove(theItem);
+          if (theItem == null) {
+              throw new IllegalArgumentException("Item must not be null");
+          } else if (!myBag.hasItem(theItem)) {
+              throw new IllegalArgumentException("Item to use must already"
+                      + " be in character's bag");
+          }
+          myImplementedBag.remove(theItem);
       }
 
         /**
@@ -410,7 +647,10 @@ public class AbstractCharacter implements Serializable {
          * @return returns the game item at theIndex in myBag
          */
       public GameItem getItem(int theIndex) {
-          return myBag.get(theIndex);
+          if (theIndex < 0 || theIndex >= myImplementedBag.size()) {
+              throw new IllegalArgumentException("Index out of bounds");
+          }
+          return myImplementedBag.get(theIndex);
       }
 
         /**
@@ -419,9 +659,9 @@ public class AbstractCharacter implements Serializable {
          * @return returns an array containing each item in the bag
          */
       public GameItem[] getItems() {
-          GameItem[] items = new GameItem[myBag.size()];
+          GameItem[] items = new GameItem[myImplementedBag.size()];
           int i = 0;
-          for (GameItem item : myBag) {
+          for (GameItem item : myImplementedBag) {
               items[i++] = item;
           }
           return items;
@@ -433,9 +673,12 @@ public class AbstractCharacter implements Serializable {
          * @param theItem is the item to be checked if it is in the bag
          * @return returns true if the item is in the bag, false otherwise
          */
-      public boolean hasItem(GameItem theItem) {
-          boolean result = false;
-          for (GameItem item : myBag) {
+      public Boolean hasItem(GameItem theItem) {
+          if (null == theItem) {
+              throw new IllegalArgumentException("Item must not be null");
+          }
+          Boolean result = false;
+          for (GameItem item : myImplementedBag) {
               if (item.getItemName().equals(theItem.getItemName())) {
                   result = true;
                   break;
