@@ -1,8 +1,8 @@
-package Ausitn;
+package Model.Character;
 
-import Ausitn.GameItem;
-import Model.Hero;
-import Ausitn.TimeTurner;
+import Model.Items.GameItem;
+import Model.Items.SoulCharm;
+import Model.Items.TimeTurner;
 
 /**
  * This class represents a Wizard hero

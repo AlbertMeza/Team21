@@ -1,4 +1,6 @@
-package Ausitn;
+package Model.Items;
+
+import Model.Character.AbstractCharacter;
 
 /**
  * TimeTurner class is a Time Turner Game Item

@@ -1,7 +1,5 @@
 package Model.Items;
 
-import Ausitn.GameItem;
-
 import java.util.Random;
 
 
@@ -51,7 +49,7 @@ public class GoblinLoot {
             case 2:
                 result = new GoblinTricksterTalisman();
             case 3:
-                result = new Model.GoldCoin();
+                result = new GoldCoin();
         }
         return result;
     }
@@ -71,7 +69,7 @@ public class GoblinLoot {
                 loot[i] = new GoblinSwiftPowder();
             } else if(myLoot[i].getItemName().equals("Goblin Trickster Talisman")) {
                 loot[i] = new GoblinTricksterTalisman();
-            } else loot[i] = new Model.GoldCoin();
+            } else loot[i] = new GoldCoin();
         }
         return loot;
     }
@@ -90,7 +88,7 @@ public class GoblinLoot {
             loot = new GoblinSwiftPowder();
         } else if(myLoot[0].getItemName().equals("Goblin Trickster Talisman")) {
             loot = new GoblinTricksterTalisman();
-        } else loot = new Model.GoldCoin();
+        } else loot = new GoldCoin();
         return loot;
     }
 

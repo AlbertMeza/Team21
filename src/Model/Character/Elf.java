@@ -1,7 +1,5 @@
-package Ausitn;
-import Ausitn.GameItem;
-import Model.Healable;
-import Model.Hero;
+package Model.Character;
+import Model.Items.GameItem;
 
 import java.util.Random;
 

@@ -1,9 +1,5 @@
 package Model.Items;
 
-import Ausitn.ArchaicBoots;
-import Ausitn.BoneSword;
-import Ausitn.GameItem;
-
 import java.util.Random;
 
 /**
@@ -48,11 +44,11 @@ public class SkeletonLoot {
             case 0:
                 result = new BoneSword();
             case 1:
-                result = new Model.HealthPotion();
+                result = new HealthPotion();
             case 2:
                 result = new ArchaicBoots();
             case 3:
-                result = new Model.GoldCoin();
+                result = new GoldCoin();
         }
         return result;
     }
@@ -69,10 +65,10 @@ public class SkeletonLoot {
             if(myLoot[i].getItemName().equals("Bone Sword")) {
                 loot[i] = new BoneSword();
             } else if (myLoot[i].getItemName().equals("Health Potion")) {
-                loot[i] = new Model.HealthPotion();
+                loot[i] = new HealthPotion();
             } else if(myLoot[i].getItemName().equals("Archaic Boots")) {
                 loot[i] = new ArchaicBoots();
-            } else loot[i] = new Model.GoldCoin();
+            } else loot[i] = new GoldCoin();
         }
         return loot;
     }
@@ -88,10 +84,10 @@ public class SkeletonLoot {
         if(myLoot[0].getItemName().equals("Bone Sword")) {
             loot = new BoneSword();
         } else if (myLoot[0].getItemName().equals("Health Potion")) {
-            loot = new Model.HealthPotion();
+            loot = new HealthPotion();
         } else if(myLoot[0].getItemName().equals("Archaic Boots")) {
             loot = new ArchaicBoots();
-        } else loot = new Model.GoldCoin();
+        } else loot = new GoldCoin();
         return loot;
     }
 

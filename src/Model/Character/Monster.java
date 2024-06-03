@@ -1,6 +1,10 @@
-package Ausitn;
+package Model.Character;
 
-import Model.Healable;
+import Model.Items.GameItem;
+import Model.Items.GoblinLoot;
+import Model.Items.LeachLoot;
+import Model.Items.OgreLoot;
+import Model.Items.SkeletonLoot;
 
 import java.util.Random;
 

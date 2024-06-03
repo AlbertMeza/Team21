@@ -1,6 +1,6 @@
 package Model;
 
-import Controller.AudioManager;
+import Controller.GameController;
 
 import java.awt.*;
 import java.io.IOException;

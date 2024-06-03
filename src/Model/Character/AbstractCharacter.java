@@ -1,4 +1,6 @@
-package Ausitn;
+package Model.Character;
+
+import Model.Items.GameItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,97 +14,6 @@ import java.util.Random;
  * @version Spring 2024
  */
 public class AbstractCharacter {
-
-    /**
-     * HEALTH_POTION_MAX_BOUND constant is the max bound, i.e. the
-     * range for the amount of hp to be returned by health potion
-     */
-    private static final int HEALTH_POTION_MAX_BOUND = 15;
-
-    /**
-     * HEALTH_POTION_MIN constant is the minimum amount
-     * of hp to be returned by health potion
-     */
-    private static final int HEALTH_POTION_MIN = 15;
-
-    /**
-     * DAMAGE_POTION_MAX_BOUND constant is the max bound, i.e. the
-     * range for the amount of damage points to be buffed by damage potion
-     */
-    private static final int DAMAGE_POTION_MAX_BOUND = 10;
-
-    /**
-     * DAMAGE_POTION_MIN constant is the minimum amount
-     * of damage to be buffed by damage potion
-     */
-    private static final int DAMAGE_POTION_MIN = 5;
-
-    /**
-     * SPEED_POTION_MAX_BOUND constant is the max bound, i.e. the
-     * range for the amount of speed points to be buffed by speed potion
-     */
-    private static final int SPEED_POTION_MAX_BOUND = 3;
-
-    /**
-     * SPEED_POTION_MIN constant is the minimum amount
-     * of speed points to be buffed by speed potion
-     */
-    private static final int SPEED_POTION_MIN = 1;
-
-    /**
-     * EVASION_POTION_MAX_BOUND constant is the max bound, i.e. the range
-     * for the amount of evasion percentage to be buffed by evasion potion
-     */
-    private static final int EVASION_POTION_MAX_BOUND = 2;
-
-    /**
-     * EVASION_POTION_MIN constant is the minimum amount
-     * of evasion percentage to be buffed by evasion potion
-     */
-    private static final double EVASION_POTION_MIN = 0.5;
-
-    /**
-     * BOOT_SPEED_BUFF constant is the amount
-     * of speed points to be buffed by boots
-     */
-    private static final int BOOT_SPEED_BUFF = 1;
-
-    /**
-     * BONE_SWORD_BUFF constant is the amount
-     * of damage points to be buffed by Bone Sword
-     */
-    private static final int BONE_SWORD_BUFF = 10;
-
-    /**
-     * SOUL_CHARM_HP_BUFF is the buff to max hp if
-     * hp is randomly chosen for soul charm buff
-     */
-    private static final int SOUL_CHARM_HP_BUFF = 25;
-
-    /**
-     * SOUL_CHARM_DAMAGE_BUFF is the buff to damage if
-     * damage is randomly chosen for soul charm buff
-     */
-    private static final int SOUL_CHARM_DAMAGE_BUFF = 25;
-
-    /**
-     * SOUL_CHARM_SPEED_BUFF is the buff to speed if
-     * speed is randomly chosen for soul charm buff
-     */
-    private static final int SOUL_CHARM_SPEED_BUFF = 3;
-
-    /**
-     * SOUL_CHARM_EVASION_BUFF is the buff to dodge rate if
-     * evasion is randomly chosen for soul charm buff
-     */
-    private static final double SOUL_CHARM_EVASION_BUFF = 0.3;
-    private static final int LEACH_TONIC_BUFF = 15;
-    private static final int LEACH_FANG_BUFF = 5;
-    private static final int GOBLIN_SWIFT_POWDER_BUFF = 1;
-    private static final double GOBLIN_TRICKSTER_TALISMAN_BUFF = 0.15;
-    private static final int GOBLIN_SALVE_BUFF = 25;
-    private static final int OGRE_CLUB_BUFF = 20;
-    private static final double GOBLINHIDE_CLOAK_BUFF = 0.15;
 
     /**
      * RANDOM constant is a Random generator for class usage.
@@ -144,28 +55,28 @@ public class AbstractCharacter {
     private double myDodgeRate;
 
     /**
-     * myInitialHP is the Character's hp
+     * INITIAL_HP is the Character's hp
      * during instantiation
      */
-    private final int myInitialHP;
+    private final int INITIAL_HP;
 
     /**
-     * myInitialDamage field is the character's damage points
+     * INITIAL_DAMAGE field is the character's damage points
      * during instantiation.
      */
-    private int myInitialDamage;
+    private final int INITIAL_DAMAGE;
 
     /**
-     * myInitialSpeed field is the character's speed points
+     * INITIAL_SPEED field is the character's speed points
      * during instantiation.
      */
-    private int myInitialSpeed;
+    private final int INITIAL_SPEED;
 
     /**
-     * myInitialDodgeRate field is the character's dodge rate
+     * INITIAL_DAMAGE_RATE field is the character's dodge rate
      * on scale 0.0 - 0.7 (0% to 70%) during instantiation
      */
-    private double myInitialDodgeRate;
+    private final double INITIAL_DAMAGE_RATE;
 
     /**
      * myBag field is the character's inventory bag of game items.
@@ -190,13 +101,13 @@ public class AbstractCharacter {
   public  AbstractCharacter(String theName, int theHP, int theDamage, int theSpeed,
                             double theDodgeRate, GameItem[] theItems) {
       myName = Objects.requireNonNull(theName);
-      myInitialHP = theHP;
+      INITIAL_HP = theHP;
       setHPs(theHP);
-      myInitialDamage = theDamage;
+      INITIAL_DAMAGE = theDamage;
       setDamage(theDamage);
-      myInitialSpeed = theSpeed;
+      INITIAL_SPEED = theSpeed;
       setSpeed(theSpeed);
-      myInitialDodgeRate = theDodgeRate;
+      INITIAL_DAMAGE_RATE = theDodgeRate;
       setDodgeRate(theDodgeRate);
       myBag = new Bag(theItems);
       myDeathStatus = false;
@@ -237,8 +148,9 @@ public class AbstractCharacter {
      */
     private void setSpeed(int theSpeed) {
         if (theSpeed <= 0) {
-            throw new IllegalArgumentException("theHP must be a positive integer.");
+            throw new IllegalArgumentException("the speed must be a positive integer.");
         }
+        mySpeed = theSpeed;
     }
 
     /**
@@ -324,14 +236,23 @@ public class AbstractCharacter {
   }
 
     /**
+     * getDodgeRate method returns the character's current dodge rate
+     *
+     * @return returns character's current dodge rate
+     */
+    public double getDodgeRate() {
+        return myDodgeRate;
+    }
+
+    /**
      * resetCharacter resets all stats of the character
      * to original stats. Bag does not get altered.
      */
     public void resetCharacter() {
-        setHPs(myInitialHP);
-        setDamage(myInitialDamage);
-        setSpeed(myInitialSpeed);
-        setDodgeRate(myInitialDodgeRate);
+        setHPs(INITIAL_HP);
+        setDamage(INITIAL_DAMAGE);
+        setSpeed(INITIAL_SPEED);
+        setDodgeRate(INITIAL_DAMAGE_RATE);
     }
 
     /**
@@ -479,9 +400,42 @@ public class AbstractCharacter {
       String result = "Bag does not contain this item!";
       if (myBag.hasItem(theItem)) {
           theItem.useItem(this);
+          myBag.removeItem(theItem);
+          result = "Item used!";
       }
       return result;
   }
+
+    /**
+     * hasItem method checks if an item is in myBag
+     *
+     * @param theItem is the item to be checked if it is in the bag
+     * @return returns true if the item is in the bag, false otherwise
+     */
+    public Boolean hasItem(GameItem theItem) {
+        if (null == theItem) {
+            throw new IllegalArgumentException("Item must not be null");
+        }
+        return myBag.hasItem(theItem);
+    }
+
+    /**
+     * getItems method provides external classes the contents of the bag
+     *
+     * @return returns an array containing each item in the bag
+     */
+    public GameItem[] getItems() {
+        return myBag.getItems();
+    }
+
+    /**
+     * isBagEmpty empty provides other classes status if bag is empty or not
+     *
+     * @return boolean true if bag empty, false otherwise
+     */
+    public boolean isBagEmpty() {
+        return 0 == myBag.getItems().length;
+    }
 
     /**
      * inner class Bag is an inventory of game items for the character
@@ -535,7 +489,13 @@ public class AbstractCharacter {
               throw new IllegalArgumentException("Item to use must already"
                       + " be in character's bag");
           }
-          myImplementedBag.remove(theItem);
+          boolean deleted = false;
+          for (int i = 0; i < myImplementedBag.size() && !deleted; i++) {
+              if (myImplementedBag.get(i).getItemName().equals(theItem.getItemName())) {
+                  myImplementedBag.remove(myImplementedBag.get(i));
+                  deleted = true;
+              }
+          }
       }
 
         /**

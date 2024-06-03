@@ -1,4 +1,6 @@
-package Ausitn;
+package Model.Items;
+
+import Model.Character.AbstractCharacter;
 
 /**
  * BoneSword class is a GameItem

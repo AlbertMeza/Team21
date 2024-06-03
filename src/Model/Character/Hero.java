@@ -1,7 +1,6 @@
-package Model;
+package Model.Character;
 
-import Ausitn.GameItem;
-import Ausitn.AbstractCharacter;
+import Model.Items.GameItem;
 
 /**
  * This class represents all heros at an abstract level.

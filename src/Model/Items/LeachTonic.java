@@ -1,6 +1,6 @@
 package Model.Items;
 
-import Ausitn.GameItem;
+import Model.Character.AbstractCharacter;
 
 /**
  * LeachTonic class is a GameItem

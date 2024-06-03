@@ -1,6 +1,6 @@
 package Model.Items;
 
-import Ausitn.GameItem;
+import Model.Character.AbstractCharacter;
 
 /**
  * GoblinhideCloak class is a GameItem
@@ -30,6 +30,7 @@ public class GoblinhideCloak extends GameItem {
      *
      * @param theCharacter is the hero using the Goblinhide Cloak
      */
+    @Override
     public void useItem(AbstractCharacter theCharacter) {
         theCharacter.buffDodgeRate(EP_BUFF);
     }

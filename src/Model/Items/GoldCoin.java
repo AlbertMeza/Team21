@@ -1,4 +1,6 @@
-package Ausitn;
+package Model.Items;
+
+import Model.Character.AbstractCharacter;
 
 /**
  * GoldCoin class is a gold coin

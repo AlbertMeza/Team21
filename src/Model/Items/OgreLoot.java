@@ -1,7 +1,5 @@
 package Model.Items;
 
-import Ausitn.GameItem;
-
 import java.util.Random;
 
 /**
@@ -46,11 +44,11 @@ public class OgreLoot {
             case 0:
                 result = new OgreClub();
             case 1:
-                result = new Model.SpeedPotion();
+                result = new SpeedPotion();
             case 2:
                 result = new GoblinhideCloak();
             case 3:
-                result = new Model.GoldCoin();
+                result = new GoldCoin();
         }
         return result;
     }

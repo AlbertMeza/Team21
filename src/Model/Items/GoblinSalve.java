@@ -1,6 +1,6 @@
 package Model.Items;
 
-import Ausitn.GameItem;
+import Model.Character.AbstractCharacter;
 
 /**
  * GoblinSalve class is a GameItem
@@ -30,6 +30,7 @@ public class GoblinSalve extends GameItem {
      *
      * @param theCharacter is the hero using the GoblinSalve
      */
+    @Override
     public void useItem(AbstractCharacter theCharacter) {
         theCharacter.buffHP(HP_BUFF);
     }

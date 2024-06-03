@@ -1,4 +1,6 @@
-package Ausitn;
+package Model.Items;
+
+import Model.Character.AbstractCharacter;
 
 /**
  * This class represents a game item on an abstract level.

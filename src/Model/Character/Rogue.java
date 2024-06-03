@@ -1,7 +1,6 @@
-package Ausitn;
+package Model.Character;
 
-import Ausitn.GameItem;
-import Model.Hero;
+import Model.Items.GameItem;
 
 /**
  * This class represents a Rogue hero

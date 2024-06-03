@@ -1,8 +1,5 @@
 package Model.Items;
 
-import Ausitn.EvasionPotion;
-import Ausitn.GameItem;
-
 import java.util.Random;
 
 /**
@@ -51,7 +48,7 @@ public class LeachLoot {
             case 2:
                 result = new LeachTonic();
             case 3:
-                result = new Model.GoldCoin();
+                result = new GoldCoin();
         }
         return result;
     }

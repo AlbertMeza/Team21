@@ -1,6 +1,5 @@
-package Ausitn;
+package Model.Character;
 
- import Model.Character.Monster;
  import org.sqlite.SQLiteDataSource;
 
  import java.sql.*;
