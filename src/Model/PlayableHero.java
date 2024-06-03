@@ -90,4 +90,20 @@ public class PlayableHero extends Rectangle {
         this.x = theTile.x + this.width;
     }
   }
+
+  public int[] getDirection(){
+    if(myUp) {
+      return new int[] {0, -10};
+    }
+    if(myDown) {
+      return new int[] {0, 10};
+    }
+    if(myLeft) {
+      return new int[] {-10, 0};
+    }
+    if(myRight) {
+      return new int[] {10, 0};
+    }
+    return new int[] {10, 0};
+  }
 }

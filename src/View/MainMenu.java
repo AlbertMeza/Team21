@@ -29,26 +29,10 @@ import java.util.List;
  */
 public class MainMenu extends GameScreen {
   private static final String CHARACTER_SELECT = "Character Select";
-  private static final String POLYMORPHISM = "Polymorphism";
-
-  /**
-   * ENCAPSULATION constant for "Encapsulation" text to be displayed
-   */
-  private static final String ENCAPSULATION = "Encapsulation";
-
-  /**
-   * INHERITANCE constant for "Inheritance" text to be displayed
-   */
-  private static final String INHERITANCE = "Inheritance";
-
-  /**
-   * ABSTRACTION constant for "Abstraction" text to be displayed
-   */
-  private static final String ABSTRACTION = "Abstraction";
-
-  /**
-   * MYSTERY  constant for "???????" text to be displayed
-   */
+  private static final String POLYMORPHISM = "Polymorphic Cup";
+  private static final String ENCAPSULATION = "Shelf of Encapsulation";
+  private static final String INHERITANCE = "Tree of Inheritance";
+  private static final String ABSTRACTION = "Abstraction Gem";
   private static String MYSTERY = "???????";
 
   /**
