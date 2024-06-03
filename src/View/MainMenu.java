@@ -20,10 +20,10 @@ import java.util.List;
 //Licensed under Creative Commons by Attribution 4.0
 public class MainMenu extends GameScreen {
   private static final String CHARACTER_SELECT = "Character Select";
-  private static final String POLYMORPHISM = "Polymorphism";
-  private static final String ENCAPSULATION = "Encapsulation";
-  private static final String INHERITANCE = "Inheritance";
-  private static final String ABSTRACTION = "Abstraction";
+  private static final String POLYMORPHISM = "Polymorphic Cup";
+  private static final String ENCAPSULATION = "Shelf of Encapsulation";
+  private static final String INHERITANCE = "Tree of Inheritance";
+  private static final String ABSTRACTION = "Abstraction Gem";
   private static String MYSTERY = "???????";
   private static final String QUIT_GAME = "Quit Game";
   private static final String SAVE_GAME = "Save Game";
