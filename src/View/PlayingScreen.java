@@ -527,7 +527,7 @@ public class PlayingScreen extends GameScreen {
 
   void checkMonster(int theMonsterX, int theMonsterY){
       if(Math.abs(myPlayer.x - theMonsterX) <= 20 && Math.abs(myPlayer.y - theMonsterY) <= 20
-          && isSafeRoom(myDungeon.getMyCurrX(), myDungeon.getMyCurrY())){
+          && isSafeRoom(myDungeon.getMyCurrX(), myDungeon.getMyCurrY()) && getMyLevel() > 2){
         System.out.println("calculate damage");
       }
   }
