@@ -3,10 +3,8 @@ package View.Battle;
 import Controller.AudioManager;
 import Model.Character.*;
 import Model.GameScreenStack;
-import Model.Items.GameItem;
+import Model.GameItem;
 
-import java.rmi.server.Skeleton;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 

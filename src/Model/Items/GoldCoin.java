@@ -1,6 +1,7 @@
 package Model.Items;
 
 import Model.Character.AbstractCharacter;
+import Model.GameItem;
 
 /**
  * GoldCoin class is a gold coin

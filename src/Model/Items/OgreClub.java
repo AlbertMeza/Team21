@@ -1,6 +1,7 @@
 package Model.Items;
 
 import Model.Character.AbstractCharacter;
+import Model.GameItem;
 
 /**
  * OgreClub class is a GameItem

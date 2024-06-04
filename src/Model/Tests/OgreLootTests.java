@@ -1,6 +1,6 @@
 package Model.Tests;
 
-import Model.Items.GameItem;
+import Model.GameItem;
 import Model.Items.OgreLoot;
 
 public class OgreLootTests {

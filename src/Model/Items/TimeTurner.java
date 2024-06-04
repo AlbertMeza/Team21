@@ -1,6 +1,7 @@
 package Model.Items;
 
 import Model.Character.AbstractCharacter;
+import Model.GameItem;
 
 /**
  * TimeTurner class is a Time Turner Game Item

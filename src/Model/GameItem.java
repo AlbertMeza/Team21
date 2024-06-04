@@ -1,4 +1,4 @@
-package Model.Items;
+package Model;
 
 import Model.Character.AbstractCharacter;
 

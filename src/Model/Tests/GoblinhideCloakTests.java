@@ -2,6 +2,7 @@ package Model.Tests;
 
 import Model.Character.AbstractCharacter;
 import Model.Character.Wizard;
+import Model.GameItem;
 import Model.Items.GoblinhideCloak;
 
 public class GoblinhideCloakTests {
