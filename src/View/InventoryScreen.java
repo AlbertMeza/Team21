@@ -25,12 +25,13 @@ public class InventoryScreen extends GameScreen {
     protected InventoryScreen(final GameScreenStack theStack, final Hero theHero) {
         super(Objects.requireNonNull(theStack));
         myHero = Objects.requireNonNull(theHero);
-        AbstractCharacter.Bag myInventory = myHero.getBag();
-        gameItems = myInventory.getItems();
+//        AbstractCharacter.Bag myInventory = myHero.getBag();
+//        gameItems = myInventory.getItems();
+        gameItems = myHero.getItems();
         selected = 0;
 
         List<String> tempList = new ArrayList<>();
-        for (GameItem item : myInventory.getItems()) {
+        for (GameItem item : gameItems) {
             tempList.add(item.getItemName());
         }
         itemOptions = tempList.toArray(new String[tempList.size()]);

@@ -120,16 +120,16 @@ public class MonsterFactory {
      */
     private void fillTable() {
         String query1 = "INSERT INTO monsters ( NAME , HP , DAMAGE , SPEED , " +
-                        "DODGE_RATE , HEAL_MIN , HEAL_RANGE, LOOT_ONE, LOOT_TWO" +
+                        "DODGE_RATE , HEAL_MIN , HEAL_RANGE" +
                         ") VALUES ( 'Goblin' , 70 , 30 , 3 , 0.3 , 10 , 20 )";
         String query2 = "INSERT INTO monsters ( NAME , HP , DAMAGE , SPEED , " +
-                        "DODGE_RATE , HEAL_MIN , HEAL_RANGE, LOOT_ONE, LOOT_TWO" +
+                        "DODGE_RATE , HEAL_MIN , HEAL_RANGE" +
                         ") VALUES ( 'Ogre' , 100 , 50 , 1 , 0.1 , 5 , 10 )";
         String query3 = "INSERT INTO monsters ( NAME , HP , DAMAGE , SPEED , " +
-                        "DODGE_RATE , HEAL_MIN , HEAL_RANGE, LOOT_ONE, LOOT_TWO" +
+                        "DODGE_RATE , HEAL_MIN , HEAL_RANGE" +
                         ") VALUES ( 'Leach' , 55 , 15 , 6 , 0.3 , 20 , 20 )";
         String query4 = "INSERT INTO monsters ( NAME , HP , DAMAGE , SPEED , " +
-                        "DODGE_RATE , HEAL_MIN , HEAL_RANGE, LOOT_ONE, LOOT_TWO" +
+                        "DODGE_RATE , HEAL_MIN , HEAL_RANGE" +
                         ") VALUES ( 'Skeleton' , 60 , 25 , 2 , 0.1 , 5 , 20 )";
         try ( Connection conn = ds.getConnection();
               Statement stmt = conn.createStatement(); ) {
@@ -156,7 +156,6 @@ public class MonsterFactory {
               Statement stmt = conn.createStatement(); ) {
 
             ResultSet rs = stmt.executeQuery(query);
-
             int count = 0;
             while ( rs.next() && count < MONSTER_COUNT) {
                 String name = rs.getString("NAME");
@@ -165,11 +164,12 @@ public class MonsterFactory {
                 int speed = rs.getInt("SPEED");
                 double dodgeRate = rs.getDouble("DODGE_RATE");
                 int healMin = rs.getInt("HEAL_MIN");
-                int healMaxBound = rs.getInt("HEAL_MAX_BOUND");
+                int healMaxBound = rs.getInt("HEAL_RANGE");
                 myMonsters[count++] = new Monster(name, hp, damage, speed, dodgeRate, healMin, healMaxBound);
-                stmt.close();
-                conn.close();
             }
+            conn.close();
+            stmt.close();
+
         } catch ( SQLException e ) {
             e.printStackTrace();
             System.exit( 0 );

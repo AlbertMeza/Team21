@@ -218,6 +218,10 @@ public class AbstractCharacter implements Serializable {
       return myHP;
   }
 
+  public int getMaxHP() {
+      return myMaxHP;
+  }
+
     /**
      * getDamage method returns the character's current damage points
      *
@@ -356,12 +360,14 @@ public class AbstractCharacter implements Serializable {
      * addItemToBag receives an item and puts it into the character's bag
      *
      * @param theItem is the item to be stored in the bag
+     * @return String item string result for battle screen.
      */
-  public void pickUpItem(GameItem theItem) {
+  public String pickUpItem(GameItem theItem) {
       if (null == theItem) {
           throw new IllegalArgumentException("Item must not be null");
       }
       myBag.addItem(theItem);
+      return theItem.getItemName();
   }
 
     /**

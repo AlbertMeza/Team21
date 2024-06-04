@@ -63,16 +63,17 @@ public class AudioManager {
     }
 
     /**
-     * Creates a 'clip' from an audio stream made from the audio file.
+     * Creates a 'clip' from an audio stream made from the audio theFile.
      *
-     * @param file containing audio.
-     * @return a clip made from the audio file.
+     * @param theFile containing audio.
+     * @return a clip made from the audio theFile.
      */
-    public Clip loadClip(File file) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    public Clip loadClip(File theFile) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         Clip clip = null;
+        System.out.println(theFile);
 
-        // Get the audio input stream from the file
-        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file)) {
+        // Get the audio input stream from the theFile
+        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(theFile)) {
             // Get the original audio format
             AudioFormat originalFormat = audioInputStream.getFormat();
 
@@ -97,7 +98,7 @@ public class AudioManager {
             clip = AudioSystem.getClip();
             clip.open(convertedAudioStream);
         } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
-            System.err.println("Error loading audio file: " + file.getName());
+            System.err.println("Error loading audio theFile: " + theFile.getName());
             e.printStackTrace();
         }
         return clip;

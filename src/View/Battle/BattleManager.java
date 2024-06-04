@@ -3,7 +3,9 @@ package View.Battle;
 import Controller.AudioManager;
 import Model.Character.*;
 import Model.GameScreenStack;
+import Model.Items.GameItem;
 
+import java.rmi.server.Skeleton;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
@@ -75,7 +77,9 @@ public class BattleManager {
         }
         if (myMonster.checkIfDead()) {
             System.out.print("Victory! " + myHero.getName() + " received: ");
-            myHero.addRewardsToBag(myMonster.getReward());
+            GameItem[] rewards = myMonster.getItems();
+            myHero.pickUpItem(rewards[0]);
+            myHero.pickUpItem(rewards[1]);
             mySoundEffectManager.playAudio("BattleChest",false);
 
         }
@@ -87,9 +91,9 @@ public class BattleManager {
      * Recalculates turn.
      */
     public void monsterTurn() {
-        if (myMonster.getName().equals("Skeleton") && myMonster.getHP() < monsterHealthThreshold && !monsterHealed) {
+        if (myMonster.getHP() < monsterHealthThreshold && !monsterHealed) {
             int previousHP = myMonster.getHP();
-            ((Skeleton)myMonster).heal();
+            myMonster.heal();
             System.out.println(myMonster.getName() + " healed " + (myMonster.getHP() -  previousHP) + " HP");
             mySoundEffectManager.playAudio("BattleHeal",false);
             monsterHealed = true;

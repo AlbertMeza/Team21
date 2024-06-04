@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.File;
+import java.rmi.server.Skeleton;
 import java.util.List;
 
 //Music: “Misty Dungeon”, from PlayOnLoop.com
@@ -126,7 +127,8 @@ public class MainMenu extends GameScreen {
    */
   private boolean mysteryUnlock;
   private Hero myHero;
-  private final File saveLocation;
+  private final Monster myMonster;
+  private File saveLocation;
 
 
 
@@ -137,6 +139,7 @@ public class MainMenu extends GameScreen {
   public MainMenu(GameScreenStack manager) {
     super(manager);
     myHero = new Elf();
+    myMonster = new MonsterFactory().getRandomMonster();
     String MYSTERY = "???????";
     myOptionMenu = new String[] {START_GAME, POLYMORPHISM, ENCAPSULATION, INHERITANCE, ABSTRACTION,
             MYSTERY, QUIT_GAME, BATTLE_SCREEN, SAVE_GAME, LOAD_GAME};
@@ -166,25 +169,25 @@ public class MainMenu extends GameScreen {
   /**
    * render handles all graphics and displays them in the window
    *
-   * @param graphics is the graphics for the game
+   * @param theGraphics is the graphics for the game
    */
   @Override
   protected void render(Graphics theGraphics) {
-    graphics.drawImage(myMenuBackgroundImg, 0, 0, FrameManager.getWidth(),
+    theGraphics.drawImage(myMenuBackgroundImg, 0, 0, FrameManager.getWidth(),
         FrameManager.getHeight(), null);
-    graphics.setColor(new Color(30, 30, 70,120));
-    graphics.fillRect(0, 0, FrameManager.getWidth(), FrameManager.getHeight());
-    graphics.setFont(new Font("Arial", Font.PLAIN, 25));
-    int optionHeight = graphics.getFontMetrics().getHeight();
+    theGraphics.setColor(new Color(30, 30, 70,120));
+    theGraphics.fillRect(0, 0, FrameManager.getWidth(), FrameManager.getHeight());
+    theGraphics.setFont(new Font("Arial", Font.PLAIN, 25));
+    int optionHeight = theGraphics.getFontMetrics().getHeight();
     int totalHeight = myOptionMenu.length * optionHeight;
     int yStart = (FrameManager.getHeight() - totalHeight) / 2;
-    for (int i = 0; i < optionMenu.length; i++) {
-      String optionText = optionMenu[i];
+    for (int i = 0; i < myOptionMenu.length; i++) {
+      String optionText = myOptionMenu[i];
       int textWidth = theGraphics.getFontMetrics().stringWidth(optionText);
       int xStart = (FrameManager.getWidth() - textWidth) / 2;
       if (i == mySelected) {
-        graphics.setColor(Color.magenta);
-        graphics.drawImage(mySelectorImg, xStart - mySelectorImg.getWidth(null) - 5,
+        theGraphics.setColor(Color.magenta);
+        theGraphics.drawImage(mySelectorImg, xStart - mySelectorImg.getWidth(null) - 5,
             yStart + i * optionHeight - optionHeight / 2, null);
       } else {
         if (isOptionEnabled(i)) {
@@ -207,19 +210,19 @@ public class MainMenu extends GameScreen {
     switch(keyCode) {
       case KeyEvent.VK_UP:
       case KeyEvent.VK_W:
-        if(mySelected > 0) selected--;
+        if(mySelected > 0) mySelected--;
         playSoundEffect(SWITCH_EFFECT);
         break;
         
       case KeyEvent.VK_DOWN:
       case KeyEvent.VK_S:
-        if(selected < optionMenu.length - 1) selected++;
+        if(mySelected < myOptionMenu.length - 1) mySelected++;
         playSoundEffect(SWITCH_EFFECT);
         break;
         
       case KeyEvent.VK_ENTER:
         playSoundEffect(SELECT_EFFECT);
-        switch(optionMenu[selected]) {
+        switch(myOptionMenu[mySelected]) {
           case START_GAME:
             stopBackgroundMusic();
             myGameScreenStack.addScreen(new CharacterScreen(myGameScreenStack));
@@ -231,7 +234,7 @@ public class MainMenu extends GameScreen {
 
           case BATTLE_SCREEN:
             stopBackgroundMusic();
-            myGameScreenStack.addScreen(new BattleScreen(myGameScreenStack, myHero, new Skeleton()));
+            myGameScreenStack.addScreen(new BattleScreen(myGameScreenStack, myHero, myMonster));
             break;
 
           case SAVE_GAME:
