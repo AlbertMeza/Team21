@@ -4,6 +4,8 @@ import Controller.MathHelper;
 import Controller.MathHelper.Direction;
 import Controller.MazeGenerator;
 import Controller.RoomData;
+import Model.Character.Hero;
+import Model.Character.Monster;
 import Model.Dungeon;
 import Model.LightningBolt;
 import Model.PlayableHero;
@@ -64,9 +66,11 @@ public class PlayingScreen extends GameScreen {
   private int velocityXTwo = 5, velocityYTwo = 5;
   private int velocityXThree = 5, velocityYThree = 5;
   private final List<LightningBolt> lightningBolts;
+  private final Hero myHero;
+  private final Monster myMonster;
 
   protected PlayingScreen(GameScreenStack theStack, Image theHeroImg, int theMazeSize,
-      int theHeroIndex, int theLevel, boolean[][] theProgress) {
+      int theHeroIndex, int theLevel, boolean[][] theProgress, Hero theHero, Monster theMonster) {
     super(theStack);
     this.myGenerator = new MazeGenerator();
     this.myLevel = theLevel;
@@ -93,7 +97,7 @@ public class PlayingScreen extends GameScreen {
       } else {
         myEndingImg = ImageIO.read(new File("src/Assets/Images/PolymorphismCup.png"));
       }
-      myMonsterImg = ImageIO.read(new File("src/Assets/Images/skeleton1.png"));
+      myMonsterImg = ImageIO.read(new File("src/Assets/Images/" + theMonster.getName() + "Battle.png"));
       myEscapeImg = ImageIO.read(new File("src/Assets/Images/Escape.jpg"));
       myTImg = ImageIO.read(new File("src/Assets/Images/T.png"));
       myExclamationImg = ImageIO.read(new File("src/Assets/Images/eMark.jpeg"));
@@ -110,6 +114,8 @@ public class PlayingScreen extends GameScreen {
     myMonstersDefeated = 0;
     isCheckUnlocked = false;
     lightningBolts = new ArrayList<>();
+    myHero = theHero;
+    myMonster = theMonster;
   }
 
   /**
@@ -193,8 +199,8 @@ public class PlayingScreen extends GameScreen {
       int monsterX = myMonsterPos[i * 2];
       int monsterY = myMonsterPos[i * 2 + 1];
       if (myDungeon.getMyCurrX() == monsterX && myDungeon.getMyCurrY() == monsterY) {
-        int monsterWidth = 33;
-        int monsterHeight = 24;
+        int monsterWidth = 50;
+        int monsterHeight = 50;
 
         int centerX = getWidth() / 2;
         int centerY = FrameManager.getHeight() / 2;
@@ -381,8 +387,8 @@ public class PlayingScreen extends GameScreen {
           }
         }
         if (isBattleTextVisible) {
-//          myGameScreenStack.addScreen(
-//              new BattleScreen(myGameScreenStack, new Wizard(), new Skeleton()));
+          myGameScreenStack.addScreen(
+              new BattleScreen(myGameScreenStack, myHero, myMonster));
           if (myDungeon.getMyCurrX() == myMonsterPos[0] && myDungeon.getMyCurrY() == myMonsterPos[1]
               && getMyLevel() > 1) {
             myChestImg = myOpenedChestImg;
