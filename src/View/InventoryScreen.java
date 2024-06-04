@@ -1,10 +1,9 @@
 package View;
 
-import Model.Character.AbstractCharacter;
 import Model.Character.Hero;
 import Model.GameScreen;
 import Model.GameScreenStack;
-import Model.Items.GameItem;
+import Model.GameItem;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

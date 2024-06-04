@@ -1,6 +1,7 @@
 package Model.Items;
 
 import Model.Character.AbstractCharacter;
+import Model.GameItem;
 
 /**
  * LeachFang class is a GameItem

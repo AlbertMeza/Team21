@@ -1,6 +1,6 @@
 package Model.Character;
 
-import Model.Items.GameItem;
+import Model.GameItem;
 import Model.Items.GoblinLoot;
 import Model.Items.LeachLoot;
 import Model.Items.OgreLoot;

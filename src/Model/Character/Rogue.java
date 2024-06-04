@@ -1,6 +1,6 @@
 package Model.Character;
 
-import Model.Items.GameItem;
+import Model.GameItem;
 
 /**
  * This class represents a Rogue hero

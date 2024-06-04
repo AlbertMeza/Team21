@@ -2,7 +2,7 @@ package Model.Tests;
 
 import Model.Character.AbstractCharacter;
 import Model.Character.Wizard;
-import Model.Items.GameItem;
+import Model.GameItem;
 import Model.Items.LeachTonic;
 
 public class LeachTonicTests {

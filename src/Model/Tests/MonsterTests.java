@@ -2,7 +2,6 @@ package Model.Tests;
 
 import Model.Character.AbstractCharacter;
 import Model.Character.Monster;
-import Model.Items.GameItem;
 
 /**
  * This class tests Monster class

@@ -1,5 +1,5 @@
 package Model.Character;
-import Model.Items.GameItem;
+import Model.GameItem;
 
 import java.util.Random;
 
