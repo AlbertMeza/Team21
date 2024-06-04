@@ -356,12 +356,14 @@ public class AbstractCharacter implements Serializable {
      * addItemToBag receives an item and puts it into the character's bag
      *
      * @param theItem is the item to be stored in the bag
+     * @return String of the item picked up
      */
-  public void pickUpItem(GameItem theItem) {
+  public String pickUpItem(GameItem theItem) {
       if (null == theItem) {
           throw new IllegalArgumentException("Item must not be null");
       }
       myBag.addItem(theItem);
+      return "Hero received " + theItem.getItemName();
   }
 
     /**
@@ -392,19 +394,40 @@ public class AbstractCharacter implements Serializable {
      *          have the item
      */
   public String useItem(GameItem theItem) {
+      StringBuilder result;
       if (theItem == null) {
           throw new IllegalArgumentException("Item must not be null");
       } else if (!myBag.hasItem(theItem)) {
-          throw new IllegalArgumentException("Item to use must already"
-                                            + " be in character's bag");
+          result = new StringBuilder("Bag does not contain this item!");
+      } else {
+          int previousHP = myHP;
+          int previousMaxHP = myMaxHP;
+          int previousDamage = myDamage;
+          int previousSpeed = mySpeed;
+          double previousDodgeRate = myDodgeRate;
+          result = new StringBuilder("Bag does not contain this item!");
+          if (myBag.hasItem(theItem)) {
+              theItem.useItem(this);
+              myBag.removeItem(theItem);
+              result = new StringBuilder("Hero used " + theItem.getItemName() + ". ");
+          }
+          if (previousHP != myHP) {
+              result.append("Hero's health increased from ").append(previousHP).append(" points to ").append(myHP).append(" points! ");
+          }
+          if (previousMaxHP != myMaxHP) {
+              result.append("Hero's max health increased from ").append(previousMaxHP).append(" points to ").append(myMaxHP).append(" points! ");
+          }
+          if (previousDamage != myDamage) {
+              result.append("Hero's damage increased from ").append(previousDamage).append(" points to ").append(myDamage).append(" points! ");
+          }
+          if (previousSpeed != mySpeed) {
+              result.append("Hero's speed increased from ").append(previousSpeed).append(" points to ").append(mySpeed).append(" points! ");
+          }
+          if (previousDodgeRate != myDodgeRate) {
+              result.append("Hero's dodge rate increased from ").append(previousDodgeRate * 100).append("% to ").append(myDodgeRate).append("%! ");
+          }
       }
-      String result = "Bag does not contain this item!";
-      if (myBag.hasItem(theItem)) {
-          theItem.useItem(this);
-          myBag.removeItem(theItem);
-          result = "Item used!";
-      }
-      return result;
+      return result.toString();
   }
 
     /**
