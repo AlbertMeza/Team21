@@ -2,6 +2,7 @@ package Model.Character;
 
 import Model.Items.GameItem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -13,7 +14,7 @@ import java.util.Random;
  * @author Austin Maggert
  * @version Spring 2024
  */
-public class AbstractCharacter {
+public class AbstractCharacter implements Serializable {
 
     /**
      * RANDOM constant is a Random generator for class usage.
@@ -443,7 +444,7 @@ public class AbstractCharacter {
      * @author Austin Maggert
      * @version 03may2024
      */
-  private class Bag {
+  private class Bag implements Serializable {
 
         /**
          * myBag field stores the game items in an arraylist
