@@ -183,17 +183,17 @@ public class Dungeon {
     public void changeRoom(PlayableHero thePlayer){
         if (thePlayer.getCenterX() < 0) {
             this.myCurrX--;
-            thePlayer.setCenterX(FrameManager.WIDTH);
+            thePlayer.setCenterX(FrameManager.getWidth());
         }
-        else if (thePlayer.getCenterX() > FrameManager.WIDTH) {
+        else if (thePlayer.getCenterX() > FrameManager.getWidth()) {
             this.myCurrX++;
             thePlayer.setCenterX(0);
         }
         if (thePlayer.getCenterY() < 0) {
             this.myCurrY--;
-            thePlayer.setCenterY(FrameManager.HEIGHT);
+            thePlayer.setCenterY(FrameManager.getHeight());
         }
-        else if (thePlayer.getCenterY() > FrameManager.HEIGHT) {
+        else if (thePlayer.getCenterY() > FrameManager.getHeight()) {
             this.myCurrY++;
             thePlayer.setCenterY(0);
         }

@@ -18,11 +18,6 @@ public class GameScreenStack {
 /**
  * screens field is the stack that holds all game screens in the game
  */
-  private final Stack<GameScreen> screens;
-
-  /**
-   * screens field is the stack that holds all game screens in the game
-   */
   private Stack<GameScreen> myScreens;
 
   private final AudioManager myMusicManager;

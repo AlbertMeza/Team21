@@ -132,7 +132,6 @@ public class MainMenu extends GameScreen {
 private Image heroImage;
 private String heroType;
 private boolean[][] myProgress;
-private Hero myHero;
 private int myHeroIndex;
 
 
@@ -147,14 +146,14 @@ private int myHeroIndex;
       myHero = new Elf();
     myMonster = new MonsterFactory().getRandomMonster();
     String MYSTERY = "???????";
-    myOptionMenu = new String[] {START_GAME, POLYMORPHISM, ENCAPSULATION, INHERITANCE, ABSTRACTION,
+    myOptionMenu = new String[] {CHARACTER_SELECT, POLYMORPHISM, ENCAPSULATION, INHERITANCE, ABSTRACTION,
             MYSTERY, QUIT_GAME, BATTLE_SCREEN, SAVE_GAME, LOAD_GAME};
     mySelected = 0;
       isAbstractionUnlock = true;
       isEncapsulationUnlock = true;
       isInheritanceUnlock = true;
       isPolymorphismUnlock = true;
-    mysteryUnlock = false;
+    isMysteryUnlock = false;
     playBackgroundMusic(START_MENU_MUSIC);
     saveLocation = new File("src/SavedGame");
     try {
@@ -257,7 +256,7 @@ private int myHeroIndex;
   /**
    * keyPressed method enables key press event handling
    *
-   * @param keyCode is the code for the key pressed
+   * @param theKeyCode is the code for the key pressed
    */
   @Override
   protected void keyPressed(int theKeyCode) {

@@ -218,6 +218,10 @@ public class AbstractCharacter implements Serializable {
       return myHP;
   }
 
+  public int getMaxHP() {
+      return myMaxHP;
+  }
+
     /**
      * getDamage method returns the character's current damage points
      *

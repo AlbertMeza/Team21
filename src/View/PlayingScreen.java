@@ -1,10 +1,9 @@
 package View;
 
+import Controller.MathHelper;
 import Controller.MathHelper.Direction;
 import Controller.MazeGenerator;
 import Controller.RoomData;
-import Model.Character.Skeleton;
-import Model.Character.Wizard;
 import Model.Dungeon;
 import Model.LightningBolt;
 import Model.PlayableHero;
@@ -47,13 +46,9 @@ public class PlayingScreen extends GameScreen {
   private Image myChestImg;
   private Image myOpenedChestImg;
   private Image myWalkingMonster;
-  private final PlayableHero myPlayer;
-
   private final int myLevel;
 
   private Image myEndingImg;
-  private final boolean[][] myProgress;
-  private final int myHeroIndex;
   private final boolean[][] myProgress;
   private final int myHeroIndex;
   private boolean isBattleTextVisible;
@@ -156,10 +151,10 @@ public class PlayingScreen extends GameScreen {
       bolt.render(graphics);
     }
     if (isMazeVisible) {
-      for (int i = 0; i < myGenerator.getWORLD_SIZE(); i++) {
-        for (int j = 0; j < myGenerator.getWORLD_SIZE(); j++) {
-          int x = getWidth() - (myGenerator.getWORLD_SIZE() - j) * 33;
-          int y = FrameManager.getHeight() - (myGenerator.getWORLD_SIZE() - i) * 24;
+      for (int i = 0; i < myGenerator.getWorldSize(); i++) {
+        for (int j = 0; j < myGenerator.getWorldSize(); j++) {
+          int x = getWidth() - (myGenerator.getWorldSize() - j) * 33;
+          int y = FrameManager.getHeight() - (myGenerator.getWorldSize() - i) * 24;
           if (myVisitedRooms[i][j]) {
             Image image = null;
             try {
@@ -180,8 +175,8 @@ public class PlayingScreen extends GameScreen {
       }
     }
     if (getMyLevel() >= 2 && !(myDungeon.getMyCurrX() == 0 && myDungeon.getMyCurrY() == 0)
-        && !(myDungeon.getMyCurrX() == myGenerator.getWORLD_SIZE() - 1
-        && myDungeon.getMyCurrY() == myGenerator.getWORLD_SIZE() - 1)) {
+        && !(myDungeon.getMyCurrX() == myGenerator.getWorldSize() - 1
+        && myDungeon.getMyCurrY() == myGenerator.getWorldSize() - 1)) {
       graphics.drawImage(myWalkingMonster, monsterPosXOne, monsterPosYOne, 50, 50, null);
       graphics.drawImage(myWalkingMonster, monsterPosXTwo, monsterPosYTwo, 50, 50, null);
       graphics.drawImage(myWalkingMonster, monsterPosXThree, monsterPosYThree, 50, 50, null);
@@ -232,8 +227,8 @@ public class PlayingScreen extends GameScreen {
         }
       }
     }
-    if (myDungeon.getMyCurrX() == myGenerator.getWORLD_SIZE() - 1
-        && myDungeon.getMyCurrY() == myGenerator.getWORLD_SIZE() - 1) {
+    if (myDungeon.getMyCurrX() == myGenerator.getWorldSize() - 1
+        && myDungeon.getMyCurrY() == myGenerator.getWorldSize() - 1) {
       graphics.drawImage(myEndingImg, getWidth() / 2, FrameManager.getHeight() / 2, 50, 50, null);
       isEndingTextVisible = Math.abs(myPlayer.x - getWidth() / 2) <= 150
           && Math.abs(myPlayer.y - FrameManager.getHeight() / 2) <= 150;
@@ -328,8 +323,8 @@ public class PlayingScreen extends GameScreen {
         this.isMazeVisible = true;
         break;
       case KeyEvent.VK_ENTER:
-        if (myDungeon.getMyCurrY() == myGenerator.getWORLD_SIZE() - 1
-            && myDungeon.getMyCurrX() == myGenerator.getWORLD_SIZE() - 1) {
+        if (myDungeon.getMyCurrY() == myGenerator.getWorldSize() - 1
+            && myDungeon.getMyCurrX() == myGenerator.getWorldSize() - 1) {
           if (isEndingTextVisible) {
             if (getMyLevel() == 1) {
               myProgress[myHeroIndex][myLevel - 1] = true;
@@ -340,8 +335,8 @@ public class PlayingScreen extends GameScreen {
                     "Polymorphism in OOP lets objects of different types be treated as instances of a common superclass, enabling flexible and reusable code.",
                     "Level Complete", JOptionPane.INFORMATION_MESSAGE, icon);
 
-                gameScreenStack.clearStack();
-                gameScreenStack.addScreen(new MainMenu(gameScreenStack, myHeroIndex, myProgress));
+                myGameScreenStack.clearStack();
+                myGameScreenStack.addScreen(new MainMenu(myGameScreenStack, myHeroIndex, myProgress));
               });
             }
             if (getMyLevel() == 2 && isCheckUnlocked) {
@@ -353,8 +348,8 @@ public class PlayingScreen extends GameScreen {
                     "Encapsulation in OOP is the practice of bundling data and methods that operate on that data within a single unit",
                     "Level Complete", JOptionPane.INFORMATION_MESSAGE, icon);
 
-                gameScreenStack.clearStack();
-                gameScreenStack.addScreen(new MainMenu(gameScreenStack, myHeroIndex, myProgress));
+                myGameScreenStack.clearStack();
+                myGameScreenStack.addScreen(new MainMenu(myGameScreenStack, myHeroIndex, myProgress));
               });
             }
             if (getMyLevel() == 3) {
@@ -366,8 +361,8 @@ public class PlayingScreen extends GameScreen {
                     "Inheritance in OOP allows a class to inherit properties and behaviors from another class, promoting code reuse and establishing a hierarchical relationship between classes",
                     "Level Complete", JOptionPane.INFORMATION_MESSAGE, icon);
 
-                gameScreenStack.clearStack();
-                gameScreenStack.addScreen(new MainMenu(gameScreenStack, myHeroIndex, myProgress));
+                myGameScreenStack.clearStack();
+                myGameScreenStack.addScreen(new MainMenu(myGameScreenStack, myHeroIndex, myProgress));
               });
             }
             if (getMyLevel() == 4) {
@@ -379,25 +374,21 @@ public class PlayingScreen extends GameScreen {
                     "Abstraction in OOP involves hiding the complex implementation details of a system and exposing only the essential features, simplifying interaction and reducing complexity for the user",
                     "Level Complete", JOptionPane.INFORMATION_MESSAGE, icon);
 
-                gameScreenStack.clearStack();
-                gameScreenStack.addScreen(new MainMenu(gameScreenStack, myHeroIndex, myProgress));
+                myGameScreenStack.clearStack();
+                myGameScreenStack.addScreen(new MainMenu(myGameScreenStack, myHeroIndex, myProgress));
               });
             }
           }
         }
         if (isBattleTextVisible) {
-          gameScreenStack.addScreen(
-              new BattleScreen(gameScreenStack, new Wizard(), new Skeleton()));
+//          myGameScreenStack.addScreen(
+//              new BattleScreen(myGameScreenStack, new Wizard(), new Skeleton()));
           if (myDungeon.getMyCurrX() == myMonsterPos[0] && myDungeon.getMyCurrY() == myMonsterPos[1]
               && getMyLevel() > 1) {
             myChestImg = myOpenedChestImg;
             setChestUnlocked();
           }
         }
-        break;
-          myGameScreenStack.clearStack();
-          myGameScreenStack.addScreen(new MainMenu(myGameScreenStack, myHeroIndex, myProgress));
-        });
         break;
     }
   }
@@ -436,7 +427,7 @@ public class PlayingScreen extends GameScreen {
     while (!myGenerator.finished()) {
       myGenerator.generate();
     }
-    this.myDungeon = new Dungeon(this.myGenerator.getMyRoomData(), myGenerator.getWORLD_SIZE(),
+    this.myDungeon = new Dungeon(this.myGenerator.getMyRoomData(), myGenerator.getWorldSize(),
         getMyLevel());
   }
 
@@ -484,7 +475,7 @@ public class PlayingScreen extends GameScreen {
   public int[] generateMonsterPosition() {
     Random rand = new Random();
     int[] result = new int[getMyLevel() * 2];
-    int worldSize = myGenerator.getWORLD_SIZE();
+    int worldSize = myGenerator.getWorldSize();
     for (int i = 0; i < getMyLevel(); i++) {
       do {
         result[i * 2] = rand.nextInt(worldSize);
@@ -567,7 +558,7 @@ public class PlayingScreen extends GameScreen {
 
   boolean isSafeRoom(int theRoomX, int theRoomY){
     return !(theRoomX == 0 && theRoomY == 0)
-        && (!(theRoomX == myGenerator.getWORLD_SIZE()-1)
-        && !(theRoomY == myGenerator.getWORLD_SIZE()-1));
+        && (!(theRoomX == myGenerator.getWorldSize()-1)
+        && !(theRoomY == myGenerator.getWorldSize()-1));
   }
 }
