@@ -74,10 +74,10 @@ public class BattleManager {
 
         }
         if (myMonster.checkIfDead()) {
-            System.out.print("Victory! " + myHero.getName() + " received: ");
+            System.out.print("Victory!\n");
             GameItem[] rewards = myMonster.getItems();
-            myHero.pickUpItem(rewards[0]);
-            myHero.pickUpItem(rewards[1]);
+            System.out.println(myHero.pickUpItem(rewards[0]));
+            System.out.println(myHero.pickUpItem(rewards[1]));
             mySoundEffectManager.playAudio("BattleChest",false);
 
         }
