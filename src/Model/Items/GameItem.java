@@ -1,5 +1,7 @@
 package Model.Items;
 
+import Model.Character.AbstractCharacter;
+
 import java.io.Serializable;
 
 /**
@@ -9,20 +11,16 @@ import java.io.Serializable;
  * @version Spring 2024
  */
 public abstract class GameItem implements Serializable {
-    /**
-     * myName field is the name of the game item
-     */
-    String myName;
 
     /**
-     * GameItem constructor creates an abstract level
-     * game item and initializes myName
-     *
-     * @param theName is the name for this game item
+     * myName field is the name for this Game Item
      */
-    public GameItem(String theName) {
-        myName = theName;
-    }
+    String myName;
+    /**
+     * GameItem constructor creates an abstract level
+     * game item.
+     */
+    public GameItem(String theName){myName = theName;};
 
     /**
      * getItemName method returns the name of this game item
@@ -33,8 +31,8 @@ public abstract class GameItem implements Serializable {
         return myName;
     }
 
-    @Override
-    public String toString() {
-        return myName;
-    }
+    /**
+     * useItem method uses the game item on the passed hero param
+     */
+    public abstract void useItem(AbstractCharacter theCharacter);
 }

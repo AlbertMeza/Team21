@@ -1,6 +1,5 @@
 package Model.Character;
 import Model.Items.GameItem;
-import Model.Items.GoldCoin;
 
 import java.util.Random;
 
@@ -13,6 +12,17 @@ import java.util.Random;
 public class Elf extends Hero implements Healable {
 
     /**
+     * HEAL_MAX_BOUND constant is the max bound, i.e.
+     * range for amount of hp healed
+     */
+    private static final int HEAL_MAX_BOUND = 30;
+
+    /**
+     * HEAL_MIN constant is the minimum hp to be healed
+     */
+    private static final int HEAL_MIN = 10;
+
+    /**
      * RAND constant is for randomness in Elf class
      */
     final Random RAND = new Random();
@@ -21,7 +31,7 @@ public class Elf extends Hero implements Healable {
      * Elf constructor creates an elf hero character
      */
    public Elf() {
-       super("Elf", 100,25, 1, 0.1, new GameItem[] {new GoldCoin()});
+       super("Elf", 100,25, 3, 0.2, new GameItem[] {});
    }
 
     /**
@@ -29,7 +39,7 @@ public class Elf extends Hero implements Healable {
      * it heals the elf at random between 10 and 40 hp
      */
     public void heal() {
-        int healAmount = RAND.nextInt(30) + 10;
+        int healAmount = RAND.nextInt(HEAL_MAX_BOUND) + HEAL_MIN;
         super.buffHP(healAmount);
     }
 }

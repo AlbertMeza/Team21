@@ -4,7 +4,7 @@ import Model.Items.GameItem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -15,6 +15,15 @@ import java.util.Random;
  * @version Spring 2024
  */
 public class AbstractCharacter implements Serializable {
+
+    /**
+     * RANDOM constant is a Random generator for class usage.
+     */
+    private final Random RANDOM = new Random();
+    /**
+     * MAX_DODGE_RATE is the max allowed dodge rate
+     */
+    double MAX_DODGE_RATE = 0.7;
 
     /**
      * myName field is the name of the character.
@@ -47,6 +56,30 @@ public class AbstractCharacter implements Serializable {
     private double myDodgeRate;
 
     /**
+     * INITIAL_HP is the Character's hp
+     * during instantiation
+     */
+    private final int INITIAL_HP;
+
+    /**
+     * INITIAL_DAMAGE field is the character's damage points
+     * during instantiation.
+     */
+    private final int INITIAL_DAMAGE;
+
+    /**
+     * INITIAL_SPEED field is the character's speed points
+     * during instantiation.
+     */
+    private final int INITIAL_SPEED;
+
+    /**
+     * INITIAL_DAMAGE_RATE field is the character's dodge rate
+     * on scale 0.0 - 0.7 (0% to 70%) during instantiation
+     */
+    private final double INITIAL_DAMAGE_RATE;
+
+    /**
      * myBag field is the character's inventory bag of game items.
      */
     private final Bag myBag;
@@ -55,19 +88,6 @@ public class AbstractCharacter implements Serializable {
      * myDeathStatus is true iff character dies (hp drops to 0)
      */
     private boolean myDeathStatus;
-
-    /**
-     * image name form this character.
-     */
-    private final String myImage;
-
-    private static final String DEFAULT_IMAGE_PATH = "src/Assets/Images/";
-
-
-    /**
-     * rand is a Random generator for class usage.
-     */
-    private final Random RANDOM = new Random();
 
     /**
      * AbstractCharacter constructor initializes all fields.
@@ -81,16 +101,71 @@ public class AbstractCharacter implements Serializable {
      */
   public  AbstractCharacter(String theName, int theHP, int theDamage, int theSpeed,
                             double theDodgeRate, GameItem[] theItems) {
-      myName = theName;
-      myHP = theHP;
-      myMaxHP = theHP;
-      myDamage = theDamage;
-      mySpeed = theSpeed;
-      myDodgeRate = theDodgeRate;
+      myName = Objects.requireNonNull(theName);
+      INITIAL_HP = theHP;
+      setHPs(theHP);
+      INITIAL_DAMAGE = theDamage;
+      setDamage(theDamage);
+      INITIAL_SPEED = theSpeed;
+      setSpeed(theSpeed);
+      INITIAL_DAMAGE_RATE = theDodgeRate;
+      setDodgeRate(theDodgeRate);
       myBag = new Bag(theItems);
       myDeathStatus = false;
-      myImage = DEFAULT_IMAGE_PATH + theName + "Battle.png";
   }
+
+    /**
+     * setHP checks the input is valid. if so, it assigns the
+     * parameter to myHP and myMaxHP fields. if not, it throws an exception.
+     *
+     * @param theHP is the initial health points for this character
+     */
+    private void setHPs(int theHP) {
+        if (theHP <= 0) {
+            throw new IllegalArgumentException("The HP must be a positive integer.");
+        }
+        myHP = theHP;
+        myMaxHP = theHP;
+    }
+
+    /**
+     * setDamage checks the input is valid. if so, it assigns the
+     * parameter to myDamage field. if not, it throws an exception.
+     *
+     * @param theDamage is the damage points for this character
+     */
+    private void setDamage(int theDamage) {
+        if (theDamage <= 0) {
+            throw new IllegalArgumentException("The damage must be a positive integer.");
+        }
+        myDamage = theDamage;
+    }
+
+    /**
+     * setSpeed checks the input is valid. if so, it assigns the
+     * parameter to mySpeed field. if not, it throws an exception.
+     *
+     * @param theSpeed is the speed points for this character
+     */
+    private void setSpeed(int theSpeed) {
+        if (theSpeed <= 0) {
+            throw new IllegalArgumentException("the speed must be a positive integer.");
+        }
+        mySpeed = theSpeed;
+    }
+
+    /**
+     * setDodgeRate checks the input is valid. if so, it assigns the
+     * parameter to myDodgeRate field. if not, it throws an exception.
+     *
+     * @param theDodgeRate is the dodge rate (0 - 1) for this character
+     */
+    private void setDodgeRate(double theDodgeRate) {
+        if (theDodgeRate < 0 || theDodgeRate > MAX_DODGE_RATE) {
+            throw new IllegalArgumentException("The dodge rate must be a value between 0 and 0.7.");
+        }
+        myDodgeRate = theDodgeRate;
+    }
 
     /**
      * attacked method receives an attack damage. Then it determines if the hit
@@ -101,6 +176,9 @@ public class AbstractCharacter implements Serializable {
      * @return returns boolean true when the attack lands, and false otherwise
      */
   public boolean attacked(int theDamage) {
+      if (theDamage <= 0) {
+          throw new IllegalArgumentException("Damage must be a positive integer.");
+      }
       boolean hitLanded = false;
       double dodge = RANDOM.nextDouble();
       if (dodge >= myDodgeRate) {
@@ -118,13 +196,18 @@ public class AbstractCharacter implements Serializable {
      *
      * @param theDamage is the damage to be deducted from this character's hp
      */
-  public void takeDamage(int theDamage) {
+  private void takeDamage(int theDamage) {
       myHP = myHP - theDamage;
       if (myHP < 1) {
           myHP = 0;
           myDeathStatus = true;
       }
   }
+
+    /**
+     * getName method returns the character's name/type
+     */
+    public String getName() {return myName;}
 
     /**
      * getHP method returns the character's current health points
@@ -154,46 +237,38 @@ public class AbstractCharacter implements Serializable {
   }
 
     /**
-     * Image representing this character.
-     * @return Character image string.
-     */
-    public String getImage() {
-        return myImage;
-    }
-
-    /**
-     * Gets the name of the character.
-     * @return Character name string
-     */
-    public String getName() {
-        return myName;
-    }
-
-    /**
-     * Gets the character's max HP.
-     * @return Character maxHP int.
-     */
-    public int getMaxHP() {
-        return myMaxHP;
-    }
-
-    /**
-     * Getter for dodge rate
-     * @return Character dodge rate.
+     * getDodgeRate method returns the character's current dodge rate
+     *
+     * @return returns character's current dodge rate
      */
     public double getDodgeRate() {
         return myDodgeRate;
     }
 
     /**
+     * resetCharacter resets all stats of the character
+     * to original stats. Bag does not get altered.
+     */
+    public void resetCharacter() {
+        setHPs(INITIAL_HP);
+        setDamage(INITIAL_DAMAGE);
+        setSpeed(INITIAL_SPEED);
+        setDodgeRate(INITIAL_DAMAGE_RATE);
+    }
+
+    /**
      * attack method receives another character and attempts an attack on that
-     * character. It will return true if the attack lands, and false otherwise.
+     * character. It will return truee if the attack lands, and false otherwise.
      *
      * @param theOtherCharacter is the character to be attacked
      * @return returns true when attack lands and false otherwise
      */
   public boolean attack(AbstractCharacter theOtherCharacter) {
-      return theOtherCharacter.attacked(myDamage);
+      if (null == theOtherCharacter) {
+          throw new IllegalArgumentException("Character must not be null");
+      }
+      boolean attackLanded = theOtherCharacter.attacked(myDamage);
+      return attackLanded;
   }
 
     /**
@@ -203,6 +278,9 @@ public class AbstractCharacter implements Serializable {
      * @param theHP is the points to be added to hp, up to max hp
      */
   public void buffHP(int theHP) {
+      if (theHP < 1) {
+          throw new IllegalArgumentException("HP boost must be a positive integer");
+      }
       myHP += theHP;
       if (myHP > myMaxHP) {
           myHP = myMaxHP;
@@ -216,6 +294,9 @@ public class AbstractCharacter implements Serializable {
      * @param theHP is the points to be added to max HP
      */
     public void buffMaxHP(int theHP) {
+        if (theHP <= 0) {
+            throw new IllegalArgumentException("Max HP buff must be a positive integer");
+        }
         myMaxHP += theHP;
         myHP = myMaxHP;
     }
@@ -227,6 +308,9 @@ public class AbstractCharacter implements Serializable {
      * @param theDamage are the damage points to be added.
      */
   public void buffDamage(int theDamage) {
+      if (theDamage <= 0) {
+          throw new IllegalArgumentException("Damage buff must be a positive integer");
+      }
       myDamage += theDamage;
   }
 
@@ -237,6 +321,9 @@ public class AbstractCharacter implements Serializable {
      * @param theSpeed are the speed points to be added.
      */
   public void buffSpeed(int theSpeed) {
+      if (theSpeed <= 0) {
+          throw new IllegalArgumentException("Speed buff must be a positive integer");
+      }
       mySpeed += theSpeed;
   }
 
@@ -247,9 +334,12 @@ public class AbstractCharacter implements Serializable {
      * @param theDodgeRate is the dodge rate to be added up to max.
      */
   public void buffDodgeRate(double theDodgeRate) {
+      if (theDodgeRate <= 0) {
+          throw new IllegalArgumentException("Dodge rate buff must be a positive double");
+      }
       myDodgeRate += theDodgeRate;
-      if (myDodgeRate > 0.7) {
-          myDodgeRate = 0.7;
+      if (myDodgeRate > MAX_DODGE_RATE) {
+          myDodgeRate = MAX_DODGE_RATE;
       }
   }
 
@@ -262,103 +352,90 @@ public class AbstractCharacter implements Serializable {
         return myDeathStatus;
     }
 
-//    /**
-//     * addItemToBag receives an item and puts it into the character's bag
-//     *
-//     * @param theItem is the item to be stored in the bag
-//     */
-//  public void addItemToBag(GameItem theItem) {
-//      myBag.addItem(theItem);
-//  }
-
-  // this method is only to be kept if a monster is capable of carrying more than one item. getReward() in monster
-    // class returns an array of GameItem. Should it instead return only the 1st item in their inventory/the only item?
     /**
-     * Method used when defeating monster to add the monster's rewards to the player's bag.
-     * @param theRewards Array of items in monster's inventory.
+     * addItemToBag receives an item and puts it into the character's bag
+     *
+     * @param theItem is the item to be stored in the bag
      */
-  public void addRewardsToBag(GameItem[] theRewards) {
-      StringBuilder sb = new StringBuilder();
-      sb.append(theRewards[0]);
-      myBag.addItem(theRewards[0]);
-      for (int i = 1; i < theRewards.length; i++){
-          sb.append(", ");
-          sb.append(theRewards[i]);
-          myBag.addItem(theRewards[i]);
+  public void pickUpItem(GameItem theItem) {
+      if (null == theItem) {
+          throw new IllegalArgumentException("Item must not be null");
       }
-      System.out.println(sb);
+      myBag.addItem(theItem);
   }
+
+    /**
+     * dropItem removes the item from the bag without using it
+     * and returns the dropped item
+     *
+     * @return returns the dropped Game Item
+     */
+    public GameItem dropItem(GameItem theItem) {
+        if (null == theItem) {
+            throw new IllegalArgumentException("Item must not be null");
+        }
+        else if (!myBag.hasItem(theItem)) {
+            throw new IllegalArgumentException("Item to drop must already"
+                                               + " be in character's bag");
+        }
+        myBag.removeItem(theItem);
+        return theItem;
+    }
 
     /**
      * useItem method checks if the item is in the characters bag,
      * and if it is, it will use it. When using it, it will call methods
-     * to provide certain staus buff, and if applicable, destroy the object.
+     * to provide certain status buff, and if applicable, destroy the object.
      *
      * @param theItem is the game item attempting to be used
      * @return returns a string as to what the item does, or that the bag didn't
      *          have the item
      */
   public String useItem(GameItem theItem) {
+      if (theItem == null) {
+          throw new IllegalArgumentException("Item must not be null");
+      } else if (!myBag.hasItem(theItem)) {
+          throw new IllegalArgumentException("Item to use must already"
+                                            + " be in character's bag");
+      }
       String result = "Bag does not contain this item!";
       if (myBag.hasItem(theItem)) {
-
-          switch (theItem.getItemName()) {
-              case "Health Potion":
-                  int hp = RANDOM.nextInt(15) + 15;
-                  int tempHP = myHP;
-                  buffHP(hp);
-                  myBag.removeItem(theItem);
-                  result = "Hero drank health potion.\n"
-                            + "Hero's health increased " + (myHP - tempHP) + " points!";
-                  break;
-              case "Damage Potion":
-                  int dp = RANDOM.nextInt(10) + 5;
-                  buffDamage(dp);
-                  myBag.removeItem(theItem);
-                  result = "Hero drank damage potion.\n"
-                            + "Hero's damage increased " + dp + " points!";
-                  break;
-              case "Speed Potion":
-                  int sp = RANDOM.nextInt(3) + 1;
-                  buffSpeed(sp);
-                  myBag.removeItem(theItem);
-                  result = "Hero drank speed potion.\n"
-                            + "Hero's speed increased " + sp + " points!";
-                  break;
-              case "Evasion Potion":
-                  if (myDodgeRate <= 0.6) {
-                      double ep = 0.1 * (RANDOM.nextInt(3) + 1);
-                      buffDodgeRate(ep);
-                      myBag.removeItem(theItem);
-                      result = "Hero drank evasion potion.\n"
-                                + "Hero's dodge rate increased by "
-                                + (ep * 100) + " percent!";
-                  } else result = "Hero's dodge rate is maximized!\n"
-                                    + "Potion was not used.";
-                  break;
-              case "Archaic Boots":
-                  buffSpeed(1);
-                  myBag.removeItem(theItem);
-                  result = "Hero donned the Archaic Boots.\n"
-                            + "Hero's speed increased by 1 point!";
-                  break;
-              case "Bone Sword":
-                  buffDamage(10);
-                  myBag.removeItem(theItem);
-                  result = "Hero picked up Bone Sword.\n"
-                            + "Hero's damage increased by 10 points!";
-                  break;
-              case "Gold Coin" :
-                  result = "Hero admired the gold coin,"
-                            + "then put it back in the bag \nfor later.";
-                  break;
-          }
+          theItem.useItem(this);
+          myBag.removeItem(theItem);
+          result = "Item used!";
       }
       return result;
   }
 
-    public Bag getBag() {
-      return myBag;
+    /**
+     * hasItem method checks if an item is in myBag
+     *
+     * @param theItem is the item to be checked if it is in the bag
+     * @return returns true if the item is in the bag, false otherwise
+     */
+    public Boolean hasItem(GameItem theItem) {
+        if (null == theItem) {
+            throw new IllegalArgumentException("Item must not be null");
+        }
+        return myBag.hasItem(theItem);
+    }
+
+    /**
+     * getItems method provides external classes the contents of the bag
+     *
+     * @return returns an array containing each item in the bag
+     */
+    public GameItem[] getItems() {
+        return myBag.getItems();
+    }
+
+    /**
+     * isBagEmpty empty provides other classes status if bag is empty or not
+     *
+     * @return boolean true if bag empty, false otherwise
+     */
+    public boolean isBagEmpty() {
+        return 0 == myBag.getItems().length;
     }
 
     /**
@@ -367,22 +444,25 @@ public class AbstractCharacter implements Serializable {
      * @author Austin Maggert
      * @version 03may2024
      */
-  public static class Bag implements Serializable {
+  private class Bag implements Serializable {
 
         /**
          * myBag field stores the game items in an arraylist
          */
-      ArrayList<GameItem> myBag;
+      private final ArrayList<GameItem> myImplementedBag;
 
         /**
-         * Bag constructor recieves an array of items, sometimes empty,
+         * Bag constructor receives an array of items, sometimes empty,
          * and initializes myBag to the contents of the array.
          *
          * @param theItems the array of game items to be initialized with
          */
       public Bag(GameItem[] theItems) {
-          myBag = new ArrayList<>();
-          Collections.addAll(myBag, Objects.requireNonNull(theItems));
+          if (null == theItems) {
+              throw new IllegalArgumentException("Items array must not be null");
+          }
+          myImplementedBag = new ArrayList<GameItem>();
+          myImplementedBag.addAll(Arrays.asList(theItems));
       }
 
         /**
@@ -391,7 +471,10 @@ public class AbstractCharacter implements Serializable {
          * @param theItem is the game item to be added to myBag
          */
       public void addItem(GameItem theItem) {
-          myBag.add(Objects.requireNonNull(theItem));
+          if (null == theItem) {
+              throw new IllegalArgumentException("Item must not be null");
+          }
+          myImplementedBag.add(theItem);
       }
 
         /**
@@ -401,7 +484,19 @@ public class AbstractCharacter implements Serializable {
          * @param theItem is the game item to be removed
          */
       public void removeItem(GameItem theItem) {
-          myBag.remove(theItem);
+          if (theItem == null) {
+              throw new IllegalArgumentException("Item must not be null");
+          } else if (!myBag.hasItem(theItem)) {
+              throw new IllegalArgumentException("Item to use must already"
+                      + " be in character's bag");
+          }
+          boolean deleted = false;
+          for (int i = 0; i < myImplementedBag.size() && !deleted; i++) {
+              if (myImplementedBag.get(i).getItemName().equals(theItem.getItemName())) {
+                  myImplementedBag.remove(myImplementedBag.get(i));
+                  deleted = true;
+              }
+          }
       }
 
         /**
@@ -411,7 +506,10 @@ public class AbstractCharacter implements Serializable {
          * @return returns the game item at theIndex in myBag
          */
       public GameItem getItem(int theIndex) {
-          return myBag.get(theIndex);
+          if (theIndex < 0 || theIndex >= myImplementedBag.size()) {
+              throw new IllegalArgumentException("Index out of bounds");
+          }
+          return myImplementedBag.get(theIndex);
       }
 
         /**
@@ -420,9 +518,9 @@ public class AbstractCharacter implements Serializable {
          * @return returns an array containing each item in the bag
          */
       public GameItem[] getItems() {
-          GameItem[] items = new GameItem[myBag.size()];
+          GameItem[] items = new GameItem[myImplementedBag.size()];
           int i = 0;
-          for (GameItem item : myBag) {
+          for (GameItem item : myImplementedBag) {
               items[i++] = item;
           }
           return items;
@@ -434,12 +532,14 @@ public class AbstractCharacter implements Serializable {
          * @param theItem is the item to be checked if it is in the bag
          * @return returns true if the item is in the bag, false otherwise
          */
-      public boolean hasItem(GameItem theItem) {
-          boolean result = false;
-          for (GameItem item : myBag) {
+      public Boolean hasItem(GameItem theItem) {
+          if (null == theItem) {
+              throw new IllegalArgumentException("Item must not be null");
+          }
+          Boolean result = false;
+          for (GameItem item : myImplementedBag) {
               if (item.getItemName().equals(theItem.getItemName())) {
                   result = true;
-                  break;
               }
           }
           return result;
