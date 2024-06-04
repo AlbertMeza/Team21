@@ -27,11 +27,14 @@ public class CharacterScreen extends GameScreen {
   private static final String SWITCH_EFFECT = "215029__taira-komori__extracting_knife";
   private static final String START_MENU_MUSIC = "POL-misty-dungeon-short";
 
+  private boolean[][] myProgress;
+
   int selected;
 
   protected CharacterScreen(GameScreenStack theStack) {
     super(theStack);
     selected = 0;
+    myProgress = new boolean[4][4];
     playBackgroundMusic(START_MENU_MUSIC);
 
     try {
@@ -43,6 +46,10 @@ public class CharacterScreen extends GameScreen {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+  protected CharacterScreen(GameScreenStack theStack, boolean[][] theProgress) {
+    this(theStack);
+    myProgress = theProgress;
   }
   @Override
   protected void loop() {
@@ -66,23 +73,26 @@ public class CharacterScreen extends GameScreen {
       graphics.setColor(Color.magenta);
     }
     graphics.drawString(elf, 100, 300);
+    drawStars(graphics, myProgress, 0, 80);
     graphics.setColor(Color.white);
     if (selected == 1) {
       graphics.setColor(Color.magenta);
     }
     graphics.drawString(wizard, 250, 300);
+    drawStars(graphics, myProgress, 1, 250);
     graphics.setColor(Color.white);
     if (selected == 2) {
       graphics.setColor(Color.magenta);
     }
     graphics.drawString(rogue, 420, 300);
+    drawStars(graphics, myProgress, 2, 420);
     graphics.setColor(Color.white);
     if (selected == 3) {
       graphics.setColor(Color.magenta);
     }
     graphics.drawString(barbarian, 600, 300);
+    drawStars(graphics, myProgress, 3, 600);
     graphics.setColor(Color.white);
-
 
   }
 
@@ -105,12 +115,26 @@ public class CharacterScreen extends GameScreen {
         break;
       case KeyEvent.VK_ENTER:
         playSoundEffect(SELECT_EFFECT);
-        myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack)); //Will this accept a Hero object?
+        myGameScreenStack.clearStack();
+        myGameScreenStack.addScreen(new MainMenu(myGameScreenStack, getHero(), myProgress));//Will this accept a Hero object?
     }
   }
 
   @Override
   protected void keyReleased(int keyCode) {
 
+  }
+
+  public int getHero(){
+    return selected;
+  }
+
+  private void drawStars(Graphics theGraphics, boolean[][] theProgress, int theIndex, int theLocation){
+    for (int i = 0; i < 4; i++) {
+      if(theProgress[theIndex][i]) theGraphics.setColor(new Color(255, 255, 0));
+      else theGraphics.setColor(new Color(128, 128, 128));
+      theGraphics.drawString("★", theLocation + i * 30, 350);
+    }
+    theGraphics.setColor(Color.white);
   }
 }

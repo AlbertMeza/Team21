@@ -4,6 +4,7 @@ import Controller.AudioManager;
 import Controller.GameController;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -18,10 +19,11 @@ public abstract class GameScreen {
   private final AudioManager mySoundManager;
   private final AudioManager myMusicManager;
   /**
-   * gameScreenStack field is the stack that game screens will be put on
+   * myGameScreenStack field is the stack that game screens will be put on
    */
   protected GameScreenStack myGameScreenStack;
   private Font myRetroGamingFont;
+
 
 
 

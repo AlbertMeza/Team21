@@ -52,12 +52,8 @@ public class GameController {
     myFrameManager.addKeyListener(new Keyboard());
     myFrameManager.createWindow();
     myTimer.start();
-    myGameScreenStack.addScreen(new MainMenu(myGameScreenStack));
-    myFrameManager.addPanel(new GameScreen());
-    myFrameManager.addKeyListener(new Keyboard());
-    myFrameManager.createWindow();
-    myTimer.start();
   }
+
 
   /**
    * nested MainGameLoop class provides looping action listening
@@ -96,7 +92,7 @@ public class GameController {
   }
 
   /**
-   * nested Keyboard class provides game key listeneing event handling
+   * nested Keyboard class provides game key listening event handling
    */
   private static class Keyboard implements KeyListener {
 

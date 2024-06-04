@@ -7,207 +7,203 @@ import View.FrameManager;
 import java.util.HashSet;
 
 public class Dungeon {
-    private Room[][] rooms;
-    private int currX;
-    private int currY;
-    int worldSize;
-    public Dungeon(HashSet<MathHelper.Direction>[][] roomsData, int worldSize){
-        this.rooms = new Room[roomsData.length][roomsData[0].length];
-        this.worldSize = worldSize;
-        for(int i=0; i < worldSize; i++){
-            for(int j =0; j < worldSize; j++) {
-                if (roomsData[i][j].contains(Direction.NORTH) && roomsData[i][j].contains(
+    private Room[][] myRooms;
+    private int myCurrX;
+    private int myCurrY;
+    private int myWorldSize;
+    public Dungeon(HashSet<MathHelper.Direction>[][] theRoomsData, int theWorldSize, int theLevel){
+        this.myRooms = new Room[theRoomsData.length][theRoomsData[0].length];
+        this.myWorldSize = theWorldSize;
+        for(int i=0; i < theWorldSize; i++){
+            for(int j =0; j < theWorldSize; j++) {
+                if (theRoomsData[i][j].contains(Direction.NORTH) && theRoomsData[i][j].contains(
                     Direction.EAST) &&
-                    roomsData[i][j].contains(Direction.SOUTH) && roomsData[i][j].contains(
+                    theRoomsData[i][j].contains(Direction.SOUTH) && theRoomsData[i][j].contains(
                     Direction.WEST)) {
 
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 0, 1, 1},
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 0, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST));
-                } else if (roomsData[i][j].contains(Direction.NORTH) &&
-                    roomsData[i][j].contains(Direction.SOUTH) && roomsData[i][j].contains(
+                } else if (theRoomsData[i][j].contains(Direction.NORTH) &&
+                    theRoomsData[i][j].contains(Direction.SOUTH) && theRoomsData[i][j].contains(
                     Direction.WEST)) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 0, 1, 1},
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 0, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.NORTH, Direction.SOUTH, Direction.WEST));
-                } else if (roomsData[i][j].contains(Direction.NORTH) &&
-                    roomsData[i][j].contains(Direction.EAST) && roomsData[i][j].contains(
+                } else if (theRoomsData[i][j].contains(Direction.NORTH) &&
+                    theRoomsData[i][j].contains(Direction.EAST) && theRoomsData[i][j].contains(
                     Direction.WEST)) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 0, 1, 1},
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 1, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.NORTH, Direction.WEST, Direction.EAST));
-                } else if (roomsData[i][j].contains(Direction.NORTH) &&
-                    roomsData[i][j].contains(Direction.SOUTH) && roomsData[i][j].contains(
+                } else if (theRoomsData[i][j].contains(Direction.NORTH) &&
+                    theRoomsData[i][j].contains(Direction.SOUTH) && theRoomsData[i][j].contains(
                     Direction.EAST)) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 0, 1, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 0, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.NORTH, Direction.SOUTH, Direction.EAST));
-                }  else if (roomsData[i][j].contains(Direction.EAST) &&
-                    roomsData[i][j].contains(Direction.SOUTH) && roomsData[i][j].contains(
+                }  else if (theRoomsData[i][j].contains(Direction.EAST) &&
+                    theRoomsData[i][j].contains(Direction.SOUTH) && theRoomsData[i][j].contains(
                     Direction.WEST)) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 1, 1, 1},
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 0, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.EAST, Direction.SOUTH, Direction.WEST));
-                } else if (roomsData[i][j].contains(Direction.EAST) &&
-                    roomsData[i][j].contains(Direction.NORTH) ) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                } else if (theRoomsData[i][j].contains(Direction.EAST) &&
+                    theRoomsData[i][j].contains(Direction.NORTH) ) {
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 0, 1, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 1, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.EAST, Direction.NORTH));
-                } else if (roomsData[i][j].contains(Direction.SOUTH) &&
-                    roomsData[i][j].contains(Direction.NORTH) ) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                } else if (theRoomsData[i][j].contains(Direction.SOUTH) &&
+                    theRoomsData[i][j].contains(Direction.NORTH) ) {
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 0, 1, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 0, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.SOUTH, Direction.NORTH));
-                }else if (roomsData[i][j].contains(Direction.WEST) &&
-                    roomsData[i][j].contains(Direction.NORTH) ) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                }else if (theRoomsData[i][j].contains(Direction.WEST) &&
+                    theRoomsData[i][j].contains(Direction.NORTH) ) {
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 0, 1, 1},
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 1, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.WEST, Direction.NORTH));
-                } else if (roomsData[i][j].contains(Direction.SOUTH) &&
-                    roomsData[i][j].contains(Direction.EAST) ) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                } else if (theRoomsData[i][j].contains(Direction.SOUTH) &&
+                    theRoomsData[i][j].contains(Direction.EAST) ) {
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 1, 1, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 0, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.SOUTH, Direction.EAST));
-                }else if (roomsData[i][j].contains(Direction.WEST) &&
-                    roomsData[i][j].contains(Direction.EAST) ) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                }else if (theRoomsData[i][j].contains(Direction.WEST) &&
+                    theRoomsData[i][j].contains(Direction.EAST) ) {
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 1, 1, 1},
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 1, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.WEST, Direction.EAST));
-                }else if (roomsData[i][j].contains(Direction.WEST) &&
-                    roomsData[i][j].contains(Direction.SOUTH) ) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                }else if (theRoomsData[i][j].contains(Direction.WEST) &&
+                    theRoomsData[i][j].contains(Direction.SOUTH) ) {
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 1, 1, 1},
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 0, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.SOUTH, Direction.EAST));
-                } else if (roomsData[i][j].contains(Direction.NORTH)) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                } else if (theRoomsData[i][j].contains(Direction.NORTH)) {
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 0, 1, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 1, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.NORTH));
-                } else if (roomsData[i][j].contains(Direction.EAST)) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                } else if (theRoomsData[i][j].contains(Direction.EAST)) {
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 1, 1, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 0},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 1, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.EAST));
-                } else if (roomsData[i][j].contains(Direction.SOUTH)) {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                } else if (theRoomsData[i][j].contains(Direction.SOUTH)) {
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 1, 1, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 0, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 0, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.SOUTH));
                 } else {
-                    this.rooms[i][j] = new Room(new RoomData(new byte[][]{
+                    this.myRooms[i][j] = new Room(new RoomData(new byte[][]{
                         {1, 1, 1, 1, 1},
                         {1, 0, 0, 0, 1},
                         {0, 0, 0, 0, 1},
                         {1, 0, 0, 0, 1},
-                        {1, 1, 1, 1, 1}},
-                        FrameManager.getWidth() / worldSize, FrameManager.getHeight() / worldSize,
+                        {1, 1, 1, 1, 1}}, theLevel,
+                        FrameManager.getWidth() / theWorldSize, FrameManager.getHeight() / theWorldSize,
                         Direction.WEST));
                 }
             }
         }
-        this.currX = 0;
-        this.currY = 0;
-    }
-
-    public Room getRoom(int x, int y) {
-        return rooms[x][y];
+        this.myCurrX = 0;
+        this.myCurrY = 0;
     }
 
     public Room getRoom() {
-        return rooms[currX][currY];
+        return myRooms[myCurrX][myCurrY];
     }
 
-    public void changeRoom(PlayableHero player){
-        if (player.getCenterX() < 0) {
-            this.currX--;
-            player.setCenterX(FrameManager.WIDTH);
+    public void changeRoom(PlayableHero thePlayer){
+        if (thePlayer.getCenterX() < 0) {
+            this.myCurrX--;
+            thePlayer.setCenterX(FrameManager.WIDTH);
         }
-        else if (player.getCenterX() > FrameManager.WIDTH) {
-            this.currX++;
-            player.setCenterX(0);
+        else if (thePlayer.getCenterX() > FrameManager.WIDTH) {
+            this.myCurrX++;
+            thePlayer.setCenterX(0);
         }
-        if (player.getCenterY() < 0) {
-            this.currY--;
-            player.setCenterY(FrameManager.HEIGHT);
+        if (thePlayer.getCenterY() < 0) {
+            this.myCurrY--;
+            thePlayer.setCenterY(FrameManager.HEIGHT);
         }
-        else if (player.getCenterY() > FrameManager.HEIGHT) {
-            this.currY++;
-            player.setCenterY(0);
+        else if (thePlayer.getCenterY() > FrameManager.HEIGHT) {
+            this.myCurrY++;
+            thePlayer.setCenterY(0);
         }
     }
 
-    public int getCurrX() {
-        return currX;
+    public int getMyCurrX() {
+        return myCurrX;
     }
 
-    public int getCurrY() {
-        return currY;
+    public int getMyCurrY() {
+        return myCurrY;
     }
 }
