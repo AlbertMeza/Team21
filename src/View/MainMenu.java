@@ -214,7 +214,7 @@ private int myHeroIndex;
       }
       theGraphics.drawString(optionText, xStart, yStart + i * optionHeight);
     }
-      theGraphics.setFont(theGraphics.getFont().deriveFont(Font.PLAIN, 25));
+    theGraphics.setFont(new Font("Arial", Font.BOLD, 20));
     String heroLabel = "Hero:";
     int heroLabelX = 10;
     int heroLabelY = FrameManager.getHeight() - 50;
@@ -234,7 +234,7 @@ private int myHeroIndex;
     int heroImageHeight = 140;
     theGraphics.drawImage(heroImage, heroImageX, heroImageY, heroImageWidth, heroImageHeight, null);
 
-      theGraphics.setFont(theGraphics.getFont().deriveFont(Font.PLAIN, 25));
+    theGraphics.setFont(new Font("Arial", Font.BOLD, 20));
     int heroNameX = bgX + (bgWidth - theGraphics.getFontMetrics().stringWidth(heroType)) / 2;
     int heroNameY = bgY - 20;
     theGraphics.setColor(Color.white);
@@ -286,19 +286,19 @@ private int myHeroIndex;
             break;
           case POLYMORPHISM:
             if(!heroType.equals(""))
-            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 3, myHeroIndex, 1, myProgress));
+            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 3, myHeroIndex, 1, myProgress, myHero, myMonster));
             break;
           case ENCAPSULATION:
             if(!heroType.equals(""))
-            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 4, myHeroIndex, 2, myProgress));
+            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 4, myHeroIndex, 2, myProgress,myHero, myMonster));
             break;
           case INHERITANCE:
             if(!heroType.equals(""))
-            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 5, myHeroIndex, 3, myProgress));
+            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 5, myHeroIndex, 3, myProgress, myHero, myMonster));
             break;
           case ABSTRACTION:
             if(!heroType.equals(""))
-            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 6, myHeroIndex, 4, myProgress));
+            myGameScreenStack.addScreen(new PlayingScreen(myGameScreenStack, heroImage, 6, myHeroIndex, 4, myProgress, myHero, myMonster));
             break;
           case BATTLE_SCREEN:
             stopBackgroundMusic();
@@ -392,15 +392,19 @@ private int myHeroIndex;
       try {
         if(theHero == 0) {
           heroType = "Elf";
+          myHero = new Elf();
           heroImage = ImageIO.read(new File("src/Assets/Images/ElfBattle.png"));
         } else if (theHero == 1) {
           heroType = "Wizard";
+          myHero = new Wizard();
           heroImage = ImageIO.read(new File("src/Assets/Images/wizard.png"));
         } else if (theHero == 2) {
           heroType = "Rogue";
+          myHero = new Rogue();
           heroImage = ImageIO.read(new File("src/Assets/Images/rogue.png"));
         } else {
           heroType = "Barbarian";
+          myHero = new Barbarian();
           heroImage = ImageIO.read(new File("src/Assets/Images/barbarian.png"));
         }
         myHeroIndex = theHero;
