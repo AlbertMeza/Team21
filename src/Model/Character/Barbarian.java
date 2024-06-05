@@ -1,6 +1,6 @@
 package Model.Character;
 
-import Model.GameItem;
+import Model.Items.GameItem;
 
 /**
  * This class represents a Barbarian hero.

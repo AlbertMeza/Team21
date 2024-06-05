@@ -3,7 +3,7 @@ package View.Battle;
 import Controller.AudioManager;
 import Model.Character.*;
 import Model.GameScreenStack;
-import Model.GameItem;
+import Model.Items.GameItem;
 
 import java.util.Objects;
 import java.util.Random;

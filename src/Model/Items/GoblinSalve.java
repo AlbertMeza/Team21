@@ -1,7 +1,6 @@
 package Model.Items;
 
 import Model.Character.AbstractCharacter;
-import Model.GameItem;
 
 /**
  * GoblinSalve class is a GameItem

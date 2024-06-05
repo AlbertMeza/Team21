@@ -1,7 +1,6 @@
 package Model.Items;
 
 import Model.Character.AbstractCharacter;
-import Model.GameItem;
 
 /**
  * ArchaicBoots class is a GameItem

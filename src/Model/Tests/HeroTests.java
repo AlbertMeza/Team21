@@ -2,7 +2,7 @@ package Model.Tests;
 
 import Model.Character.AbstractCharacter;
 import Model.Character.Hero;
-import Model.GameItem;
+import Model.Items.GameItem;
 
 /**
  * This class tests Hero class

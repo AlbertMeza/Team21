@@ -3,7 +3,7 @@ package View;
 import Model.Character.Hero;
 import Model.GameScreen;
 import Model.GameScreenStack;
-import Model.GameItem;
+import Model.Items.GameItem;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

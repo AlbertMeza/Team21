@@ -1,7 +1,5 @@
 package Model.Items;
 
-import Model.GameItem;
-
 import java.util.Random;
 
 /**
@@ -45,12 +43,16 @@ public class LeachLoot {
         switch (num) {
             case 0:
                 result = new LeachFang();
+                break;
             case 1:
                 result = new EvasionPotion();
+                break;
             case 2:
                 result = new LeachTonic();
+                break;
             case 3:
                 result = new GoldCoin();
+                break;
         }
         return result;
     }

@@ -1,6 +1,6 @@
 package Model.Character;
 
-import Model.GameItem;
+import Model.Items.GameItem;
 import Model.Items.SoulCharm;
 import Model.Items.TimeTurner;
 

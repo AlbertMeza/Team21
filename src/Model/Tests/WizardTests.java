@@ -2,7 +2,7 @@ package Model.Tests;
 
 import Model.Character.AbstractCharacter;
 import Model.Character.Wizard;
-import Model.GameItem;
+import Model.Items.GameItem;
 import Model.Items.SoulCharm;
 import Model.Items.TimeTurner;
 

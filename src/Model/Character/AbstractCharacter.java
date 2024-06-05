@@ -1,6 +1,6 @@
 package Model.Character;
 
-import Model.GameItem;
+import Model.Items.GameItem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -413,22 +413,22 @@ public class AbstractCharacter implements Serializable {
           if (myBag.hasItem(theItem)) {
               theItem.useItem(this);
               myBag.removeItem(theItem);
-              result = new StringBuilder("Hero used " + theItem.getItemName() + ". ");
+              result = new StringBuilder("Hero used " + theItem.getItemName() + ".\n");
           }
           if (previousHP != myHP) {
-              result.append("Hero's health increased from ").append(previousHP).append(" points to ").append(myHP).append(" points! ");
+              result.append("Hero's health increased from ").append(previousHP).append(" points to ").append(myHP).append(" points! \n");
           }
           if (previousMaxHP != myMaxHP) {
-              result.append("Hero's max health increased from ").append(previousMaxHP).append(" points to ").append(myMaxHP).append(" points! ");
+              result.append("Hero's max health increased from ").append(previousMaxHP).append(" points to ").append(myMaxHP).append(" points! \n");
           }
           if (previousDamage != myDamage) {
-              result.append("Hero's damage increased from ").append(previousDamage).append(" points to ").append(myDamage).append(" points! ");
+              result.append("Hero's damage increased from ").append(previousDamage).append(" points to ").append(myDamage).append(" points! \n");
           }
           if (previousSpeed != mySpeed) {
-              result.append("Hero's speed increased from ").append(previousSpeed).append(" points to ").append(mySpeed).append(" points! ");
+              result.append("Hero's speed increased from ").append(previousSpeed).append(" points to ").append(mySpeed).append(" points! \n");
           }
           if (previousDodgeRate != myDodgeRate) {
-              result.append("Hero's dodge rate increased from ").append(previousDodgeRate * 100).append("% to ").append(myDodgeRate).append("%! ");
+              result.append("Hero's dodge rate increased from ").append((int)Math.round(previousDodgeRate * 100)).append("% to ").append((int)Math.round(myDodgeRate * 100)).append("%! \n");
           }
       }
       return result.toString();

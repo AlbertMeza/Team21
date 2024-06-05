@@ -1,7 +1,5 @@
 package Model.Items;
 
-import Model.GameItem;
-
 import java.util.Random;
 
 
@@ -46,12 +44,20 @@ public class GoblinLoot {
         switch (num) {
             case 0:
                 result = new GoblinSalve();
+                break;
             case 1:
                 result = new GoblinSwiftPowder();
+                break;
+
+
             case 2:
                 result = new GoblinTricksterTalisman();
+                break;
+
             case 3:
                 result = new GoldCoin();
+                break;
+
         }
         return result;
     }

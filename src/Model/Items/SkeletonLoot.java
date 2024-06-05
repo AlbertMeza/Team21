@@ -1,7 +1,5 @@
 package Model.Items;
 
-import Model.GameItem;
-
 import java.util.Random;
 
 /**
@@ -45,12 +43,20 @@ public class SkeletonLoot {
         switch (num) {
             case 0:
                 result = new BoneSword();
+                break;
+
             case 1:
                 result = new HealthPotion();
+                break;
+
             case 2:
                 result = new ArchaicBoots();
+                break;
+
             case 3:
                 result = new GoldCoin();
+                break;
+
         }
         return result;
     }

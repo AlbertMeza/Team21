@@ -1,5 +1,5 @@
 package Model.Character;
-import Model.GameItem;
+import Model.Items.GameItem;
 
 import java.util.Random;
 
@@ -31,7 +31,7 @@ public class Elf extends Hero implements Healable {
      * Elf constructor creates an elf hero character
      */
    public Elf() {
-       super("Elf", 100,25, 3, 0.2, new GameItem[] {});
+       super("Elf", 100,25, 10, 0.2, new GameItem[] {});
    }
 
     /**

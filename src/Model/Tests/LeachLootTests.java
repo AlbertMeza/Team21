@@ -1,6 +1,6 @@
 package Model.Tests;
 
-import Model.GameItem;
+import Model.Items.GameItem;
 import Model.Items.LeachLoot;
 
 public class LeachLootTests {

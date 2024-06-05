@@ -26,7 +26,7 @@ public class MonsterFactory {
      * randomness in the monster generator
      */
 
-    private final Random RAND = new Random();
+    private static final Random RAND = new Random();
 
     /**
      * GOBLIN constant is an int used to represent
@@ -50,20 +50,20 @@ public class MonsterFactory {
      * SKELETON constant is an int used to represent
      * skeleton monsters in the monster generator
      */
-    private final int SKELETON = 3;
+    private static final int SKELETON = 3;
 
     /**
      * MONSTER_COUNT constant represents the
      * number of monsters that can be generated
      */
-    private final int MONSTER_COUNT = 4;
+    private static final int MONSTER_COUNT = 4;
 
     /**
      * myMonsters field is an array that
      * contains one of each monster. Each monster
      * in this list have no loot.
      */
-    Monster[] myMonsters;
+    static Monster[] myMonsters;
 
     /**
      * MonsterFactory constructor fills the myMonsters
@@ -71,7 +71,7 @@ public class MonsterFactory {
      * the SQLite database.
      */
     public MonsterFactory() {
-        myMonsters = new Monster[4];
+        myMonsters = new Monster[MONSTER_COUNT];
         establishConnection();
         createTable();
         fillTable();
@@ -182,9 +182,12 @@ public class MonsterFactory {
      *
      * @return returns a monster object
      */
-    public Monster getRandomMonster() {
+    public static Monster getRandomMonster() {
         int  randomMonster = RAND.nextInt(MONSTER_COUNT);
         Monster monster = myMonsters[randomMonster];
+        if (monster.checkIfDead()) {
+            
+        }
         monster.addLoot();
         return monster;
     }
