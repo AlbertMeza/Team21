@@ -5,15 +5,26 @@ import Controller.MathHelper.Direction;
 import Controller.RoomData;
 import View.FrameManager;
 import java.util.HashSet;
-
+/**
+ * The Dungeon class represents a dungeon consisting of multiple rooms.
+ * The dungeon is initialized based on the provided room data and world size.
+ * @author Albert Meza, Austin Maggert, and James Simpson
+ * @version Spring 2024
+ */
 public class Dungeon {
-    private Room[][] myRooms;
+    private final Room[][] myRooms;
     private int myCurrX;
     private int myCurrY;
-    private int myWorldSize;
+
+    /**
+     * Constructs a new Dungeon instance.
+     *
+     * @param theRoomsData  A 2D array of HashSets containing directions indicating room connectivity.
+     * @param theWorldSize  The size of the world (number of rooms along one dimension).
+     * @param theLevel      The level of the dungeon.
+     */
     public Dungeon(HashSet<MathHelper.Direction>[][] theRoomsData, int theWorldSize, int theLevel){
         this.myRooms = new Room[theRoomsData.length][theRoomsData[0].length];
-        this.myWorldSize = theWorldSize;
         for(int i=0; i < theWorldSize; i++){
             for(int j =0; j < theWorldSize; j++) {
                 if (theRoomsData[i][j].contains(Direction.NORTH) && theRoomsData[i][j].contains(
@@ -176,10 +187,22 @@ public class Dungeon {
         this.myCurrY = 0;
     }
 
+    /**
+     * Gets the current room in the dungeon where the player is located.
+     *
+     * @return The current Room instance.
+     */
     public Room getRoom() {
         return myRooms[myCurrX][myCurrY];
     }
 
+    /**
+     * Changes the current room based on the player's position.
+     * If the player moves out of the current room's bounds, the room is updated
+     * and the player's position is adjusted accordingly.
+     *
+     * @param thePlayer The player whose position is used to determine room changes.
+     */
     public void changeRoom(PlayableHero thePlayer){
         if (thePlayer.getCenterX() < 0) {
             this.myCurrX--;
@@ -199,10 +222,19 @@ public class Dungeon {
         }
     }
 
+    /**
+     * Gets the current X coordinate of the player in the dungeon.
+     *
+     * @return The current X coordinate.
+     */
     public int getMyCurrX() {
         return myCurrX;
     }
-
+    /**
+     * Gets the current Y coordinate of the player in the dungeon.
+     *
+     * @return The current Y coordinate.
+     */
     public int getMyCurrY() {
         return myCurrY;
     }

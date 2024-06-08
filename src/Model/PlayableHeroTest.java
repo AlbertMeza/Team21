@@ -2,6 +2,7 @@ package Model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import Model.PlayableHero;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import org.junit.jupiter.api.BeforeEach;

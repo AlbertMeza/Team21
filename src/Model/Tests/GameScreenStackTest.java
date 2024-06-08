@@ -1,7 +1,9 @@
-package Model;
+package Model.Tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import Model.GameScreen;
+import Model.GameScreenStack;
 import java.awt.Graphics;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

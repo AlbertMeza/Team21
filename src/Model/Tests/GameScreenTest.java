@@ -1,8 +1,10 @@
-package Model;
+package Model.Tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import Controller.AudioManager;
+import Model.GameScreen;
+import Model.GameScreenStack;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
