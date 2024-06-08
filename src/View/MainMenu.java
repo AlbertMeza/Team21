@@ -62,9 +62,20 @@ public class MainMenu extends GameScreen {
    */
   private static final String QUIT_GAME = "Quit Game";
 
+  /**
+   * Constant to start game.
+   */
     private static final String SAVE_GAME = "Save Game";
-    private static final String LOAD_GAME = "Load Game";
-    private static final String BATTLE_SCREEN = "DEBUG Battle Screen";
+
+  /**
+   * constant to load game.
+   */
+  private static final String LOAD_GAME = "Load Game";
+
+  /**
+   * constant to access battle screen.
+   */
+  private static final String BATTLE_SCREEN = "DEBUG Battle Screen";
 
   /**
    * SELECT_EFFECT constant is the name of the audio file for selecting an option
@@ -125,14 +136,36 @@ public class MainMenu extends GameScreen {
    * mysteryUnlock field stores true if that level is unlocked, false otherwise
    */
   private boolean isMysteryUnlock;
-  private Hero myHero;
-  private final Monster myMonster;
-  private File saveLocation;
 
-private Image heroImage;
-private String heroType;
-private boolean[][] myProgress;
-private int myHeroIndex;
+  /**
+   * Hero used for menu and battle screen.
+   */
+  private Hero myHero;
+
+  /**
+   * Monster used for playing screen and battle screen.
+   */
+  private final Monster myMonster;
+
+  /**\
+   * image for the hero.
+   */
+  private Image heroImage;
+
+  /**
+   * type of hero for playing screen.
+   */
+  private String heroType;
+
+  /**
+   * Levels completed.
+   */
+  private boolean[][] myProgress;
+
+  /**
+   *
+   */
+  private int myHeroIndex;
 
 
 
@@ -155,7 +188,6 @@ private int myHeroIndex;
       isPolymorphismUnlock = true;
     isMysteryUnlock = false;
     playBackgroundMusic(START_MENU_MUSIC);
-    saveLocation = new File("src/SavedGame");
     try {
       mySelectorImg = ImageIO.read(new File("src/Assets/Images/skeleton1.png"));
       myMenuBackgroundImg = ImageIO.read(new File("src/Assets/Images/title.png"));
@@ -168,6 +200,12 @@ private int myHeroIndex;
       myHeroIndex = -1;
   }
 
+  /**
+   * constructor with character progress retained.
+   * @param theManager Stack of game screens.
+   * @param theHero Hero for the game.
+   * @param theProgress Progress of hero's adventure.
+   */
     public MainMenu(GameScreenStack theManager, int theHero, boolean[][] theProgress){
         this(theManager);
         setHero(theHero);
@@ -345,7 +383,6 @@ private int myHeroIndex;
               if (selectedGame != null) {
                 myHero = HeroSave.loadHero(selectedGame);
                 JOptionPane.showMessageDialog(null, "Game loaded successfully.");
-                // Transition to the game screen or perform any additional setup
               }
             }
             break;
@@ -363,6 +400,11 @@ private int myHeroIndex;
   protected void keyReleased(int keyCode) {
   }
 
+  /**
+   * Checks to highlight available options
+   * @param theIndex The option number
+   * @return True if available.
+   */
   private boolean isOptionEnabled(int theIndex) {
     return switch (theIndex) {
       case 0, 6, 7 -> true;
@@ -403,6 +445,10 @@ private int myHeroIndex;
     }
   }
 
+  /**
+   * Assigns the hero.
+   * @param theHero The hero to be assigned.
+   */
   public void setHero(int theHero){
       try {
         if(theHero == 0) {
@@ -428,6 +474,10 @@ private int myHeroIndex;
       }
   }
 
+  /**
+   * Sets the character's dungeon progress.
+   * @param theProgress
+   */
   private void setProgress(boolean[][] theProgress){
     myProgress = theProgress;
   }

@@ -13,7 +13,7 @@ public class HeroSave {
     /**
      * Directory to store/retrieve saves.
      */
-    private static final String SAVED_GAME_DIR = "src/SavedGame/";
+    static final String SAVED_GAME_DIR = "src/SavedGame/";
 
     /**
      * Save the hero to a file in the SavedGame directory.
