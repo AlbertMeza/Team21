@@ -427,6 +427,11 @@ public class PlayingScreen extends GameScreen {
 
   }
 
+  /**
+   * Generates a maze using the specified number of rooms and initializes the dungeon.
+   *
+   * @param theNum The number of rooms in the maze.
+   */
   private void generateMaze(int theNum) {
     this.myGenerator.reset(theNum);
     while (!myGenerator.finished()) {
@@ -436,6 +441,12 @@ public class PlayingScreen extends GameScreen {
         getMyLevel());
   }
 
+  /**
+   * Returns the file path of the room image based on the specified directions.
+   *
+   * @param dirs A set of directions indicating the open sides of the room.
+   * @return A file pointing to the appropriate room image.
+   */
   public static File getRoom(HashSet<Direction> dirs) {
     if (dirs.contains(MathHelper.Direction.WEST) && dirs.contains(MathHelper.Direction.SOUTH)
         && dirs.contains(MathHelper.Direction.EAST) && dirs.contains(MathHelper.Direction.NORTH))
@@ -476,7 +487,11 @@ public class PlayingScreen extends GameScreen {
       return new File("src/Assets/Directions/deh.png");
   }
 
-
+  /**
+   * Generates random positions for monsters in the dungeon.
+   *
+   * @return An array of integers representing the x and y positions of the monsters.
+   */
   public int[] generateMonsterPosition() {
     Random rand = new Random();
     int[] result = new int[getMyLevel() * 2];
@@ -491,14 +506,25 @@ public class PlayingScreen extends GameScreen {
     return result;
   }
 
+  /**
+   * Returns the current level of the game.
+   *
+   * @return The current level.
+   */
   public int getMyLevel() {
     return myLevel;
   }
 
+  /**
+   * Sets the chest to an unlocked state.
+   */
   public void setChestUnlocked() {
     isCheckUnlocked = true;
   }
 
+  /**
+   * Adjusts the positions of the monsters based on their velocities and random direction changes.
+   */
   public void adjustMonsterPos() {
 
     Random rand = new Random();
@@ -538,6 +564,9 @@ public class PlayingScreen extends GameScreen {
     }
   }
 
+  /**
+   * Shoots a lightning bolt in the direction the player is facing.
+   */
   private void shootLightningBolt() {
     int startX = (int) myPlayer.getX();
     int startY = (int) myPlayer.getY();
@@ -548,12 +577,21 @@ public class PlayingScreen extends GameScreen {
     lightningBolts.add(bolt);
   }
 
+  /**
+   * Handles collisions between the player and monsters.
+   */
   void handleMonsterCollision(){
     checkMonster(monsterPosXOne, monsterPosYOne);
     checkMonster(monsterPosXTwo, monsterPosYTwo);
     checkMonster(monsterPosXThree, monsterPosYThree);
   }
 
+  /**
+   * Checks if the player is colliding with a monster and calculates damage if necessary.
+   *
+   * @param theMonsterX The x-position of the monster.
+   * @param theMonsterY The y-position of the monster.
+   */
   void checkMonster(int theMonsterX, int theMonsterY){
       if(Math.abs(myPlayer.x - theMonsterX) <= 20 && Math.abs(myPlayer.y - theMonsterY) <= 20
           && isSafeRoom(myDungeon.getMyCurrX(), myDungeon.getMyCurrY()) && getMyLevel() > 2){
@@ -561,6 +599,13 @@ public class PlayingScreen extends GameScreen {
       }
   }
 
+  /**
+   * Checks if the specified room is a safe room (not the starting or ending room).
+   *
+   * @param theRoomX The x-position of the room in the dungeon.
+   * @param theRoomY The y-position of the room in the dungeon.
+   * @return True if the room is safe, false otherwise.
+   */
   boolean isSafeRoom(int theRoomX, int theRoomY){
     return !(theRoomX == 0 && theRoomY == 0)
         && (!(theRoomX == myGenerator.getWorldSize()-1)
