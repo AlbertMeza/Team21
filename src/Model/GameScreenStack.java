@@ -124,4 +124,12 @@ public class GameScreenStack {
   public AudioManager getSoundManager() {
     return mySoundManager;
   }
+
+  public int getScreenSize(){
+    return myScreens.size();
+  }
+
+  public Stack<GameScreen> getMyStack(){
+    return myScreens;
+  }
 }

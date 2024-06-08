@@ -321,8 +321,7 @@ public class PlayingScreen extends GameScreen {
                   JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, escapeIcon);
         }
         if (choice == JOptionPane.YES_OPTION) {
-          myGameScreenStack.clearStack();
-          myGameScreenStack.addScreen(new MainMenu(myGameScreenStack, myHeroIndex, myProgress));
+          myGameScreenStack.addScreen(new MainMenu(myGameScreenStack, myHero, myProgress));
         }
         break;
       case KeyEvent.VK_T:

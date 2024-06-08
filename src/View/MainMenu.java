@@ -210,7 +210,22 @@ public class MainMenu extends GameScreen {
         this(theManager);
         setHero(theHero);
         setProgress(theProgress);
+
     }
+
+  public MainMenu(GameScreenStack theManager, Hero theHero, boolean[][] theProgress){
+    this(theManager);
+    myHero = theHero;
+    setProgress(theProgress);
+    try {
+      heroImage = ImageIO.read(new File("src/Assets/Images/" + theHero.getName() +".png"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    heroType = theHero.getName();
+    if(myHero.getMaxHP() != myHero.getHP())
+    myHero.buffMaxHP(myHero.getMaxHP()-myHero.getHP());
+  }
 
   /**
    * loop method enables any looping behavior in the class
@@ -439,7 +454,7 @@ public class MainMenu extends GameScreen {
         if(theHero == 0) {
           heroType = "Elf";
           myHero = new Elf();
-          heroImage = ImageIO.read(new File("src/Assets/Images/ElfBattle.png"));
+          heroImage = ImageIO.read(new File("src/Assets/Images/elf.png"));
         } else if (theHero == 1) {
           heroType = "Wizard";
           myHero = new Wizard();
