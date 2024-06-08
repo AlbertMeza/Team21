@@ -57,7 +57,14 @@ public class BattleScreen extends GameScreen {
      */
     private static final String RETURN = "Return";
 
+    /**
+     * Used for game over option
+     */
     private static final String END_GAME = "Game Over";
+
+    /**
+     * used for heal option
+     */
     private static final String HEAL = "Heal";
 
     /**
@@ -65,7 +72,14 @@ public class BattleScreen extends GameScreen {
      */
     private final String[] optionMenu;
 
+    /**
+     * Menu displayed at game over.
+     */
     private final String[] gameOverMenu;
+
+    /**
+     * menu displayed at victory.
+     */
     private final String[] returnMenu;
 
     /**
@@ -83,12 +97,39 @@ public class BattleScreen extends GameScreen {
      */
     private final BattleLogArea battleLogArea;
 
+    /**
+     * monster used in playing and battle screen.
+     */
     private final Monster myMonster;
+
+    /**
+     * hero used in battle screen.
+     */
     private final Hero myHero;
+
+    /**
+     * Assets prerendered to be painted to screen. Places char images.
+     */
     private final BattleAssets myBattleAssets;
+
+    /**
+     * battle assets seen upon victory - treasure chest.
+     */
     private final BattleAssets myWinningAssets;
+
+    /**
+     * Controls the turns of combat based on char speed.
+     */
     private final BattleTurnManager myTurnManager;
+
+    /**
+     * Manages the battle methods.
+     */
     private final BattleManager myBattleManager;
+
+    /**
+     * keeps track if healing has taken place.
+     */
     private Boolean healed = false;
 
     /**
@@ -99,6 +140,8 @@ public class BattleScreen extends GameScreen {
     /**
      * Constructor. Sets hero and monster. Sets background image.
      * @param theStack Stack of gamescreens, this screen is added to the top of the stack.
+     * @param theMonster Monster to be used on battle screen.
+     * @param theHero Hero to be used on battle screen.
      */
     protected BattleScreen(final GameScreenStack theStack, final Hero theHero, final Monster theMonster) {
         super(Objects.requireNonNull(theStack));
@@ -138,6 +181,9 @@ public class BattleScreen extends GameScreen {
         myBattleManager = new BattleManager(myGameScreenStack, myHero, myMonster, myTurnManager);
     }
 
+    /**
+     * Keeps counter to ensure enemy monster has 'time' for their turn.
+     */
     @Override
     protected void loop() {
         if (!myTurnManager.getTurn() && enemyTurnCount == 20) {
@@ -151,7 +197,6 @@ public class BattleScreen extends GameScreen {
     /**
      * Draws background image. Sets font.
      * Makes method calls to draw the battle options, character images, and battle log.
-     *
      * @param theGraphics Graphics object used to paint BattleScreen components.
      */
     @Override
@@ -278,10 +323,5 @@ public class BattleScreen extends GameScreen {
     }
 
     @Override
-    protected void keyReleased(int keyCode) {
-
-    }
-
-
-
+    protected void keyReleased(int keyCode) {}
 }

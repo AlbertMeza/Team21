@@ -13,29 +13,59 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Used to display usable loot
+ */
 public class InventoryScreen extends GameScreen {
-    private static final String EMPTY = "Empty";
-    private final Hero myHero;
-    private String[] itemOptions;
-    private final GameItem[] gameItems;
-    private int selected;
-    private Image inventoryBackgroundImage;
 
+    /**
+     * Used if bag is empty
+     */
+    private static final String EMPTY = "Empty";
+
+    /**
+     * Hero object that holds items.
+     */
+    private final Hero myHero;
+
+    /**
+     * Array of string of items in bag.
+     */
+    private String[] myItemOptions;
+
+    /**
+     * Array of gameItems in bag.
+     */
+    private final GameItem[] myGameItems;
+
+    /**
+     * The selected item.
+     */
+    private int mySelected;
+
+    /**
+     * Image for background
+     */
+    private Image myInventoryBackgroundImage;
+
+    /**
+     * Screen for displaying and using loot.
+     * @param theStack Stack of game screens
+     * @param theHero Hero that holds items.
+     */
     protected InventoryScreen(final GameScreenStack theStack, final Hero theHero) {
         super(Objects.requireNonNull(theStack));
         myHero = Objects.requireNonNull(theHero);
-//        AbstractCharacter.Bag myInventory = myHero.getBag();
-//        gameItems = myInventory.getItems();
-        gameItems = myHero.getItems();
-        selected = 0;
+        myGameItems = myHero.getItems();
+        mySelected = 0;
 
         List<String> tempList = new ArrayList<>();
-        for (GameItem item : gameItems) {
+        for (GameItem item : myGameItems) {
             tempList.add(item.getItemName());
         }
-        itemOptions = tempList.toArray(new String[tempList.size()]);
+        myItemOptions = tempList.toArray(new String[tempList.size()]);
         try {
-            inventoryBackgroundImage = ImageIO.read(new File(
+            myInventoryBackgroundImage = ImageIO.read(new File(
                     "src/Assets/Images/inventoryBackground.jpeg"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,12 +74,15 @@ public class InventoryScreen extends GameScreen {
 
     @Override
     protected void loop() {
-
     }
 
+    /**
+     * Used to draw the inventory screen.
+     * @param theGraphics Graphics object for drawing.
+     */
     @Override
     protected void render(final Graphics theGraphics) {
-        theGraphics.drawImage(inventoryBackgroundImage, 0, 0,
+        theGraphics.drawImage(myInventoryBackgroundImage, 0, 0,
                 FrameManager.getWidth(),
                 FrameManager.getHeight(), null);
 
@@ -57,51 +90,54 @@ public class InventoryScreen extends GameScreen {
         theGraphics.setColor(new Color(50, 50, 50, 180)); // Semi-transparent dark color
         int boxWidth = 300; // Adjust the width of the box as needed
         int boxX = (FrameManager.getWidth() - boxWidth) / 2; // Center horizontally
-        int boxY = (FrameManager.getHeight() - itemOptions.length * 30) / 2; // Center vertically
-        theGraphics.fillRect(boxX, boxY, boxWidth, itemOptions.length * 30);
+        int boxY = (FrameManager.getHeight() - myItemOptions.length * 30) / 2; // Center vertically
+        theGraphics.fillRect(boxX, boxY, boxWidth, myItemOptions.length * 30);
 
         theGraphics.setFont(getCustomFont());
         theGraphics.setFont(theGraphics.getFont().deriveFont(Font.PLAIN, 24));
         theGraphics.setColor(Color.WHITE);
         int startY = boxY + 24; // Adjusted startY to align text with the box
-        if (itemOptions.length == 0) {
-            itemOptions = new String[] {EMPTY};
+        if (myItemOptions.length == 0) {
+            myItemOptions = new String[] {EMPTY};
         }
         FontMetrics fontMetrics = theGraphics.getFontMetrics();
         int maxOptionWidth = 0;
-        for (String option : itemOptions) {
+        for (String option : myItemOptions) {
             int optionWidth = fontMetrics.stringWidth(option);
             if (optionWidth > maxOptionWidth) {
                 maxOptionWidth = optionWidth;
             }
         }
         int startX = (FrameManager.getWidth() - maxOptionWidth) / 2;
-        for (int i = 0; i < itemOptions.length; i++) {
-            boolean isSelected = (i == selected);
+        for (int i = 0; i < myItemOptions.length; i++) {
+            boolean isSelected = (i == mySelected);
             if (isSelected) {
                 theGraphics.setColor(Color.YELLOW);
             }
-            theGraphics.drawString(itemOptions[i], startX, startY + i * 30);
+            theGraphics.drawString(myItemOptions[i], startX, startY + i * 30);
             theGraphics.setColor(Color.WHITE);
         }
     }
 
 
-
+    /**
+     * Controls the inventory screen through input.
+     * @param keyCode is the code for the key pressed
+     */
     @Override
     protected void keyPressed(int keyCode) {
         switch (keyCode) {
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
-                if (selected > 0) {
-                    selected--;
+                if (mySelected > 0) {
+                    mySelected--;
                     playSoundEffect("BattleSwitchEffect");
                 }
                 break;
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
-                if (selected < itemOptions.length - 1) {
-                    selected++;
+                if (mySelected < myItemOptions.length - 1) {
+                    mySelected++;
                     playSoundEffect("BattleSwitchEffect");
                 }
                 break;
@@ -110,9 +146,9 @@ public class InventoryScreen extends GameScreen {
                 myGameScreenStack.backToPreviousState();
                 break;
             case KeyEvent.VK_ENTER:
-                if (!itemOptions[selected].equals(EMPTY)) {
+                if (!myItemOptions[mySelected].equals(EMPTY)) {
                     myGameScreenStack.backToPreviousState();
-                    System.out.println(myHero.useItem(gameItems[selected]));
+                    System.out.println(myHero.useItem(myGameItems[mySelected]));
                     playSoundEffect("InventoryUseItem");
                 } else {
                     myGameScreenStack.backToPreviousState();

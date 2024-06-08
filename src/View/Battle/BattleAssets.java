@@ -9,9 +9,26 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Class used to calculate placement of battle screen assets.
+ * @author James
+ * @version 1.0
+ */
 public class BattleAssets {
+
+    /**
+     * Scaled version of image
+     */
     private Image scaledMonsterImage;
+
+    /**
+     * Scaled version of image
+     */
     private Image scaledHeroImage;
+
+    /**
+     * scaled version of image.
+     */
     private Image scaledPlatformImage;
 
     /**
@@ -19,21 +36,18 @@ public class BattleAssets {
      *
      * @param theHero The hero character object.
      * @param theMonster The monster character object.
+     * @param theVictory Boolean if won or not.
      */
     public void initialize(final Hero theHero, final Monster theMonster, final Boolean theVictory) {
-
         Image monsterImage;
         Image heroImage;
         Image platformImage;
-
-        // Load images
         try {
             if (theVictory) {
                 monsterImage = ImageIO.read(new File("src/Assets/Images/chest.png"));
             } else {
                 System.out.println(theMonster.getName());
                 monsterImage = ImageIO.read(new File("src/Assets/Images/" + theMonster.getName() + "Battle.png"));
-//                monsterImage = ImageIO.read(new File("src/Assets/Images/LeachBattle.png")); //for testing leech img w/o Leech class
             }
             heroImage = ImageIO.read(new File("src/Assets/Images/" + theHero.getName() + "Battle.png"));
             platformImage = ImageIO.read(new File("src/Assets/Images/battlePlatform.png"));
@@ -73,15 +87,26 @@ public class BattleAssets {
         );
     }
 
-    // Getters for the scaled images
+    /**
+     * Want a scaled image?
+     * @return Scaled image.
+     */
     public Image getScaledMonsterImage() {
         return scaledMonsterImage;
     }
 
+    /**
+     * Want a scaled image?
+     * @return Scaled image.
+     */
     public Image getScaledHeroImage() {
         return scaledHeroImage;
     }
 
+    /**
+     * Want a scaled image?
+     * @return Scaled image.
+     */
     public Image getScaledPlatformImage() {
         return scaledPlatformImage;
     }

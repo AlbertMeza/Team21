@@ -4,7 +4,15 @@ import Model.Character.Hero;
 
 import java.io.*;
 
+/**
+ * Class for saving hero status.
+ * @author James
+ */
 public class HeroSave {
+
+    /**
+     * Directory to store/retrieve saves.
+     */
     private static final String SAVED_GAME_DIR = "src/SavedGame/";
 
     /**

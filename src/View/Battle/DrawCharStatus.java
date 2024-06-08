@@ -7,17 +7,20 @@ import View.FrameManager;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * Draws the character status box displaying current/total health and char name.
+ * @author James
+ */
 public class DrawCharStatus {
-    private static final Random random = new Random();
 
-
-
+    /**
+     * Utility method to draw character status boxes.
+     * @param theGraphics Graphics object for drawing.
+     * @param theHero Hero char to display status.
+     * @param theMonster Monster char to display status.
+     */
     public static void drawCharStatus(final Graphics theGraphics, final Hero theHero, final Monster theMonster) {
-
-        // Calculate the height of the character status areas.
         int boxHeight = FrameManager.getHeight() / 8;
-
-        // Set color and draw the background of the character status area
         theGraphics.setColor(new Color(50, 50, 50, 180)); // Semi-transparent dark color
 
         // Monster Status
@@ -34,6 +37,14 @@ public class DrawCharStatus {
         addHealth(theGraphics, heroStatus, monStatus, theHero, theMonster);
     }
 
+    /**
+     * Writes the name of the chars.
+     * @param theGraphics Graphics object for drawing.
+     * @param theHeroStat Hero's status rectangle
+     * @param theMonStat Monster's status rectangle
+     * @param theHero Hero to display name
+     * @param theMonster Monster to display name.
+     */
     private static void writeCharNames(final Graphics theGraphics,
                                        final Rectangle theHeroStat, final Rectangle theMonStat,
                                        final Hero theHero, final Monster theMonster) {
@@ -43,6 +54,14 @@ public class DrawCharStatus {
         theGraphics.drawString(theMonster.getName(), theMonStat.x + 10, theMonStat.y + 20);
     }
 
+    /**
+     * Adds healthbars to status boxes.
+     * @param theGraphics Graphics object for drawing.
+     * @param theHeroStatus Hero's status rectangle
+     * @param theMonStatus Monster's status rectangle
+     * @param theHero Hero to display name
+     * @param theMonster Monster to display name.
+     */
     private static void addHealth(final Graphics theGraphics, final Rectangle theHeroStatus, final Rectangle theMonStatus,
                                   final Hero theHero, final Monster theMonster) {
         // Calculate the full length of the health bars (same for hero and monster).
