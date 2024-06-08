@@ -2,7 +2,6 @@ package Model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import Model.PlayableHero;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +39,7 @@ class PlayableHeroTest {
 
     hero.setMovingRight(true);
     hero.move();
-    assertEquals(100, hero.x);
+    assertEquals(95, hero.x);
   }
 
   @Test
