@@ -14,6 +14,11 @@ import java.awt.Graphics;
  */
 public class DrawBattleLog {
 
+    /**
+     * Draws the log area where battle text will be displayed
+     * @param theGraphics Graphics object for display
+     * @param theLogArea JTextArea for printing to screen.
+     */
     public static void drawBattleLog(final Graphics theGraphics, final JTextArea theLogArea) {
         // Calculate the height of the battle log box (1/5th of the screen height)
         int boxHeight = FrameManager.getHeight() / 5;

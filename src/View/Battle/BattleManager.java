@@ -14,8 +14,14 @@ import java.util.Random;
  */
 public class BattleManager {
 
+    /**
+     * Random used for random attack sound effects
+     */
     private static final Random RANDOM = new Random();
 
+    /**
+     * Number of attack sounds
+     */
     private static final int HIT_CLIPS = 3;
 
     /**
@@ -33,6 +39,9 @@ public class BattleManager {
      */
     private final BattleTurnManager myTurnManager;
 
+    /**
+     * Manages sound effects.
+     */
     private final AudioManager mySoundEffectManager;
 
     /**
@@ -51,6 +60,7 @@ public class BattleManager {
      * @param theHero Hero object used in battle.
      * @param theMonster Monster object used in battle.
      * @param theTurnManager TurnManager used to check whose turn it is.
+     * @param theGameScreenStack Stack of game screens
      */
     public BattleManager(final GameScreenStack theGameScreenStack, final Hero theHero, final Monster theMonster, final BattleTurnManager theTurnManager) {
         myHero = Objects.requireNonNull(theHero);
@@ -109,6 +119,9 @@ public class BattleManager {
         myTurnManager.calculateTurn();
     }
 
+    /**
+     * Ensures hero is elf and heals. Displays amount healed.
+     */
     public void healHero() {
         if (myHero.getName().equals("Elf")) {
             int previousHP = myHero.getHP();
